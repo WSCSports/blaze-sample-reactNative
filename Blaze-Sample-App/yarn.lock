@@ -2195,10 +2195,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@wscsports/blaze-rtn-sdk@^0.0.6":
-  version "0.0.6"
-  resolved "https://wsc-zoomin.pkgs.visualstudio.com/_packaging/Backend/npm/registry/@wscsports/blaze-rtn-sdk/-/blaze-rtn-sdk-0.0.6.tgz#b1b02276acd26ad41ab54220b5235ffbd1ddcf22"
-  integrity sha1-sbAidqzSatQatUIgtSNf+9HdzyI=
+"@wscsports/blaze-rtn-sdk@^0.1.0":
+  version "0.1.0"
+  resolved "https://wsc-zoomin.pkgs.visualstudio.com/_packaging/Backend/npm/registry/@wscsports/blaze-rtn-sdk/-/blaze-rtn-sdk-0.1.0.tgz#68b5ded02d4d9b172505999e4f5bacccd8e11605"
+  integrity sha1-aLXe0C1NmxclBZmeT1uszNjhFgU=
 
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"

@@ -1,9 +1,9 @@
-import React from 'react';
-import {EmitterSubscription, ScrollView, StyleSheet, View} from 'react-native';
-import {ScreenContainer} from './ScreenContainer';
-import {WidgetStoriesGridList, WidgetStoriesRowList} from '../widgets';
+import {useFocusEffect} from '@react-navigation/native';
 import {RegisterGlobalEvents} from '@wscsports/blaze-rtn-sdk/src/NativeBlazeSdk';
-import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
+import {EmitterSubscription, ScrollView, StyleSheet} from 'react-native';
+import {WidgetStoriesGridList, WidgetStoriesRowList} from '../widgets';
+import {ScreenContainer} from './ScreenContainer';
 
 export function StoriesFixedHeightScreen(): JSX.Element {
   useFocusEffect(
@@ -32,9 +32,7 @@ export function StoriesFixedHeightScreen(): JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={styles.container}>
         <WidgetStoriesRowList style={styles.row_widget_container} />
-        <WidgetStoriesGridList
-          style={styles.grid_widget_container}
-        />
+        <WidgetStoriesGridList style={styles.grid_widget_container} />
       </ScrollView>
     </ScreenContainer>
   );
@@ -54,5 +52,5 @@ const styles = StyleSheet.create({
   grid_widget_container: {
     flex: 7,
     marginTop: 10,
-},
+  },
 });

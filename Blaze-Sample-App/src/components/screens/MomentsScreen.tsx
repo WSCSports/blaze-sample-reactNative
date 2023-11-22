@@ -1,12 +1,16 @@
-import React from 'react';
-import {ScrollView, Dimensions, View, EmitterSubscription, StyleSheet} from 'react-native';
-import {ScreenContainer} from './ScreenContainer';
-import {WidgetMomentsRowList, WidgetMomentsGridList} from '../widgets';
+import {useFocusEffect} from '@react-navigation/native';
 import {RegisterGlobalEvents} from '@wscsports/blaze-rtn-sdk/src/NativeBlazeSdk';
-import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
+import {
+  Dimensions,
+  EmitterSubscription,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
+import {WidgetMomentsGridList, WidgetMomentsRowList} from '../widgets';
+import {ScreenContainer} from './ScreenContainer';
 
 export function MomentsScreen(): JSX.Element {
-
   useFocusEffect(
     React.useCallback(() => {
       const onMomentsPlayerDismissed: EmitterSubscription =
@@ -32,9 +36,7 @@ export function MomentsScreen(): JSX.Element {
         contentContainerStyle={styles.content_container}
         contentInsetAdjustmentBehavior="automatic"
         style={styles.container}>
-        <WidgetMomentsRowList
-          style={styles.row_widget_container}
-        />
+        <WidgetMomentsRowList style={styles.row_widget_container} />
 
         <WidgetMomentsGridList
           style={styles.grid_widget_container}

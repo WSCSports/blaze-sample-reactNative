@@ -1,7 +1,4 @@
-import {
-  DataSourceType,
-  StoryPageType,
-} from 'rtn-blaze-sdk/src/interfaces/widgets-props.interface';
+import {DataSourceType} from '@wscsports/blaze-rtn-sdk/src/interfaces/widgets-props.interface';
 import {BlazeSDK} from '../components/native';
 
 export const playMoment = async (momentId: string): Promise<void> => {
@@ -48,6 +45,15 @@ export const setExternalUserId = async (userId?: string): Promise<void> => {
     console.log('setExternalUserId success');
   } catch (error) {
     console.error('Error set External UserId:', error);
+  }
+};
+
+export const handleUniversalLink = async (link: string): Promise<void> => {
+  try {
+    await BlazeSDK?.handleUniversalLink(link);
+    console.log('set universal link success');
+  } catch (error) {
+    console.error('Error set universal link:', error);
   }
 };
 
