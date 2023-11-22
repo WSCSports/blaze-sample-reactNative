@@ -1,16 +1,18 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
+import BlazeSDK, {
+  CachingLevel,
+  InitOptions,
+  RegisterGlobalEvents,
+} from '@wscsports/blaze-rtn-sdk/src/NativeBlazeSdk';
 import React, {useEffect, useState} from 'react';
 import {
+  EmitterSubscription,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
-import BlazeSDK, {
-  CachingLevel,
-  InitOptions,
-} from '@wscsports/blaze-rtn-sdk/src/NativeBlazeSdk';
 import {
   MomentsScreen,
   SdkActionsScreen,
@@ -45,6 +47,12 @@ function App(): JSX.Element {
 
   useEffect(() => {
     blazeSDKInit();
+
+    const onStoryPlayerDidAppear: EmitterSubscription =
+      RegisterGlobalEvents.onStoryPlayerDidAppear(() => {
+        console.log('onStoryPlayerDidAppear');
+      });
+      
   }, []);
 
   return (
@@ -54,6 +62,7 @@ function App(): JSX.Element {
         <View style={styles.view}>
           {initialized && (
             <Tab.Navigator
+              detachInactiveScreens={false}
               screenOptions={{
                 tabBarLabelPosition: 'beside-icon',
                 tabBarLabelStyle: styles.tab_label_style,
@@ -69,6 +78,9 @@ function App(): JSX.Element {
               />
               <Tab.Screen
                 name="Stories Full Scroll"
+                options={{
+                  tabBarLabel: 'Stories Full',
+                }}
                 component={StoriesFullScrollScreen}
               />
               <Tab.Screen name="Moments" component={MomentsScreen} />
@@ -88,7 +100,9 @@ const styles = StyleSheet.create({
   },
   tab_label_style: {
     fontWeight: '700',
-    fontSize: 9,
+    fontSize: 10,
+    textAlign: 'center',
+    width: 60,
   },
   tab_icon_style: {display: 'none'},
 });

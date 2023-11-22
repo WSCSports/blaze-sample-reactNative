@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  ScrollView,
-  Dimensions,
-  StyleSheet,
-} from 'react-native';
-import {ScreenContainer} from './ScreenContainer';
+import {Dimensions, ScrollView, StyleSheet} from 'react-native';
 import {WidgetStoriesGridList, WidgetStoriesRowList} from '../widgets';
+import {ScreenContainer} from './ScreenContainer';
 
 export function StoriesFullScrollScreen(): JSX.Element {
   return (
@@ -14,9 +10,7 @@ export function StoriesFullScrollScreen(): JSX.Element {
         contentContainerStyle={styles.content_container}
         contentInsetAdjustmentBehavior="automatic"
         style={styles.container}>
-        <WidgetStoriesRowList
-          style={styles.row_widget_container}
-        />
+        <WidgetStoriesRowList style={styles.row_widget_container} />
 
         <WidgetStoriesGridList
           style={styles.grid_widget_container}
