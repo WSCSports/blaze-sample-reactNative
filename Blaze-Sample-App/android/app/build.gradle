@@ -73,12 +73,12 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.example"
+    namespace "com.wscsports.react"
     defaultConfig {
-        applicationId "com.example"
+        applicationId "com.wscsports.react.example"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
+        versionCode 4
         versionName "1.0"
     }
     signingConfigs {

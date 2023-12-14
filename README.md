@@ -19,7 +19,8 @@ GitHub Packages require authentication to download Android libraries hosted on G
 4. Copy your new personal access token. Remember, you cannot view it again; you can only generate a new key.
 You can find more detailed instructions on creating a GitHub Personal Access Token [here](https://docs.github.com/en/authentication/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
-**Step 2: Store Your GitHub Personal Access Token Details**
+** Step 2: Store Your GitHub Personal Access Token Details**
+
 
 Within your root Android project, locate the gradle.properties file. Ensure that you add this file to your .gitignore to keep the token private.
 

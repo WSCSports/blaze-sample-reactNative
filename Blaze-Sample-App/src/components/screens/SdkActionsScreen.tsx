@@ -1,5 +1,12 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   dismissPlayer,
   handleUniversalLink,
@@ -8,9 +15,22 @@ import {
   playStory,
   setDoNotTrack,
   setExternalUserId,
+  setShowAlerts,
+  updateGeoRestriction,
 } from '../../utils/sdk.utils';
+import {BlazeWidgetLabel} from '@wscsports/blaze-rtn-sdk/src/classes/blaze-widget-label';
 
 export function SdkActionsScreen(): JSX.Element {
+  const [geoText, setGeoText] = useState('');
+  const [universalLinkText, setUniversalLinkText] = useState('');
+  const [externalUserIdText, setExternalUserIdText] = useState('');
+  const [showAlerts, setShowAlertsState] = useState(true);
+
+  const toggleAlerts = () => {
+    setShowAlerts(!showAlerts);
+    setShowAlertsState(!showAlerts);
+  };
+
   return (
     <View style={styles.view}>
       <HR title="Player" />
@@ -19,7 +39,7 @@ export function SdkActionsScreen(): JSX.Element {
         <View>
           <ActionButton
             title="Play"
-            onPress={() => playStory('<Story_ID>')}
+            onPress={() => playStory('<STORY_ID>')}
           />
         </View>
       </ActionSection>
@@ -35,7 +55,9 @@ export function SdkActionsScreen(): JSX.Element {
         <View>
           <ActionButton
             title="Play"
-            onPress={() => playMoments({labels: 'moments'})}
+            onPress={() =>
+              playMoments({labels: BlazeWidgetLabel.singleLabel('moments')})
+            }
           />
         </View>
       </ActionSection>
@@ -44,7 +66,7 @@ export function SdkActionsScreen(): JSX.Element {
           <ActionButton
             title="Play"
             onPress={() =>
-              playStory('<Story_ID>', '<PAGE_ID>')
+              playStory('<STORY_ID>', '<PAGE_ID>')
             }
           />
         </View>
@@ -63,23 +85,62 @@ export function SdkActionsScreen(): JSX.Element {
         </View>
       </ActionSection>
       <ActionSection title="Set External User Id">
-        <View>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            placeholder="ID"
+            value={externalUserIdText}
+            onChangeText={text => setExternalUserIdText(text)}
+            autoCapitalize="none"
+            style={styles.inputContainer}
+          />
           <ActionButton
             title="Set"
             onPress={() => {
-              setExternalUserId('<USER_ID>');
+              setExternalUserId(externalUserIdText);
             }}
           />
         </View>
       </ActionSection>
       <ActionSection title="Set Universal Link">
-        <View>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            placeholder="Link"
+            value={universalLinkText}
+            onChangeText={text => setUniversalLinkText(text)}
+            autoCapitalize="none"
+            style={styles.inputContainer}
+          />
           <ActionButton
             title="Set"
-            onPress={() => handleUniversalLink('http://your.app.link')}
+            onPress={() => handleUniversalLink(universalLinkText)}
           />
         </View>
       </ActionSection>
+      <ActionSection title="Update Geo Location">
+        <View style={styles.inputWrapper}>
+          <TextInput
+            placeholder="Location"
+            value={geoText}
+            onChangeText={text => setGeoText(text)}
+            autoCapitalize="none"
+            style={styles.inputContainer}
+          />
+          <ActionButton
+            title="Set"
+            onPress={() => {
+              updateGeoRestriction(geoText);
+            }}
+          />
+        </View>
+      </ActionSection>
+      <View style={styles.toggleContainer}>
+        <Text style={styles.actionSectionText}>Show Errors Alerts:</Text>
+        <Switch
+          value={showAlerts}
+          onValueChange={toggleAlerts}
+          style={styles.toggleStyle}
+        />
+      </View>
     </View>
   );
 }
@@ -138,7 +199,7 @@ const styles = StyleSheet.create({
   hrView: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   hrAround: {
     flex: 1,
@@ -171,9 +232,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 12,
   },
   actionSectionText: {
     fontSize: 17,
   },
+  toggleStyle: {
+    marginEnd: 8,
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  inputContainer: {
+    textAlign: 'center',
+    marginHorizontal: 6,
+    borderColor: 'grey',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    width: 80,
+    textAlignVertical: 'center',
+    borderRadius: 12,
+    height: 36,
+  },
+  inputWrapper: {flexDirection: 'row'},
 });

@@ -1,70 +1,62 @@
-import {PresetThemeRowType} from '@wscsports/blaze-rtn-sdk/src/BlazeStoriesRowViewNativeComponent';
 import {BlazeWidgetLabel} from '@wscsports/blaze-rtn-sdk/src/classes/blaze-widget-label';
-import React from 'react';
+import React, {useRef} from 'react';
 import {ViewStyle} from 'react-native';
-import {BlazePlayerStoryTheme} from '@wscsports/blaze-rtn-sdk/src/interfaces';
 import {BlazeStoriesRowView} from '../native';
+import {widgetLayoutStoriesRow} from '../../utils/widgetLayout.utils';
+import {storyPlayerRowTheme} from '../../utils/blazePlayersTheme.utils';
+import {BlazeViewComponentMethods} from '@wscsports/blaze-rtn-sdk/src/interfaces';
+import {
+  OnTriggerCTANativeEvent,
+  PresetThemeRowType,
+} from '@wscsports/blaze-rtn-sdk/src/interfaces/widgets-props.interface';
 
 export interface WidgetStoriesRowListProps {
-  style?: ViewStyle; // You can adjust the type based on your styling needs
-  dataSourceScreen?: boolean;
+  style?: ViewStyle;
 }
-
-const blazeStoryTheme: BlazePlayerStoryTheme = {
-  backgroundColor: '#ffffff',
-  headerGradient: {
-    startColor: '#000000',
-    endColor: '#ffffff',
-  },
-  title: {
-    font: {
-      fontName: 'Agbalumo-Regular',
-      fontFileName: 'agbalumo_regular',
-    },
-    textColor: '#3c4ae7',
-    textSize: 18,
-  },
-};
 
 export function WidgetStoriesRowList(
   props: WidgetStoriesRowListProps,
 ): JSX.Element {
   const {style} = props;
+  const presetRowTheme: PresetThemeRowType = 'widgetCircle';
 
   return (
-    <BlazeStoriesRowView
-      onWidgetDataLoadStarted={() => {
-        console.log('Stories row', 'onWidgetDataLoadStarted');
-      }}
-      onWidgetDataLoadCompleted={() => {
-        console.log('Stories row', 'onWidgetDataLoadCompleted');
-      }}
-      onWidgetPlayerDismissed={() => {
-        console.log('Stories row', 'onWidgetPlayerDismissed');
-      }}
-      onItemClicked={() => {
-        console.log('Stories row', 'onItemClicked');
-      }}
-      onTriggerCTA={event => {
-        const widgetId = event.nativeEvent.widgetId;
-        const actionType = event.nativeEvent.actionType;
-        const actionParam = event.nativeEvent.actionParam;
-        console.log(
-          'Stories row',
-          'onTriggerCTA with widgetId: ',
-          widgetId,
-          ' actionType: ',
-          actionType,
-          ' actionParam: ',
-          actionParam,
-        );
-      }}
-      dataSource={{
-        labels: BlazeWidgetLabel.singleLabel('live-stories'),
-      }}
-      presetTheme={PresetThemeRowType.CIRCLE}
-      style={style}
-      blazePlayerStoryTheme={blazeStoryTheme}
-    />
+    <>
+      <BlazeStoriesRowView
+        onWidgetDataLoadStarted={() => {
+          console.log('Stories row', 'onWidgetDataLoadStarted');
+        }}
+        onWidgetDataLoadCompleted={() => {
+          console.log('Stories row', 'onWidgetDataLoadCompleted');
+        }}
+        onWidgetPlayerDismissed={() => {
+          console.log('Stories row', 'onWidgetPlayerDismissed');
+        }}
+        onItemClicked={() => {
+          console.log('Stories row', 'onItemClicked');
+        }}
+        onTriggerCTA={(event: OnTriggerCTANativeEvent) => {
+          const widgetId = event.nativeEvent.widgetId;
+          const actionType = event.nativeEvent.actionType;
+          const actionParam = event.nativeEvent.actionParam;
+          console.log(
+            'Stories row',
+            'onTriggerCTA with widgetId: ',
+            widgetId,
+            ' actionType: ',
+            actionType,
+            ' actionParam: ',
+            actionParam,
+          );
+        }}
+        dataSource={{
+          labels: BlazeWidgetLabel.singleLabel('live-stories'),
+        }}
+        blazeWidgetLayout={widgetLayoutStoriesRow}
+        presetTheme={presetRowTheme}
+        style={style}
+        blazePlayerStoryTheme={storyPlayerRowTheme}
+      />
+    </>
   );
 }

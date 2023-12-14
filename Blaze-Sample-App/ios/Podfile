@@ -28,7 +28,9 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'example' do
+target 'WSC RTN Demo Internal' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  # use_frameworks!
   config = use_native_modules!
 
   # Flags change depending on the env values.
@@ -48,7 +50,9 @@ target 'example' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'exampleTests' do
+  # Pods for WSC RTN Demo Internal
+
+  target 'WSC RTN Demo InternalTests' do
     inherit! :complete
     # Pods for testing
   end

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "example.app"
-               BlueprintName = "example"
-               ReferencedContainer = "container:example.xcodeproj">
+               BuildableName = "WSC RTN Demo Internal.app"
+               BlueprintName = "WSC RTN Demo Internal"
+               ReferencedContainer = "container:WSC RTN Demo Internal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "exampleTests.xctest"
-               BlueprintName = "exampleTests"
-               ReferencedContainer = "container:example.xcodeproj">
+               BuildableName = "WSC RTN Demo InternalTests.xctest"
+               BlueprintName = "WSC RTN Demo InternalTests"
+               ReferencedContainer = "container:WSC RTN Demo Internal.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "example.app"
-            BlueprintName = "example"
-            ReferencedContainer = "container:example.xcodeproj">
+            BuildableName = "WSC RTN Demo Internal.app"
+            BlueprintName = "WSC RTN Demo Internal"
+            ReferencedContainer = "container:WSC RTN Demo Internal.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "example.app"
-            BlueprintName = "example"
-            ReferencedContainer = "container:example.xcodeproj">
+            BuildableName = "WSC RTN Demo Internal.app"
+            BlueprintName = "WSC RTN Demo Internal"
+            ReferencedContainer = "container:WSC RTN Demo Internal.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
@@ -83,6 +83,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "WSC RTN Demo Internal"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   row_widget_container: {
     flex: 3,
-    marginBottom: 40,
+    marginBottom: 10,
   },
   grid_widget_container: {
     flex: 7,

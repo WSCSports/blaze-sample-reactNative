@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   row_widget_container: {
     height: Dimensions.get('screen').height * 0.2,
-    marginBottom: 30,
+    marginBottom: 10,
   },
   grid_widget_container: {
     marginTop: 10,

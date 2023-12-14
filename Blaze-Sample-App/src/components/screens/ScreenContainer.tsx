@@ -25,7 +25,8 @@ export const ScreenContainer = forwardRef<View, ScreenContainerProps>(
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingBottom:0,
     backgroundColor: '#fff',
   },
 });

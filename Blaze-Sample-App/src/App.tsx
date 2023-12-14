@@ -1,8 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import BlazeSDK, {
-  CachingLevel,
-  InitOptions,
   RegisterGlobalEvents,
 } from '@wscsports/blaze-rtn-sdk/src/NativeBlazeSdk';
 import React, {useEffect, useState} from 'react';
@@ -13,12 +11,11 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import TabsNavigator from './navigation/TabsNavigator';
 import {
-  MomentsScreen,
-  SdkActionsScreen,
-  StoriesFullScrollScreen,
-} from './components/screens';
-import {StoriesFixedHeightScreen} from './components/screens/StoriesFixedHeightScreen';
+  CachingLevel,
+  InitOptions,
+} from '@wscsports/blaze-rtn-sdk/src/interfaces/init-options.interface';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,46 +45,21 @@ function App(): JSX.Element {
   useEffect(() => {
     blazeSDKInit();
 
-    const onStoryPlayerDidAppear: EmitterSubscription =
-      RegisterGlobalEvents.onStoryPlayerDidAppear(() => {
-        console.log('onStoryPlayerDidAppear');
+    const onEventTriggered: EmitterSubscription =
+      RegisterGlobalEvents.onEventTriggered(data => {
+        console.log('onEventTriggered', data.event_action);
       });
-      
+
+    return () => {
+      onEventTriggered.remove();
+    };
   }, []);
 
   return (
     <SafeAreaView>
       <StatusBar />
       <NavigationContainer>
-        <View style={styles.view}>
-          {initialized && (
-            <Tab.Navigator
-              detachInactiveScreens={false}
-              screenOptions={{
-                tabBarLabelPosition: 'beside-icon',
-                tabBarLabelStyle: styles.tab_label_style,
-                tabBarIconStyle: styles.tab_icon_style,
-              }}>
-              <Tab.Screen
-                name="Stories Fixed"
-                component={StoriesFixedHeightScreen}
-                options={{
-                  title: 'Stories Sticky Row Widget',
-                  tabBarLabel: 'Stories Fixed',
-                }}
-              />
-              <Tab.Screen
-                name="Stories Full Scroll"
-                options={{
-                  tabBarLabel: 'Stories Full',
-                }}
-                component={StoriesFullScrollScreen}
-              />
-              <Tab.Screen name="Moments" component={MomentsScreen} />
-              <Tab.Screen name="Actions" component={SdkActionsScreen} />
-            </Tab.Navigator>
-          )}
-        </View>
+        <View style={styles.view}>{initialized && <TabsNavigator />}</View>
       </NavigationContainer>
     </SafeAreaView>
   );
@@ -98,11 +70,4 @@ const styles = StyleSheet.create({
   view: {
     height: '100%',
   },
-  tab_label_style: {
-    fontWeight: '700',
-    fontSize: 10,
-    textAlign: 'center',
-    width: 60,
-  },
-  tab_icon_style: {display: 'none'},
 });
