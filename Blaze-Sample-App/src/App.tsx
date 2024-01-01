@@ -1,8 +1,6 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import BlazeSDK, {
-  RegisterGlobalEvents,
-} from '@wscsports/blaze-rtn-sdk/src/NativeBlazeSdk';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import BlazeSDK, {RegisterGlobalEvents} from '@wscsports/blaze-rtn-sdk';
 import React, {useEffect, useState} from 'react';
 import {
   EmitterSubscription,
@@ -15,7 +13,7 @@ import TabsNavigator from './navigation/TabsNavigator';
 import {
   CachingLevel,
   InitOptions,
-} from '@wscsports/blaze-rtn-sdk/src/interfaces/init-options.interface';
+} from '@wscsports/blaze-rtn-sdk';
 
 const Tab = createBottomTabNavigator();
 

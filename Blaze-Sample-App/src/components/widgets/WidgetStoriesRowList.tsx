@@ -1,14 +1,17 @@
-import {BlazeWidgetLabel} from '@wscsports/blaze-rtn-sdk/src/classes/blaze-widget-label';
-import React, {useRef} from 'react';
-import {ViewStyle} from 'react-native';
-import {BlazeStoriesRowView} from '../native';
-import {widgetLayoutStoriesRow} from '../../utils/widgetLayout.utils';
-import {storyPlayerRowTheme} from '../../utils/blazePlayersTheme.utils';
-import {BlazeViewComponentMethods} from '@wscsports/blaze-rtn-sdk/src/interfaces';
+import React from 'react';
+import { ViewStyle } from 'react-native';
+import { widgetLayoutStoriesRow } from '../../utils/widgetLayout.utils';
+import { storyPlayerRowTheme } from '../../utils/blazePlayersTheme.utils';
 import {
-  OnTriggerCTANativeEvent,
+  BlazeStoriesRowView,
+  BlazeWidgetLabel,
   PresetThemeRowType,
-} from '@wscsports/blaze-rtn-sdk/src/interfaces/widgets-props.interface';
+  OnWidgetDataLoadStartedEvent,
+  OnWidgetDataLoadCompleteEvent,
+  OnWidgetPlayerDismissedEvent,
+  OnWidgetItemClickedEvent,
+  OnCTATriggeredEvent,
+} from '@wscsports/blaze-rtn-sdk';
 
 export interface WidgetStoriesRowListProps {
   style?: ViewStyle;
@@ -23,31 +26,20 @@ export function WidgetStoriesRowList(
   return (
     <>
       <BlazeStoriesRowView
-        onWidgetDataLoadStarted={() => {
-          console.log('Stories row', 'onWidgetDataLoadStarted');
+        onWidgetDataLoadStarted={(event: OnWidgetDataLoadStartedEvent) => {
+          console.log('Stories row - onWidgetDataLoadStarted - widgetId: ' + event.widgetId);
         }}
-        onWidgetDataLoadCompleted={() => {
-          console.log('Stories row', 'onWidgetDataLoadCompleted');
+        onWidgetDataLoadCompleted={(event: OnWidgetDataLoadCompleteEvent) => {
+          console.log('Stories row - onWidgetDataLoadCompleted - widgetId: ' + event.widgetId + ', itemCount: ' + event.itemsCount + ', error: ' + event.error);
         }}
-        onWidgetPlayerDismissed={() => {
-          console.log('Stories row', 'onWidgetPlayerDismissed');
+        onWidgetPlayerDismissed={(event: OnWidgetPlayerDismissedEvent) => {
+          console.log('Stories row - onWidgetPlayerDismissed - widgetId: ' + event.widgetId);
         }}
-        onItemClicked={() => {
-          console.log('Stories row', 'onItemClicked');
+        onItemClicked={(event: OnWidgetItemClickedEvent) => {
+          console.log('Stories row - onItemClicked - widgetId: ' + event.widgetId + ', widgetItemId: ' + event.widgetItemId + ', widgetItemTitle: ' + event.widgetItemTitle);
         }}
-        onTriggerCTA={(event: OnTriggerCTANativeEvent) => {
-          const widgetId = event.nativeEvent.widgetId;
-          const actionType = event.nativeEvent.actionType;
-          const actionParam = event.nativeEvent.actionParam;
-          console.log(
-            'Stories row',
-            'onTriggerCTA with widgetId: ',
-            widgetId,
-            ' actionType: ',
-            actionType,
-            ' actionParam: ',
-            actionParam,
-          );
+        onTriggerCTA={(event: OnCTATriggeredEvent) => {
+          console.log('Stories row - onTriggerCTA - widgetId: ' + event.widgetId + ', actionType: ' + event.actionType + ', actionParam: ' + event.actionParam);
         }}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('live-stories'),

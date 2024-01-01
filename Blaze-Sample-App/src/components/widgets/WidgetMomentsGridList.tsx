@@ -1,12 +1,18 @@
-import {BlazeWidgetLabel} from '@wscsports/blaze-rtn-sdk/src/classes/blaze-widget-label';
-import React, {useRef} from 'react';
-import {Button, ViewStyle} from 'react-native';
-import {momentPlayerGridTheme} from '../../utils/blazePlayersTheme.utils';
-import {widgetLayoutMomentsGrid} from '../../utils/widgetLayout.utils';
-import {BlazeMomentsGridView} from '../native';
-import {BlazeViewComponentMethods} from '@wscsports/blaze-rtn-sdk/src/interfaces';
-import {updateDataSourceHandler} from '../../utils/sdk.utils';
-import {OnTriggerCTANativeEvent} from '@wscsports/blaze-rtn-sdk/src/interfaces/widgets-props.interface';
+import React, { useRef } from 'react';
+import { Button, ViewStyle } from 'react-native';
+import { momentPlayerGridTheme } from '../../utils/blazePlayersTheme.utils';
+import { widgetLayoutMomentsGrid } from '../../utils/widgetLayout.utils';
+import { updateDataSourceHandler } from '../../utils/sdk.utils';
+import { 
+  BlazeMomentsGridView,
+  BlazeWidgetLabel,
+  PresetThemeGridType,
+  OnWidgetDataLoadStartedEvent,
+  OnWidgetDataLoadCompleteEvent,
+  OnWidgetPlayerDismissedEvent,
+  OnWidgetItemClickedEvent,
+  OnCTATriggeredEvent,
+} from '@wscsports/blaze-rtn-sdk';
 
 export interface WidgetMomentsGridListProps {
   style?: ViewStyle; 
@@ -17,7 +23,8 @@ export function WidgetMomentsGridList(
   props: WidgetMomentsGridListProps,
 ): JSX.Element {
   const {style, adjustSizeAutomatically} = props;
-  const momentsGridRef = useRef<BlazeViewComponentMethods | null>(null);
+  const presetGridTheme: PresetThemeGridType = 'twoColumnsTheme';
+  const momentsGridRef = useRef<BlazeMomentsGridView | null>(null);
 
   const handleReloadData = () => {
     if (momentsGridRef?.current) {
@@ -36,39 +43,29 @@ export function WidgetMomentsGridList(
   return (
     <>
       <Button title="Reload Data" onPress={handleReloadData} />
-      {/* <Button title="Update Data Source" onPress={handleUpdateDataSource} /> */}
+      <Button title="Update Data Source" onPress={handleUpdateDataSource} />
       <BlazeMomentsGridView
         ref={momentsGridRef}
-        onWidgetDataLoadStarted={() => {
-          console.log('Moments grid', 'onWidgetDataLoadStarted');
+        onWidgetDataLoadStarted={(event: OnWidgetDataLoadStartedEvent) => {
+          console.log('Moments grid - onWidgetDataLoadStarted - widgetId: ' + event.widgetId);
         }}
-        onWidgetDataLoadCompleted={() => {
-          console.log('Moments grid', 'onWidgetDataLoadCompleted');
+        onWidgetDataLoadCompleted={(event: OnWidgetDataLoadCompleteEvent) => {
+          console.log('Moments grid - onWidgetDataLoadCompleted - widgetId: ' + event.widgetId + ', itemCount: ' + event.itemsCount + ', error: ' + event.error);
         }}
-        onWidgetPlayerDismissed={() => {
-          console.log('Moments grid', 'onWidgetPlayerDismissed');
+        onWidgetPlayerDismissed={(event: OnWidgetPlayerDismissedEvent) => {
+          console.log('Moments grid - onWidgetPlayerDismissed - widgetId: ' + event.widgetId);
         }}
-        onItemClicked={() => {
-          console.log('Moments grid', 'onItemClicked');
+        onItemClicked={(event: OnWidgetItemClickedEvent) => {
+          console.log('Moments grid - onItemClicked - widgetId: ' + event.widgetId + ', widgetItemId: ' + event.widgetItemId + ', widgetItemTitle: ' + event.widgetItemTitle);
         }}
-        onTriggerCTA={(event: OnTriggerCTANativeEvent) => {
-          const widgetId = event.nativeEvent.widgetId;
-          const actionType = event.nativeEvent.actionType;
-          const actionParam = event.nativeEvent.actionParam;
-          console.log(
-            'Moments grid',
-            'onTriggerCTA with widgetId: ',
-            widgetId,
-            ' actionType: ',
-            actionType,
-            ' actionParam: ',
-            actionParam,
-          );
+        onTriggerCTA={(event: OnCTATriggeredEvent) => {
+          console.log('Moments grid - onTriggerCTA - widgetId: ' + event.widgetId + ', actionType: ' + event.actionType + ', actionParam: ' + event.actionParam);
         }}
         adjustSizeAutomatically={adjustSizeAutomatically}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
+        presetTheme={presetGridTheme}
         style={style}
         blazeWidgetLayout={widgetLayoutMomentsGrid}
         blazePlayerMomentTheme={momentPlayerGridTheme}

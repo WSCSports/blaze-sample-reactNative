@@ -1,13 +1,17 @@
-import {BlazeWidgetLabel} from '@wscsports/blaze-rtn-sdk/src/classes/blaze-widget-label';
-import React, {} from 'react';
-import {ViewStyle} from 'react-native';
-import {momentPlayerRowTheme} from '../../utils/blazePlayersTheme.utils';
-import {widgetLayoutMomentsRow} from '../../utils/widgetLayout.utils';
-import {BlazeMomentsRowView} from '../native';
+import React from 'react';
+import { ViewStyle } from 'react-native';
+import { momentPlayerRowTheme } from '../../utils/blazePlayersTheme.utils';
+import { widgetLayoutMomentsRow } from '../../utils/widgetLayout.utils';
 import {
-  OnTriggerCTANativeEvent,
+  BlazeMomentsRowView,
+  BlazeWidgetLabel,
   PresetThemeRowType,
-} from '@wscsports/blaze-rtn-sdk/src/interfaces/widgets-props.interface';
+  OnWidgetDataLoadStartedEvent,
+  OnWidgetDataLoadCompleteEvent,
+  OnWidgetPlayerDismissedEvent,
+  OnWidgetItemClickedEvent,
+  OnCTATriggeredEvent,
+} from '@wscsports/blaze-rtn-sdk';
 
 export interface WidgetMomentsRowListProps {
   style?: ViewStyle;
@@ -22,31 +26,20 @@ export function WidgetMomentsRowList(
   return (
     <>
       <BlazeMomentsRowView
-        onWidgetDataLoadStarted={() => {
-          console.log('Moments row', 'onWidgetDataLoadStarted');
+        onWidgetDataLoadStarted={(event: OnWidgetDataLoadStartedEvent) => {
+          console.log('Moments row - onWidgetDataLoadStarted - widgetId: ' + event.widgetId);
         }}
-        onWidgetDataLoadCompleted={() => {
-          console.log('Moments row', 'onWidgetDataLoadCompleted');
+        onWidgetDataLoadCompleted={(event: OnWidgetDataLoadCompleteEvent) => {
+          console.log('Moments row - onWidgetDataLoadCompleted - widgetId: ' + event.widgetId + ', itemCount: ' + event.itemsCount + ', error: ' + event.error);
         }}
-        onWidgetPlayerDismissed={() => {
-          console.log('Moments row', 'onWidgetPlayerDismissed');
+        onWidgetPlayerDismissed={(event: OnWidgetPlayerDismissedEvent) => {
+          console.log('Moments row - onWidgetPlayerDismissed - widgetId: ' + event.widgetId);
         }}
-        onItemClicked={() => {
-          console.log('Moments row', 'onItemClicked');
+        onItemClicked={(event: OnWidgetItemClickedEvent) => {
+          console.log('Moments row - onItemClicked - widgetId: ' + event.widgetId + ', widgetItemId: ' + event.widgetItemId + ', widgetItemTitle: ' + event.widgetItemTitle);
         }}
-        onTriggerCTA={(event: OnTriggerCTANativeEvent) => {
-          const widgetId = event.nativeEvent.widgetId;
-          const actionType = event.nativeEvent.actionType;
-          const actionParam = event.nativeEvent.actionParam;
-          console.log(
-            'Moments row',
-            'onTriggerCTA with widgetId: ',
-            widgetId,
-            ' actionType: ',
-            actionType,
-            ' actionParam: ',
-            actionParam,
-          );
+        onTriggerCTA={(event: OnCTATriggeredEvent) => {
+          console.log('Moments row - onTriggerCTA - widgetId: ' + event.widgetId + ', actionType: ' + event.actionType + ', actionParam: ' + event.actionParam);
         }}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),

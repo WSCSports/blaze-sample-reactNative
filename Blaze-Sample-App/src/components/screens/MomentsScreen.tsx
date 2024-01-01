@@ -1,5 +1,5 @@
 import {useFocusEffect} from '@react-navigation/native';
-import {RegisterGlobalEvents} from '@wscsports/blaze-rtn-sdk/src/NativeBlazeSdk';
+import { RegisterGlobalEvents } from '@wscsports/blaze-rtn-sdk';
 import React from 'react';
 import {
   Dimensions,

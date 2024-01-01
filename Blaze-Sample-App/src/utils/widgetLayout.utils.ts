@@ -1,4 +1,4 @@
-import {BlazeWidgetLayout} from '@wscsports/blaze-rtn-sdk/src/interfaces/widget-layout.interface';
+import { BlazeWidgetLayout } from '@wscsports/blaze-rtn-sdk';
 
 // json object fot story grid
 export const widgetLayoutStoriesGrid: BlazeWidgetLayout = {

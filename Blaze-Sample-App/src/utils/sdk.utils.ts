@@ -1,6 +1,5 @@
-import {BlazeDataSourceType} from '@wscsports/blaze-rtn-sdk/src/interfaces/widgets-props.interface';
-import {BlazeSDK} from '../components/native';
-import {MutableRefObject} from 'react';
+import BlazeSDK, { BlazeDataSourceType } from '@wscsports/blaze-rtn-sdk';
+import { MutableRefObject } from 'react';
 import { Alert } from 'react-native';
 
 export let showAlerts = true;
@@ -12,6 +11,7 @@ export const setShowAlerts = (show: boolean) => {
 export const playMoment = async (momentId: string): Promise<void> => {
   try {
     await BlazeSDK?.playMoment({momentId});
+    console.log('playMoment success');
   } catch (error) {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error playing moment:', error);
@@ -33,8 +33,8 @@ export const playStory = async (
 
 export const setDoNotTrack = async (): Promise<void> => {
   try {
-    const res = await BlazeSDK?.setDoNotTrack(true);
-    console.log('set Do Not Track:', res);
+    await BlazeSDK?.setDoNotTrack(true);
+    console.log('set Do Not Track success');
   } catch (error) {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error set Do Not Track:', error);
@@ -73,8 +73,8 @@ export const handleUniversalLink = async (link: string): Promise<void> => {
 
 export const updateGeoRestriction = async (geoLocation: string): Promise<void> => {
   try {
-    const result = await BlazeSDK?.updateGeoRestriction(geoLocation);
-    console.log(result);
+    await BlazeSDK?.updateGeoRestriction(geoLocation);
+    console.log('updateGeoRestriction success');
   } catch (error) {
     showAlerts && Alert.alert(`${error}`)
     console.error(error);

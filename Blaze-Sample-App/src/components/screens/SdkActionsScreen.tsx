@@ -18,7 +18,7 @@ import {
   setShowAlerts,
   updateGeoRestriction,
 } from '../../utils/sdk.utils';
-import {BlazeWidgetLabel} from '@wscsports/blaze-rtn-sdk/src/classes/blaze-widget-label';
+import { BlazeWidgetLabel } from '@wscsports/blaze-rtn-sdk';
 
 export function SdkActionsScreen(): JSX.Element {
   const [geoText, setGeoText] = useState('');

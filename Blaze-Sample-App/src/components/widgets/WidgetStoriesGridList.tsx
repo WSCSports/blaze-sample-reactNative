@@ -1,14 +1,17 @@
-import {BlazeWidgetLabel} from '@wscsports/blaze-rtn-sdk/src/classes/blaze-widget-label';
-import {BlazeViewComponentMethods} from '@wscsports/blaze-rtn-sdk/src/interfaces';
-import React, {useRef} from 'react';
-import {Button, ViewStyle} from 'react-native';
-import {storyPlayerGridTheme} from '../../utils/blazePlayersTheme.utils';
-import {widgetLayoutStoriesGrid} from '../../utils/widgetLayout.utils';
-import {BlazeStoriesGridView} from '../native';
-import {
-  OnTriggerCTANativeEvent,
+import React, { useRef } from 'react';
+import { Button, ViewStyle } from 'react-native';
+import { storyPlayerGridTheme } from '../../utils/blazePlayersTheme.utils';
+import { widgetLayoutStoriesGrid } from '../../utils/widgetLayout.utils';
+import { 
+  BlazeStoriesGridView,
+  BlazeWidgetLabel,
   PresetThemeGridType,
-} from '@wscsports/blaze-rtn-sdk/src/interfaces/widgets-props.interface';
+  OnWidgetDataLoadStartedEvent,
+  OnWidgetDataLoadCompleteEvent,
+  OnWidgetPlayerDismissedEvent,
+  OnWidgetItemClickedEvent,
+  OnCTATriggeredEvent,
+} from '@wscsports/blaze-rtn-sdk';
 
 interface WidgetStoriesGridListProps {
   style?: ViewStyle;
@@ -19,8 +22,8 @@ export function WidgetStoriesGridList(
   props: WidgetStoriesGridListProps,
 ): JSX.Element {
   const {style, adjustSizeAutomatically} = props;
-  const presetRowTheme: PresetThemeGridType = 'twoColumnsTheme';
-  const storiesGridRef = useRef<BlazeViewComponentMethods | null>(null);
+  const presetGridTheme: PresetThemeGridType = 'twoColumnsTheme';
+  const storiesGridRef = useRef<BlazeStoriesGridView | null>(null);
 
   const handleReloadData = () => {
     if (storiesGridRef?.current) {
@@ -28,43 +31,31 @@ export function WidgetStoriesGridList(
     }
   };
 
-
   return (
     <>
       <Button title="Reload Data" onPress={handleReloadData} />
       <BlazeStoriesGridView
         ref={storiesGridRef}
-        onWidgetDataLoadStarted={() => {
-          console.log('Stories grid', 'onWidgetDataLoadStarted');
+        onWidgetDataLoadStarted={(event: OnWidgetDataLoadStartedEvent) => {
+          console.log('Stories grid - onWidgetDataLoadStarted - widgetId: ' + event.widgetId);
         }}
-        onWidgetDataLoadCompleted={() => {
-          console.log('Stories grid', 'onWidgetDataLoadCompleted');
+        onWidgetDataLoadCompleted={(event: OnWidgetDataLoadCompleteEvent) => {
+          console.log('Stories grid - onWidgetDataLoadCompleted - widgetId: ' + event.widgetId + ', itemCount: ' + event.itemsCount + ', error: ' + event.error);
         }}
-        onWidgetPlayerDismissed={() => {
-          console.log('Stories grid', 'onWidgetPlayerDismissed');
+        onWidgetPlayerDismissed={(event: OnWidgetPlayerDismissedEvent) => {
+          console.log('Stories grid - onWidgetPlayerDismissed - widgetId: ' + event.widgetId);
         }}
-        onItemClicked={() => {
-          console.log('Stories grid', 'onItemClicked');
+        onItemClicked={(event: OnWidgetItemClickedEvent) => {
+          console.log('Stories grid - onItemClicked - widgetId: ' + event.widgetId + ', widgetItemId: ' + event.widgetItemId + ', widgetItemTitle: ' + event.widgetItemTitle);
         }}
-        onTriggerCTA={(event: OnTriggerCTANativeEvent) => {
-          const widgetId = event.nativeEvent.widgetId;
-          const actionType = event.nativeEvent.actionType;
-          const actionParam = event.nativeEvent.actionParam;
-          console.log(
-            'Stories grid',
-            'onTriggerCTA with widgetId: ',
-            widgetId,
-            ' actionType: ',
-            actionType,
-            ' actionParam: ',
-            actionParam,
-          );
+        onTriggerCTA={(event: OnCTATriggeredEvent) => {
+          console.log('Stories grid - onTriggerCTA - widgetId: ' + event.widgetId + ', actionType: ' + event.actionType + ', actionParam: ' + event.actionParam);
         }}
         adjustSizeAutomatically={adjustSizeAutomatically}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('live-stories'),
         }}
-        presetTheme={presetRowTheme}
+        presetTheme={presetGridTheme}
         style={style}
         blazeWidgetLayout={widgetLayoutStoriesGrid}
         blazePlayerStoryTheme={storyPlayerGridTheme}

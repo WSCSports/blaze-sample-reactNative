@@ -1,7 +1,7 @@
 import {
   BlazePlayerMomentTheme,
   BlazePlayerStoryTheme,
-} from '@wscsports/blaze-rtn-sdk/src/interfaces';
+} from '@wscsports/blaze-rtn-sdk';
 
 // Disclaimer - the props from the color type expect to receive the hex value in RGBA format
 
@@ -92,7 +92,7 @@ export const momentPlayerGridTheme: BlazePlayerMomentTheme = {
   shouldShowCloseButtonForAds: true,
   firstTimeSlideAppearance: {
     backgroundColor: {
-      colorFileName: 'first_time_color',
+      colorFileName: 'first_time_color_moments',
       colorName: '#005c8a',
     },
     instructions: {
@@ -176,6 +176,7 @@ export const storyPlayerGridTheme: BlazePlayerStoryTheme = {
     },
   },
   firstTimeSlideAppearance: {
+    backgroundColor: {colorFileName: 'first_time_color_stories', colorName: '#E74C3C'},
     show: true,
     mainTitle: {
       font: {
@@ -203,6 +204,7 @@ export const storyPlayerGridTheme: BlazePlayerStoryTheme = {
     position:'CtaBellowShare'
   },
 };
+
 export const storyPlayerRowTheme: BlazePlayerStoryTheme = {
   backgroundColor: '#71717180',
   lastUpdate:{
