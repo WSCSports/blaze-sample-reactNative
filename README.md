@@ -17,7 +17,7 @@ GitHub Packages require authentication to download Android libraries hosted on G
 2. Go to **Settings -> Developer Settings -> Personal Access Tokens**.
 3. Generate a new token with the "read:packages" scope.
 4. Copy your new personal access token. Remember, you cannot view it again; you can only generate a new key.
-You can find more detailed instructions on creating a GitHub Personal Access Token [here](https://docs.github.com/en/authentication/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+You can find more detailed instructions on creating a GitHub Personal Access Token [here]([https://docs.github.com/en/authentication/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)).
 
 ** Step 2: Store Your GitHub Personal Access Token Details**
 
