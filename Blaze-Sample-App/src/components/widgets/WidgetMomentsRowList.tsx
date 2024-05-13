@@ -22,13 +22,13 @@ export function WidgetMomentsRowList(
   return (
     <>
       <BlazeMomentsRowView
+        style={style}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
-        presetTheme={presetRowTheme}
-        blazePlayerMomentTheme={momentPlayerRowTheme}
-        blazeWidgetLayout={widgetLayoutMomentsRow}
-        style={style}
+        presetTheme={presetRowTheme}        
+        // blazeWidgetLayout={widgetLayoutMomentsRow} // Uncomment this if you want to customize the widget's appearence.
+        // blazePlayerMomentTheme={momentPlayerRowTheme} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={ createWidgetDelegate('Moments Row') }
       />
     </>

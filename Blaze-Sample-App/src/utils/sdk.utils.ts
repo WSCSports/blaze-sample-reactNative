@@ -16,6 +16,8 @@ import { MutableRefObject } from 'react';
 import { Alert } from 'react-native';
 import { momentPlayerGridTheme, storyPlayerGridTheme } from './blazePlayersTheme.utils';
 
+import { BlazeGAMDelegate } from '@wscsports/blaze-rtn-gam-ads';
+
 export let showAlerts = true;
 
 export const setShowAlerts = (show: boolean) => {
@@ -26,7 +28,7 @@ export const playMoment = async (momentId: string): Promise<void> => {
   try {
     await BlazeSDK.playMoment({
       momentId,
-      playerTheme: momentPlayerGridTheme
+      // playerTheme: momentPlayerGridTheme // Uncomment this if you want to customize the player's appearence.
     });
     console.log('playMoment success');
   } catch (error) {
@@ -43,7 +45,7 @@ export const playStory = async (
     await BlazeSDK.playStory({
       storyId, 
       pageId,
-      playerTheme: storyPlayerGridTheme
+      // playerTheme: storyPlayerGridTheme // Uncomment this if you want to customize the player's appearence.
     });
     console.log('playStory success');
   } catch (error) {
@@ -108,7 +110,7 @@ export const playStories = async (
   try {
     await BlazeSDK.playStories({
       dataSource: dataSource,
-      playerTheme: storyPlayerGridTheme,
+      // playerTheme: storyPlayerGridTheme, // Uncomment this if you want to customize the player's appearence.
     });
     console.log('playStories success');
   } catch (error) {
@@ -123,7 +125,7 @@ export const playMoments = async (
   try {
     await BlazeSDK.playMoments({
       dataSource: dataSource,
-      playerTheme: momentPlayerGridTheme,
+      // playerTheme: momentPlayerGridTheme, // Uncomment this if you want to customize the player's appearence.
     });
     console.log('playMoments success');
   } catch (error) {
@@ -219,4 +221,10 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
   onTriggerPlayerBodyTextLink: (params => {
     console.log('EntryPointDelegate - onTriggerPlayerBodyTextLink - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' actionParam: ' + params.actionParam);
   }),
+}
+
+export const googleCustomNativeAdsDelegate: BlazeGAMDelegate = {
+  onAdEvent: (params => {
+    console.log('BlazeGAMDelegate - onAdEvent - evenType: ' + params.eventType);
+  })
 }

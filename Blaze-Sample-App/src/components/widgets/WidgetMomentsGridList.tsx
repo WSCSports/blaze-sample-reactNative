@@ -40,15 +40,15 @@ export function WidgetMomentsGridList(
       <Button title="Reload Data" onPress={handleReloadData} />
       <Button title="Update Data Source" onPress={handleUpdateDataSource} />
       <BlazeMomentsGridView
+        style={style}
         ref={momentsGridRef}
         adjustSizeAutomatically={adjustSizeAutomatically}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
-        presetTheme={presetGridTheme}
-        style={style}
-        blazeWidgetLayout={widgetLayoutMomentsGrid}
-        blazePlayerMomentTheme={momentPlayerGridTheme}
+        presetTheme={presetGridTheme}        
+        // blazeWidgetLayout={widgetLayoutMomentsGrid} // Uncomment this if you want to customize the widget's appearence.
+        // blazePlayerMomentTheme={momentPlayerGridTheme} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={ createWidgetDelegate('Moments Grid') }
       />
     </>

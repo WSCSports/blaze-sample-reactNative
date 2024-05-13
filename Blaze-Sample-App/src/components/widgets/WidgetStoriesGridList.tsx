@@ -31,15 +31,15 @@ export function WidgetStoriesGridList(
     <>
       <Button title="Reload Data" onPress={handleReloadData} />
       <BlazeStoriesGridView
+        style={style}
         ref={storiesGridRef}
         adjustSizeAutomatically={adjustSizeAutomatically}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('live-stories'),
         }}
-        presetTheme={presetGridTheme}
-        style={style}
-        blazeWidgetLayout={widgetLayoutStoriesGrid}
-        blazePlayerStoryTheme={storyPlayerGridTheme}
+        presetTheme={presetGridTheme}        
+        // blazeWidgetLayout={widgetLayoutStoriesGrid} // Uncomment this if you want to customize the widget's appearence.
+        // blazePlayerStoryTheme={storyPlayerGridTheme} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={ createWidgetDelegate('Stories Grid') }
       />
     </>

@@ -22,16 +22,16 @@ export function WidgetStoriesRowList(
   return (
     <>
       <BlazeStoriesRowView
+        style={style}
         dataSource={{
-          labels: BlazeWidgetLabel.singleLabel('<STORIES_LABEL>'),
+          labels: BlazeWidgetLabel.singleLabel('live-stories'),
           orderType: 'aToZ',
           maxItems: 10,
-          labelsPriority: [BlazeWidgetLabel.singleLabel('<STORIES_LABEL>')],
+          labelsPriority: [BlazeWidgetLabel.singleLabel('live-stories')],
         }}
-        blazeWidgetLayout={widgetLayoutStoriesRow}
         presetTheme={presetRowTheme}
-        style={style}
-        blazePlayerStoryTheme={storyPlayerRowTheme}
+        // blazeWidgetLayout={widgetLayoutStoriesRow} // Uncomment this if you want to customize the widget's appearence.        
+        // blazePlayerStoryTheme={storyPlayerRowTheme} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={ createWidgetDelegate('Stories Row') }
       />
     </>
