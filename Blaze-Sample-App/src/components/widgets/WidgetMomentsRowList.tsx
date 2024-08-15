@@ -1,11 +1,11 @@
 import React from 'react';
 import { ViewStyle } from 'react-native';
-import { momentPlayerRowTheme } from '../../utils/blazePlayersTheme.utils';
+import { momentPlayerRowStyle } from '../../utils/blazePlayersTheme.utils';
 import { widgetLayoutMomentsRow } from '../../utils/widgetLayout.utils';
 import {
   BlazeMomentsRowView,
   BlazeWidgetLabel,
-  PresetThemeRowType,
+  PresetRowWidgetLayout,
 } from '@wscsports/blaze-rtn-sdk';
 import { createWidgetDelegate } from '../../utils';
 
@@ -17,7 +17,7 @@ export function WidgetMomentsRowList(
   props: WidgetMomentsRowListProps,
 ): JSX.Element {
   const {style} = props;
-  const presetRowTheme: PresetThemeRowType = 'widgetCircle';
+  const presetRowLayout: PresetRowWidgetLayout = 'widgetCircle';
 
   return (
     <>
@@ -26,9 +26,9 @@ export function WidgetMomentsRowList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
-        presetTheme={presetRowTheme}        
+        presetWidgetLayout={presetRowLayout}        
         // blazeWidgetLayout={widgetLayoutMomentsRow} // Uncomment this if you want to customize the widget's appearence.
-        // blazePlayerMomentTheme={momentPlayerRowTheme} // Uncomment this if you want to customize the player's appearence.
+        // blazeMomentsPlayerStyle={momentPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={ createWidgetDelegate('Moments Row') }
       />
     </>

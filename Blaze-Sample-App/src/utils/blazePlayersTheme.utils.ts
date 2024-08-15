@@ -1,44 +1,50 @@
 import {
-  BlazePlayerMomentTheme,
-  BlazePlayerStoryTheme,
+  BlazeMomentsPlayerStyle,
+  BlazeStoryPlayerStyle,
 } from '@wscsports/blaze-rtn-sdk';
 
 // Disclaimer - the props from the color type expect to receive the hex value in RGBA format
 
-export const momentPlayerRowTheme: BlazePlayerMomentTheme = {
+export const momentPlayerRowStyle: BlazeMomentsPlayerStyle = {
+  playerDisplayMode: 'FixedRatio_9_16',
   headingText: {
     textColor: '#FFFFFF', // Hex (RGBA format)
-  },
-  collectionTitle: {
-    textColor: '#FFFFFF', 
   },
   buttons: {
   },
   backgroundColor: '#FFFFFF', 
-  ctaStyle: {cornerRadius: 16},
+  cta: {cornerRadius: 16},
   footerGradient: {
     isVisible: true,
     endColor: '#660000ff',
     startColor: '#66000000',
   },
-  shouldShowCloseButtonForAds: true,
-  firstTimeSlideAppearance: {
+  firstTimeSlide: {
   },
-  playerSeekBar: {
+  seekBar: {
     isVisible: true,
-    progressColor: '#1c3434',
-    thumbColor: '#b3ffFF',
-    thumbImage: {
+    playingState: {
+      progressColor: '#1c3434',
+      thumbColor: '#b3ffFF',
+      thumbImage: {
+        imageName: 'exit',
+      },
+      isThumbVisible: true,
+    },
+    pausedState: {
+      progressColor: '#1c3434',
+      thumbColor: '#b3ffFF',
+      thumbImage: {
+        imageName: 'exit',
+      },
     },
   },
 };
 
-export const momentPlayerGridTheme: BlazePlayerMomentTheme = {
+export const momentPlayerGridStyle: BlazeMomentsPlayerStyle = {
+  playerDisplayMode: 'FixedRatio_9_16',
   headingText: {
     textColor: '#ffffff', 
-  },
-  collectionTitle: {
-    textColor: '#F8C471', 
   },
   buttons: {
     mute: {
@@ -67,7 +73,7 @@ export const momentPlayerGridTheme: BlazePlayerMomentTheme = {
       color: '#ffaaaa',
       isVisible: true,
       scaleType: 'FIT_XY',
-      image: {
+      customImage: {
         selectedImage: {
           imageName: 'exit',
         },
@@ -77,7 +83,7 @@ export const momentPlayerGridTheme: BlazePlayerMomentTheme = {
       },
     },
   },
-  ctaStyle: {cornerRadius: 16},
+  cta: {cornerRadius: 16},
   headerGradient: {
     isVisible: false,
     startColor: '#660022ff',
@@ -89,8 +95,7 @@ export const momentPlayerGridTheme: BlazePlayerMomentTheme = {
     endColor: '#66880040',
     endPositioning: 'BottomToContainer'
   },
-  shouldShowCloseButtonForAds: true,
-  firstTimeSlideAppearance: {
+  firstTimeSlide: {
     backgroundColor: {
       colorFileName: 'first_time_color_moments',
       colorName: '#005c8a',
@@ -118,17 +123,26 @@ export const momentPlayerGridTheme: BlazePlayerMomentTheme = {
       },
     },
   },
-  playerSeekBar: {
+  seekBar: {
     isVisible: true,
-    progressColor: '#1c3434',
-    thumbColor: '#b3ffFF',
-    thumbImage: {
-      imageName: 'exit',
+    playingState: {
+      progressColor: '#1c3434',
+      thumbColor: '#b3ffFF',
+      thumbImage: {
+        imageName: 'exit',
+      },
+    },
+    pausedState: {
+      progressColor: '#1c3434',
+      thumbColor: '#b3ffFF',
+      thumbImage: {
+        imageName: 'exit',
+      },
     },
   },
 };
 
-export const storyPlayerGridTheme: BlazePlayerStoryTheme = {
+export const storyPlayerGridStyle: BlazeStoryPlayerStyle = {
   lastUpdate:{
     textCase:'Uppercase',
     textColor:'#ffffff'
@@ -140,10 +154,7 @@ export const storyPlayerGridTheme: BlazePlayerStoryTheme = {
   },
   title: {
     textSize: 18,
-  },
-  iconThumbnail: {
-    width: 40,
-    height: 20,
+    isVisible: true
   },
   buttons: {
     mute: {
@@ -175,7 +186,7 @@ export const storyPlayerGridTheme: BlazePlayerStoryTheme = {
       backgroundColor: '#00FF00',
     },
   },
-  firstTimeSlideAppearance: {
+  firstTimeSlide: {
     backgroundColor: {colorFileName: 'first_time_color_stories', colorName: '#E74C3C'},
     show: true,
     mainTitle: {
@@ -184,7 +195,7 @@ export const storyPlayerGridTheme: BlazePlayerStoryTheme = {
         fontFileName: 'agbalumo_regular',
       },
     },
-    subTitle: {
+    subtitle: {
       text: 'Subtitle',
       font: {
         fontName: 'Agbalumo-Regular',
@@ -192,20 +203,21 @@ export const storyPlayerGridTheme: BlazePlayerStoryTheme = {
       },
     },
   },
-  progressBarStyle: {
+  progressBar: {
+    backgroundColor: '#000000',
+    progressColor: '#99ff00',
   },
-  ctaStyle: {
+  cta: {
     cornerRadius: 16,
     font: {
       fontName: 'Agbalumo-Regular',
       fontFileName: 'agbalumo_regular',
     },
     textSize: 20,
-    position:'CtaBellowShare'
   },
 };
 
-export const storyPlayerRowTheme: BlazePlayerStoryTheme = {
+export const storyPlayerRowStyle: BlazeStoryPlayerStyle = {
   backgroundColor: '#71717180',
   lastUpdate:{
     textColor: '#ffffff'
@@ -216,11 +228,20 @@ export const storyPlayerRowTheme: BlazePlayerStoryTheme = {
   },
   title: {
     textSize: 18,
+    isVisible: true
   },
   buttons: {
     mute: {
       color: '#F7DC6F',
       scaleType: 'FIT_END',
+      customImage: {
+        selectedImage: {
+          imageName: 'like'
+        },
+        unselectedImage: {
+          imageName: 'exit'
+        },
+      }
     },
     exit: {
       color: '#646464',

@@ -1,8 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import BlazeSDK from '@wscsports/blaze-rtn-sdk';
 import BlazeGAM from '@wscsports/blaze-rtn-gam-ads';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
+  Button,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -10,31 +12,38 @@ import {
 } from 'react-native';
 import TabsNavigator from './navigation/TabsNavigator';
 import {
-  CachingLevel,
   InitOptions,
 } from '@wscsports/blaze-rtn-sdk';
-import { 
-  momentPlayerRowTheme, 
-  storyPlayerRowTheme 
+import {
+  momentPlayerRowStyle,
+  storyPlayerRowStyle
 } from './utils/blazePlayersTheme.utils';
 import { 
   entryPointDelegate, 
   globalDelegate, 
-  googleCustomNativeAdsDelegate 
+  googleCustomNativeAdsDelegate, 
+  imaAdsDelegate
 } from './utils';
+import BlazeIMA from '@wscsports/blaze-rtn-ima-ads';
 
 const blazeSdkInitOptions: InitOptions = {
   apiKey: '<API_KEY>',
   cachingSize: 512,
-  cachingLevel: CachingLevel.DEFAULT,
-  // globalPlayerStoryTheme: storyPlayerRowTheme, // Uncomment this if you want to customize the player's appearence.
-  // globalPlayerMomentTheme: momentPlayerRowTheme, // Uncomment this if you want to customize the player's appearence.
+  cachingLevel: 'DEFAULT',
+  // defaultStoryPlayerStyle: storyPlayerRowStyle, // Uncomment this if you want to customize the player's appearence.
+  // defaultMomentsPlayerStyle: momentPlayerRowStyle, // Uncomment this if you want to customize the player's appearence.
   globalDelegate: globalDelegate,
   playerEntryPointDelegate: entryPointDelegate
 };
 
 function App(): JSX.Element {
-  const [initialized, setInitialized] = useState<boolean>();
+  enum LoadingState {
+    LOADED,
+    LOADING,
+    ERROR,
+  }
+
+  const [loadingState, setLoadingState] = useState<LoadingState>();
 
   const blazeSDKInit = async () => {
     try {
@@ -42,22 +51,28 @@ function App(): JSX.Element {
       const isInitialized = BlazeSDK.isInitialized();
       console.log(isInitialized);
       if (!isInitialized) {
+        setLoadingState(LoadingState.LOADING)
         await BlazeSDK.init(blazeSdkInitOptions);
       }
-      setInitialized(true);
 
       // GAM Setup (If you want to support Google's CustomNativeAds)
-      BlazeGAM.enableWith({
+      BlazeGAM.enableCustomNativeAds({
         defaultAdConfig: {
-          adUnit: "[Your default ad unit id]",
-          templateId: "[Your default template id]"
-        }
+            adUnit: "[Your default ad unit id]",
+            templateId: "[Your default template id]"
+        },
+        delegate: googleCustomNativeAdsDelegate
       })
-      BlazeGAM.setDelegate(googleCustomNativeAdsDelegate)
+
+      BlazeIMA.enableAds({
+        delegate: imaAdsDelegate
+      })
+
+      setLoadingState(LoadingState.LOADED)
 
     } catch (e) {
       console.log('Init error', e);
-      setInitialized(true);
+      setLoadingState(LoadingState.ERROR)
     }
   };
 
@@ -68,11 +83,37 @@ function App(): JSX.Element {
     };
   }, []);
 
+  const contentView = () => {
+    switch (loadingState) {
+      case LoadingState.LOADING:
+        return (
+          <View style={styles.centered}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        );
+      case LoadingState.LOADED:
+        return <TabsNavigator />;
+      case LoadingState.ERROR:
+        // Assuming TabsNavigator is shown on error for example purposes
+        return (
+          <View style={styles.centered}>
+            <Button
+              title='Retry loading the SDK'
+              onPress={() =>
+                blazeSDKInit()
+              } />
+          </View>
+        );
+    }
+  };
+
   return (
     <SafeAreaView>
       <StatusBar />
       <NavigationContainer>
-        <View style={styles.view}>{initialized && <TabsNavigator />}</View>
+        <View style={styles.view}>
+          {contentView()}
+        </View>
       </NavigationContainer>
     </SafeAreaView>
   );
@@ -82,5 +123,10 @@ export default App;
 const styles = StyleSheet.create({
   view: {
     height: '100%',
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -1,5 +1,5 @@
-import BlazeSDK, { 
-  BlazeDataSourceType, 
+import BlazeSDK, {
+  BlazeDataSourceType,
   BlazeWidgetDelegate,
   OnDataLoadStartedEvent,
   OnDataLoadCompleteEvent,
@@ -8,15 +8,17 @@ import BlazeSDK, {
   OnItemClickedEvent,
   OnTriggerCTAEvent,
   OnTriggerPlayerBodyTextLinkEvent,
+  OnPlayerEventTriggeredEvent,
   BlazeGlobalDelegate,
   BlazePlayerEntryPointDelegate,
 } from '@wscsports/blaze-rtn-sdk';
 
 import { MutableRefObject } from 'react';
 import { Alert } from 'react-native';
-import { momentPlayerGridTheme, storyPlayerGridTheme } from './blazePlayersTheme.utils';
+import { momentPlayerGridStyle, storyPlayerGridStyle } from './blazePlayersTheme.utils';
 
 import { BlazeGAMDelegate } from '@wscsports/blaze-rtn-gam-ads';
+import { BlazeIMADelegate } from '@wscsports/blaze-rtn-ima-ads';
 
 export let showAlerts = true;
 
@@ -24,146 +26,160 @@ export const setShowAlerts = (show: boolean) => {
   showAlerts = show;
 };
 
-export const playMoment = async (momentId: string): Promise<void> => {
-  try {
-    await BlazeSDK.playMoment({
-      momentId,
-      // playerTheme: momentPlayerGridTheme // Uncomment this if you want to customize the player's appearence.
-    });
+export const playMoment = (
+  momentId: string
+) => {
+  BlazeSDK.playMoment({
+    momentId,
+    // playerStyle: momentPlayerGridStyle // Uncomment this if you want to customize the player's appearence.
+  }).then(() => {
     console.log('playMoment success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error playing moment:', error);
-  }
+  });
 };
 
-export const playStory = async (
+export const playStory = (
   storyId: string,
   pageId?: string,
-): Promise<void> => {
-  try {
-    await BlazeSDK.playStory({
-      storyId, 
-      pageId,
-      // playerTheme: storyPlayerGridTheme // Uncomment this if you want to customize the player's appearence.
-    });
+) => {
+  BlazeSDK.playStory({
+    storyId,
+    pageId,
+    // playerStyle: storyPlayerGridStyle // Uncomment this if you want to customize the player's appearence.
+  }).then(() => {
     console.log('playStory success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error playing Story:', error);
-  }
+  });
 };
 
-export const setDoNotTrack = async (): Promise<void> => {
-  try {
-    await BlazeSDK.setDoNotTrack(true);
+export const setDoNotTrack = () => {
+  BlazeSDK.setDoNotTrack(true).then(() => {
     console.log('set Do Not Track success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error set Do Not Track:', error);
-  }
+  });
 };
 
-export const dismissPlayer = async (): Promise<void> => {
-  try {
-    await BlazeSDK.dismissPlayer();
+export const dismissPlayer = () => {
+  BlazeSDK.dismissPlayer().then(() => {
     console.log('dismissPlayer success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error dismiss Player:', error);
-  }
+  });
 };
 
-export const setExternalUserId = async (userId?: string): Promise<void> => {
-  try {
-    await BlazeSDK.setExternalUserId(userId);
+export const setExternalUserId = (
+  userId?: string
+) => {
+  BlazeSDK.setExternalUserId(userId).then(() => {
     console.log('setExternalUserId success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error set External UserId:', error);
-  }
+  });
 };
 
-export const handleUniversalLink = async (link: string): Promise<void> => {
-  try {
-    await BlazeSDK.handleUniversalLink(link);
+export const handleUniversalLink = (
+  link: string
+) => {
+  BlazeSDK.handleUniversalLink(link).then(() => {
     console.log('set universal link success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`${error}`)
     console.error('Error set universal link:', error);
-  }
+  });
 };
 
-export const updateGeoRestriction = async (geoLocation: string): Promise<void> => {
-  try {
-    await BlazeSDK.updateGeoRestriction(geoLocation);
-    console.log('updateGeoRestriction success');
-  } catch (error) {
+export const canHandleUniversalLink = async (link: string): Promise<boolean> => {
+  const result = await BlazeSDK.canHandleUniversalLink(link).then((result) => {
+    console.log('canHandleUniversalLink success, result -> ', result);
+    return result
+  }).catch(error => {
     showAlerts && Alert.alert(`${error}`)
-    console.error(error);
-  }
+    console.error('Error handle universal link:', error);
+    return false
+  });
+  return result
 };
 
-export const playStories = async (
+export const updateGeoRestriction = (
+  geoLocation: string
+) => {
+  BlazeSDK.updateGeoRestriction(geoLocation).then(() => {
+    console.log('updateGeoRestriction success');
+  }).catch(error => {
+    showAlerts && Alert.alert(`${error}`)
+    console.error('Error updateGeoRestriction:', error);
+  });
+};
+
+export const playStories = (
   dataSource: BlazeDataSourceType,
-): Promise<void> => {
-  try {
-    await BlazeSDK.playStories({
-      dataSource: dataSource,
-      // playerTheme: storyPlayerGridTheme, // Uncomment this if you want to customize the player's appearence.
-    });
+) => {
+  BlazeSDK.playStories({
+    dataSource: dataSource,
+    // playerStyle: storyPlayerGridStyle, // Uncomment this if you want to customize the player's appearence.
+  }).then(() => {
     console.log('playStories success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`Error playing stories: ${error}`)
     console.error('Error playing stories:', error);
-  }
+  });
 };
 
-export const playMoments = async (
+export const playMoments = (
   dataSource: BlazeDataSourceType,
-): Promise<void> => {
-  try {
-    await BlazeSDK.playMoments({
-      dataSource: dataSource,
-      // playerTheme: momentPlayerGridTheme, // Uncomment this if you want to customize the player's appearence.
-    });
+) => {
+  BlazeSDK.playMoments({
+    dataSource: dataSource,
+    // playerStyle: momentPlayerGridStyle, // Uncomment this if you want to customize the player's appearence.
+  }).then(() => {
     console.log('playMoments success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`Error playing moments: ${error}`)
     console.error('Error playing moments:', error);
-  }
+  });
 };
 
-export const prepareStories = async (
+export const prepareStories = (
   dataSource: BlazeDataSourceType,
-): Promise<void> => {
-  try {
-    await BlazeSDK.prepareStories({dataSource});
+) => {
+  BlazeSDK.prepareStories({
+    dataSource: dataSource
+  }).then(() => {
     console.log('prepareStories success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`Error prepareStories: ${error}`)
     console.error('Error prepareStories:', error);
-  }
+  });
 };
 
-export const prepareMoments = async (
+export const prepareMoments = (
   dataSource: BlazeDataSourceType,
-): Promise<void> => {
-  try {
-    await BlazeSDK.prepareMoments({dataSource});
+) => {
+  BlazeSDK.prepareMoments({
+    dataSource: dataSource
+  }).then(() => {
     console.log('prepareMoments success');
-  } catch (error) {
+  }).catch(error => {
     showAlerts && Alert.alert(`Error prepareMoments: ${error}`)
     console.error('Error prepareMoments:', error);
-  }
+  });
 };
 
 export const updateDataSourceHandler = (
   ref: MutableRefObject<any> | null,
   newDataSource: BlazeDataSourceType,
+  isSilentRefresh: Boolean
 ) => {
   if (ref?.current) {
-    ref?.current?.updateDataSource(newDataSource);
+    ref?.current?.updateDataSource(newDataSource, isSilentRefresh);
   }
 };
 
@@ -190,16 +206,28 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
     onTriggerPlayerBodyTextLink: (event: OnTriggerPlayerBodyTextLinkEvent) => {
       console.log(widgetName + ' - onTriggerPlayerBodyTextLink - widgetId: ' + event.widgetId + ', actionParam: ' + event.actionParam);
     },
+    onPlayerEventTriggered: (event: OnPlayerEventTriggeredEvent) => {
+      switch (event.playerEvent.type) {
+        case 'OnMomentStart': {
+        console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: MomentId ' + event.playerEvent.momentId);
+          break
+        }
+        case 'OnStoryStart': {
+        console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: StoryId ' + event.playerEvent.storyId);
+          break
+        }
+      }
+    },
   }
 }
 
 export const globalDelegate: BlazeGlobalDelegate = {
-    onEventTriggered: (params => {
-      console.log('GlobalDelegate - onEventTriggered - event_action: ' + params.event.event_action);
-    }),
-    onErrorThrown: (params => {
-      console.error('GlobalDelegate - onErrorThrown - error: ' + params.error);
-    })
+  onEventTriggered: (params => {
+    console.log('GlobalDelegate - onEventTriggered - event_action: ' + params.event.event_action);
+  }),
+  onErrorThrown: (params => {
+    console.error('GlobalDelegate - onErrorThrown - error: ' + params.error);
+  })
 }
 
 export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
@@ -221,10 +249,35 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
   onTriggerPlayerBodyTextLink: (params => {
     console.log('EntryPointDelegate - onTriggerPlayerBodyTextLink - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' actionParam: ' + params.actionParam);
   }),
+  onPlayerEventTriggered: (params => {
+    const playerEvent = params.event
+    switch (playerEvent.type) {
+      case 'OnMomentStart': {
+      console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: MomentId ' + playerEvent.momentId);
+        break
+      }
+      case 'OnStoryStart': {
+      console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: StoryId ' + playerEvent.storyId);
+        break
+      }
+    }
+  }),
 }
 
 export const googleCustomNativeAdsDelegate: BlazeGAMDelegate = {
-  onAdEvent: (params => {
-    console.log('BlazeGAMDelegate - onAdEvent - evenType: ' + params.eventType);
-  })
+  onGAMAdEvent: (params => {
+    console.log('BlazeGAMDelegate - onGAMAdEvent - evenType: ' + params.eventType);
+  }),
+  onGAMAdError: (errorMessage => {
+    console.log('BlazeGAMDelegate - onGAMAdError - errorMessage: ' + errorMessage);
+  }),
+}
+
+export const imaAdsDelegate: BlazeIMADelegate = {
+  onIMAAdEvent: (params => {
+    console.log('BlazeIMADelegate - onIMAAdEvent - evenType: ' + params.eventType);
+  }),
+  onIMAAdError: (errorMessage => {
+    console.log('BlazeIMADelegate - onIMAAdError - errorMessage: ' + errorMessage);
+  }),
 }

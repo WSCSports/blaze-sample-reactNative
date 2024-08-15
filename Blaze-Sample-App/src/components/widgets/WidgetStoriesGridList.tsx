@@ -1,13 +1,15 @@
 import React, { useRef } from 'react';
 import { Button, ViewStyle } from 'react-native';
-import { storyPlayerGridTheme } from '../../utils/blazePlayersTheme.utils';
+import { storyPlayerGridStyle } from '../../utils/blazePlayersTheme.utils';
 import { widgetLayoutStoriesGrid } from '../../utils/widgetLayout.utils';
 import { 
   BlazeStoriesGridView,
   BlazeWidgetLabel,
-  PresetThemeGridType,
+  PresetGridWidgetLayout,
 } from '@wscsports/blaze-rtn-sdk';
-import { createWidgetDelegate } from '../../utils';
+import { createWidgetDelegate, updateDataSourceHandler } from '../../utils';
+import { BlazeWidgetLayout } from '@wscsports/blaze-rtn-sdk';
+import { initialWidgetStyleOverrides } from '../../utils/widgetItemStyleOverrides.utils';
 
 interface WidgetStoriesGridListProps {
   style?: ViewStyle;
@@ -18,7 +20,7 @@ export function WidgetStoriesGridList(
   props: WidgetStoriesGridListProps,
 ): JSX.Element {
   const {style, adjustSizeAutomatically} = props;
-  const presetGridTheme: PresetThemeGridType = 'twoColumnsTheme';
+  const presetGridLayout: PresetGridWidgetLayout = 'twoColumnsTheme';
   const storiesGridRef = useRef<BlazeStoriesGridView | null>(null);
 
   const handleReloadData = () => {
@@ -27,9 +29,25 @@ export function WidgetStoriesGridList(
     }
   };
 
+  const handlePlayWidget = () => {
+    if (storiesGridRef?.current) {
+      storiesGridRef?.current.play();
+    }
+  }
+
+  const handleUpdateDataSource = () => {
+    const newDataSource = {
+      /* Your updated data source */
+      labels: BlazeWidgetLabel.atLeastOneOf('messi', 'ronaldo'),
+    };
+    updateDataSourceHandler(storiesGridRef, newDataSource, false);
+  };
+
   return (
     <>
       <Button title="Reload Data" onPress={handleReloadData} />
+      <Button title="Play Widget" onPress={handlePlayWidget} />
+      <Button title="Update Data Source" onPress={handleUpdateDataSource} />
       <BlazeStoriesGridView
         style={style}
         ref={storiesGridRef}
@@ -37,11 +55,13 @@ export function WidgetStoriesGridList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('live-stories'),
         }}
-        presetTheme={presetGridTheme}        
+        presetWidgetLayout={presetGridLayout}        
         // blazeWidgetLayout={widgetLayoutStoriesGrid} // Uncomment this if you want to customize the widget's appearence.
-        // blazePlayerStoryTheme={storyPlayerGridTheme} // Uncomment this if you want to customize the player's appearence.
+        // blazeStoryPlayerStyle={storyPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={ createWidgetDelegate('Stories Grid') }
+        perItemStyleOverrides={initialWidgetStyleOverrides()}
       />
     </>
   );
 }
+

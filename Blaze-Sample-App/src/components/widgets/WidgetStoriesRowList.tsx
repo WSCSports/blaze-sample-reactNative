@@ -1,11 +1,11 @@
 import React from 'react';
 import { ViewStyle } from 'react-native';
 import { widgetLayoutStoriesRow } from '../../utils/widgetLayout.utils';
-import { storyPlayerRowTheme } from '../../utils/blazePlayersTheme.utils';
+import { storyPlayerRowStyle } from '../../utils/blazePlayersTheme.utils';
 import {
   BlazeStoriesRowView,
   BlazeWidgetLabel,
-  PresetThemeRowType,
+  PresetRowWidgetLayout,
 } from '@wscsports/blaze-rtn-sdk';
 import { createWidgetDelegate } from '../../utils';
 
@@ -17,7 +17,7 @@ export function WidgetStoriesRowList(
   props: WidgetStoriesRowListProps,
 ): JSX.Element {
   const {style} = props;
-  const presetRowTheme: PresetThemeRowType = 'widgetCircle';
+  const presetRowLayout: PresetRowWidgetLayout = 'widgetCircle';
 
   return (
     <>
@@ -29,9 +29,9 @@ export function WidgetStoriesRowList(
           maxItems: 10,
           labelsPriority: [BlazeWidgetLabel.singleLabel('live-stories')],
         }}
-        presetTheme={presetRowTheme}
+        presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutStoriesRow} // Uncomment this if you want to customize the widget's appearence.        
-        // blazePlayerStoryTheme={storyPlayerRowTheme} // Uncomment this if you want to customize the player's appearence.
+        // blazeStoryPlayerStyle={storyPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={ createWidgetDelegate('Stories Row') }
       />
     </>

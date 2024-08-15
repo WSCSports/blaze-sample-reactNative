@@ -1,4 +1,8 @@
-import { BlazeWidgetLayout } from '@wscsports/blaze-rtn-sdk';
+import { 
+  BlazeWidgetLayout ,
+  BlazeWidgetItemCustomMapping,
+  BlazeWidgetItemStyleOverrides
+} from '@wscsports/blaze-rtn-sdk';
 
 // json object fot story grid
 export const widgetLayoutStoriesGrid: BlazeWidgetLayout = {
@@ -10,17 +14,27 @@ export const widgetLayoutStoriesGrid: BlazeWidgetLayout = {
     bottom: 30,
     trailing: 10,
   },
-  widgetItemAppearance: {
+  widgetItemStyle: {
     backgroundColor: '#99ff00',
     title: {
       isVisible: true,
-      readStyle: {
-        textSize: 13,
+      // insets:2,
+      readState: {
+        font: {
+          fontName: 'Agbalumo-Regular',
+          fontFileName: 'agbalumo_regular',
+        },
+        textSize: 14,
+        // letterSpacing: 3,
         textColor: '#c3c3c3',
         maxLines: 2,
         textAlign: 'Start',
       },
-      unreadStyle: {
+      unreadState: {
+        font: {
+          fontName: 'Agbalumo-Regular',
+          fontFileName: 'agbalumo_regular',
+        },
         textSize: 14,
         letterSpacing: 0,
         textColor: '#ffffff',
@@ -32,22 +46,22 @@ export const widgetLayoutStoriesGrid: BlazeWidgetLayout = {
       position: 'TopStart',
       border: {
         isVisible: true,
-        liveReadBorder: {
+        liveReadState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        liveUnreadBorder: {
+        liveUnreadState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        readBorder: {
+        readState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        unreadBorder: {
+        unreadState: {
           isVisible: true,
           margin: 2,
           width: 3,
@@ -59,34 +73,62 @@ export const widgetLayoutStoriesGrid: BlazeWidgetLayout = {
 
 // json object fot story row
 export const widgetLayoutStoriesRow: BlazeWidgetLayout = {
-  widgetItemAppearance: {
+  // horizontalItemsSpacing: 10,
+  // verticalItemsSpacing: 10,
+  // itemRatio: 9/16,
+  // margins: {
+  //   top: 0,
+  //   leading: 10,
+  //   bottom: 30,
+  //   trailing: 10,
+  // },
+  widgetItemStyle: {
+    // backgroundColor: '#99ff00',
     title: {
       isVisible: true,
-      readStyle: {
+      readState: {
+        // font: {
+        //   fontName: 'Agbalumo-Regular',
+        //   fontFileName: 'agbalumo_regular',
+        // },
+        // textSize: 20,
+        // letterSpacing: 5,
+        // textColor: '#FFFF00',
+        // lineHeight: 25,
         maxLines: 2,
       },
-      unreadStyle: {
+      unreadState: {
+        // font: {
+        //   fontName: 'Agbalumo-Regular',
+        //   fontFileName: 'agbalumo_regular',
+        // },
+        // textSize: 12,
+        // letterSpacing: 0,
+        // textColor: '#ffffff',
+        // // lineHeight: 26,
+        // maxLines: 3,
+        // textAlign: 'End',
       },
     },
     image: {
       border: {
         isVisible: true,
-        liveReadBorder: {
+        liveReadState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        liveUnreadBorder: {
+        liveUnreadState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        readBorder: {
+        readState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        unreadBorder: {
+        unreadState: {
           isVisible: true,
           margin: 2,
           width: 3,
@@ -105,10 +147,11 @@ export const widgetLayoutMomentsGrid: BlazeWidgetLayout = {
     bottom: 30,
     trailing: 10,
   },
-  widgetItemAppearance: {
+  // columns:3,
+  widgetItemStyle: {
     title: {
       isVisible: true,
-      readStyle: {
+      readState: {
         font: {
           fontName: 'Agbalumo-Regular',
           fontFileName: 'agbalumo_regular',
@@ -117,7 +160,11 @@ export const widgetLayoutMomentsGrid: BlazeWidgetLayout = {
         textColor: '#FFFFFF',
         maxLines: 2,
       },
-      unreadStyle: {
+      unreadState: {
+        // font: {
+        //     fontName: 'Agbalumo-Regular',
+        //     fontFileName: 'agbalumo_regular'
+        // },
         textSize: 12,
         letterSpacing: 0,
         textColor: '#FFFF00',
@@ -128,25 +175,25 @@ export const widgetLayoutMomentsGrid: BlazeWidgetLayout = {
       position: 'TopStart',
       border: {
         isVisible: true,
-        liveReadBorder: {
+        liveReadState: {
           isVisible: true,
           color: '#0000FF',
           margin: 2,
           width: 3,
         },
-        liveUnreadBorder: {
+        liveUnreadState: {
           isVisible: true,
           color: '#00FF00',
           margin: 2,
           width: 3,
         },
-        readBorder: {
+        readState: {
           isVisible: true,
           color: '#FFA500',
           margin: 2,
           width: 3,
         },
-        unreadBorder: {
+        unreadState: {
           isVisible: true,
           color: '#FFFF00',
           margin: 0,
@@ -163,10 +210,11 @@ export const widgetLayoutMomentsRow: BlazeWidgetLayout = {
     leading: 10,
     trailing: 10,
   },
-  widgetItemAppearance: {
+  // columns:3,
+  widgetItemStyle: {
     title: {
       isVisible: true,
-      readStyle: {
+      readState: {
         font: {
           fontName: 'Agbalumo-Regular',
           fontFileName: 'agbalumo_regular',
@@ -174,7 +222,11 @@ export const widgetLayoutMomentsRow: BlazeWidgetLayout = {
         textSize: 14,
         maxLines: 2,
       },
-      unreadStyle: {
+      unreadState: {
+        // font: {
+        //     fontName: 'Agbalumo-Regular',
+        //     fontFileName: 'agbalumo_regular'
+        // },
         textSize: 12,
         letterSpacing: 0,
         maxLines: 2,
@@ -184,22 +236,22 @@ export const widgetLayoutMomentsRow: BlazeWidgetLayout = {
       position: 'TopStart',
       border: {
         isVisible: true,
-        liveReadBorder: {
+        liveReadState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        liveUnreadBorder: {
+        liveUnreadState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        readBorder: {
+        readState: {
           isVisible: true,
           margin: 2,
           width: 3,
         },
-        unreadBorder: {
+        unreadState: {
           isVisible: true,
           margin: 0,
           width: 3,

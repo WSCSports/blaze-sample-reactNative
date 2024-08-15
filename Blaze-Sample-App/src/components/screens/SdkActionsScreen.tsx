@@ -22,7 +22,7 @@ import {
   setShowAlerts,
   updateGeoRestriction,
 } from '../../utils/sdk.utils';
-import { BlazeWidgetLabel } from '@wscsports/blaze-rtn-sdk';
+import { BlazeWidgetLabel, BlazeRecommendationsType } from '@wscsports/blaze-rtn-sdk';
 
 export function SdkActionsScreen(): JSX.Element {
   const [geoText, setGeoText] = useState('');
@@ -33,6 +33,11 @@ export function SdkActionsScreen(): JSX.Element {
   const toggleAlerts = () => {
     setShowAlerts(!showAlerts);
     setShowAlertsState(!showAlerts);
+  };
+
+  const forYouWithLabelFilter: BlazeRecommendationsType = {
+    anyLabelFilter: [],
+    type: 'ForYou'
   };
 
   return (
@@ -92,6 +97,19 @@ export function SdkActionsScreen(): JSX.Element {
               title="Prepare"
               onPress={() =>
                 prepareMoments({labels: BlazeWidgetLabel.singleLabel('<MOMENTS_LABEL>')})
+              }
+            />
+          </View>
+        </ActionSection>
+
+        <ActionSection title="Play Recommendations">
+          <View>
+            <ActionButton
+              title="Play"
+              onPress={() =>
+                playMoments(
+                  { recommendationsType: forYouWithLabelFilter }
+                )
               }
             />
           </View>
