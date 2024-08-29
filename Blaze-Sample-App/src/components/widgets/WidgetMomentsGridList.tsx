@@ -12,13 +12,13 @@ import { widgetLayoutMomentsGrid } from '../../utils/widgetLayout.utils';
 
 export interface WidgetMomentsGridListProps {
   style?: ViewStyle;
-  adjustSizeAutomatically?: boolean;
+  isEmbeddedInScrollView?: boolean;
 }
 
 export function WidgetMomentsGridList(
   props: WidgetMomentsGridListProps,
 ): JSX.Element {
-  const { style, adjustSizeAutomatically } = props;
+  const { style, isEmbeddedInScrollView } = props;
   const presetGridLayout: PresetGridWidgetLayout = 'twoColumnsTheme';
   const momentsGridRef = useRef<BlazeMomentsGridView | null>(null);
 
@@ -58,7 +58,7 @@ export function WidgetMomentsGridList(
       <BlazeMomentsGridView
         style={style}
         ref={momentsGridRef}
-        adjustSizeAutomatically={adjustSizeAutomatically}
+        isEmbeddedInScrollView={isEmbeddedInScrollView}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}

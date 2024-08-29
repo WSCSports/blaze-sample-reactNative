@@ -14,7 +14,7 @@ export function StoriesFullScrollScreen(): JSX.Element {
 
         <WidgetStoriesGridList
           style={styles.grid_widget_container}
-          adjustSizeAutomatically={true}
+          isEmbeddedInScrollView={true}
         />
       </ScrollView>
     </ScreenContainer>

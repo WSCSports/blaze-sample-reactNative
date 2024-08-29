@@ -10,9 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@wscsports/blaze-rtn-sdk": "1.0.4",
-    "@wscsports/blaze-rtn-gam-ads": "1.0.4",
-    "@wscsports/blaze-rtn-ima-ads": "1.0.4",
+    "@wscsports/blaze-rtn-sdk": "1.0.5",
+    "@wscsports/blaze-rtn-gam-ads": "1.0.5",
+    "@wscsports/blaze-rtn-ima-ads": "1.0.5",
     
     "react-native": "0.73.4",
     "react": "18.2.0",

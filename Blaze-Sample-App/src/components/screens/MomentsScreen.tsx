@@ -18,7 +18,7 @@ export function MomentsScreen(): JSX.Element {
 
         <WidgetMomentsGridList
           style={styles.grid_widget_container}
-          adjustSizeAutomatically={true}
+          isEmbeddedInScrollView={true}
         />
       </ScrollView>
     </ScreenContainer>

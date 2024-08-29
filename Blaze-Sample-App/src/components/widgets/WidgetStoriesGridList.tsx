@@ -13,13 +13,13 @@ import { initialWidgetStyleOverrides } from '../../utils/widgetItemStyleOverride
 
 interface WidgetStoriesGridListProps {
   style?: ViewStyle;
-  adjustSizeAutomatically?: boolean;
+  isEmbeddedInScrollView?: boolean;
 }
 
 export function WidgetStoriesGridList(
   props: WidgetStoriesGridListProps,
 ): JSX.Element {
-  const {style, adjustSizeAutomatically} = props;
+  const {style, isEmbeddedInScrollView} = props;
   const presetGridLayout: PresetGridWidgetLayout = 'twoColumnsTheme';
   const storiesGridRef = useRef<BlazeStoriesGridView | null>(null);
 
@@ -51,7 +51,7 @@ export function WidgetStoriesGridList(
       <BlazeStoriesGridView
         style={style}
         ref={storiesGridRef}
-        adjustSizeAutomatically={adjustSizeAutomatically}
+        isEmbeddedInScrollView={isEmbeddedInScrollView}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('live-stories'),
         }}
