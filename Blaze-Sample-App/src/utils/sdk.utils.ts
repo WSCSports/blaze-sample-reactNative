@@ -209,11 +209,11 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
     onPlayerEventTriggered: (event: OnPlayerEventTriggeredEvent) => {
       switch (event.playerEvent.type) {
         case 'OnMomentStart': {
-        console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: MomentId ' + event.playerEvent.momentId);
+          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: MomentId ' + event.playerEvent.momentId);
           break
         }
         case 'OnStoryStart': {
-        console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: StoryId ' + event.playerEvent.storyId);
+          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: StoryId ' + event.playerEvent.storyId);
           break
         }
       }
@@ -253,11 +253,11 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
     const playerEvent = params.event
     switch (playerEvent.type) {
       case 'OnMomentStart': {
-      console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: MomentId ' + playerEvent.momentId);
+        console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: MomentId ' + playerEvent.momentId);
         break
       }
       case 'OnStoryStart': {
-      console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: StoryId ' + playerEvent.storyId);
+        console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: StoryId ' + playerEvent.storyId);
         break
       }
     }

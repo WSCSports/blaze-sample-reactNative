@@ -1,5 +1,5 @@
-import { 
-  BlazeWidgetLayout ,
+import {
+  BlazeWidgetLayout,
   BlazeWidgetItemCustomMapping,
   BlazeWidgetItemStyleOverrides
 } from '@wscsports/blaze-rtn-sdk';

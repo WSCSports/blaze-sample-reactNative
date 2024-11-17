@@ -10,25 +10,14 @@
 // see also this discussion:
 // https://github.com/brodybits/create-react-native-module/issues/232
 
-const path = require('path');
-const {getDefaultConfig} = require('@react-native/metro-config');
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
-module.exports = (async () => {
-  const defaultConfig = await getDefaultConfig(__dirname);
-  // workaround for an issue with symlinks encountered starting with
-  // metro@0.55 / React Native 0.61
-  // (not needed with React Native 0.60 / metro@0.54)
-  return {
-    ...defaultConfig,
+/**
+ * Metro configuration
+ * https://metrobundler.dev/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {};
 
-    resolver: {
-      extraNodeModules: new Proxy(
-        {},
-        {get: (_, name) => path.resolve('.', 'node_modules', name)},
-      ),
-    },
-
-    // quick workaround for another issue with symlinks
-    watchFolders: [path.resolve('.'), path.resolve('..')],
-  };
-})();
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
