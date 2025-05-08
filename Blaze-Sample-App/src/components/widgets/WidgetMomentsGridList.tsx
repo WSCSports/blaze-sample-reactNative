@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { JSX, useRef } from 'react';
 import { Button, ViewStyle } from 'react-native';
 import { momentPlayerGridStyle } from '../../utils/blazePlayersTheme.utils';
 import { initialWidgetStyleOverrides, updateWidgetStyleOverrides, widgetItemStyleOverrides } from '../../utils/widgetItemStyleOverrides.utils';
@@ -62,10 +62,10 @@ export function WidgetMomentsGridList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
-        presetWidgetLayout={presetGridLayout}        
+        presetWidgetLayout={presetGridLayout}
         // blazeWidgetLayout={widgetLayoutMomentsGrid} // Uncomment this if you want to customize the widget's appearence.
         // blazeMomentsPlayerStyle={momentPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
-        widgetDelegate={ createWidgetDelegate('Moments Grid') }
+        widgetDelegate={createWidgetDelegate('Moments Grid')}
         perItemStyleOverrides={initialWidgetStyleOverrides()}
       />
     </>

@@ -47,7 +47,6 @@ const StoriesFixedTab = () => (
     component={StoriesFixedHeightScreen}
     options={{
       title: 'Stories Sticky Row Widget',
-      tabBarLabel: 'Stories Fixed',
       tabBarIcon: ({ focused = false }) => (
         <TabItem
           text={'Stories'}
@@ -64,7 +63,6 @@ const StoriesFullTab = () => (
     name="Stories Full Scroll"
     component={StoriesFullScrollScreen}
     options={{
-      tabBarLabel: 'Stories Full',
       tabBarIcon: ({ focused = false }) => (
         <TabItem
           text={'Stories #2'}
@@ -115,7 +113,6 @@ const MomentsContainerTab = () => {
     name="Play"
     component={SdkActionsScreen} // Component is ignored since it's non-selectable
     options={{
-      headerShown: false,
       tabBarIcon: ({ focused = false }) => (
         <TabItem
           text={'Play'}
@@ -123,6 +120,7 @@ const MomentsContainerTab = () => {
           isFocused={isHighlighted}
         />
       ),
+
       tabBarButton: (props) => (
         <Pressable
           {...props} // Pass default props to maintain styling
@@ -165,6 +163,7 @@ const TabsNavigator = () => {
           tabBarStyle: styles.tabBar,
           tabBarItemStyle: styles.tabBarItem,
           tabBarShowLabel: false,
+          tabBarLabelPosition: 'below-icon'
         }}>
         {/* Extracted tab screens */}
         {StoriesFixedTab()}
@@ -184,12 +183,14 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     backgroundColor: '#fff',
-    height: 84,
+    height: 80,
+    paddingBottom: 0, // Remove padding from the bottom of the tab bar
     alignItems: 'center',
     alignSelf: 'center',
   },
   tabBarItem: {
-    height: 84,
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   textView: {
     marginTop: 8,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { ViewStyle } from 'react-native';
 import { widgetLayoutStoriesRow } from '../../utils/widgetLayout.utils';
 import { storyPlayerRowStyle } from '../../utils/blazePlayersTheme.utils';
@@ -16,7 +16,7 @@ export interface WidgetStoriesRowListProps {
 export function WidgetStoriesRowList(
   props: WidgetStoriesRowListProps,
 ): JSX.Element {
-  const {style} = props;
+  const { style } = props;
   const presetRowLayout: PresetRowWidgetLayout = 'widgetCircle';
 
   return (
@@ -32,7 +32,7 @@ export function WidgetStoriesRowList(
         presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutStoriesRow} // Uncomment this if you want to customize the widget's appearence.        
         // blazeStoryPlayerStyle={storyPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
-        widgetDelegate={ createWidgetDelegate('Stories Row') }
+        widgetDelegate={createWidgetDelegate('Stories Row')}
       />
     </>
   );

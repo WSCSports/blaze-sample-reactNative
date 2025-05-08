@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { JSX, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -58,7 +58,7 @@ export function SdkActionsScreen(): JSX.Element {
             <ActionButton
               title="Play"
               onPress={() =>
-                playStories({labels: BlazeWidgetLabel.singleLabel('<STORIES_LABEL>')})
+                playStories({ labels: BlazeWidgetLabel.singleLabel('<STORIES_LABEL>') })
               }
             />
           </View>
@@ -68,7 +68,7 @@ export function SdkActionsScreen(): JSX.Element {
             <ActionButton
               title="Prepare"
               onPress={() =>
-                prepareStories({labels: BlazeWidgetLabel.singleLabel('<STORIES_LABEL>')})
+                prepareStories({ labels: BlazeWidgetLabel.singleLabel('<STORIES_LABEL>') })
               }
             />
           </View>
@@ -86,7 +86,9 @@ export function SdkActionsScreen(): JSX.Element {
             <ActionButton
               title="Play"
               onPress={() =>
-                playMoments({labels: BlazeWidgetLabel.singleLabel('<MOMENTS_LABEL>')})
+                playMoments(
+                  { labels: BlazeWidgetLabel.singleLabel('<MOMENTS_LABEL>') }
+                )
               }
             />
           </View>
@@ -96,7 +98,7 @@ export function SdkActionsScreen(): JSX.Element {
             <ActionButton
               title="Prepare"
               onPress={() =>
-                prepareMoments({labels: BlazeWidgetLabel.singleLabel('<MOMENTS_LABEL>')})
+                prepareMoments({ labels: BlazeWidgetLabel.singleLabel('<MOMENTS_LABEL>') })
               }
             />
           </View>
@@ -196,7 +198,7 @@ export function SdkActionsScreen(): JSX.Element {
         </View>
       </View>
     </ScrollView>
-    
+
   );
 }
 
@@ -215,7 +217,7 @@ interface HRProps {
 }
 
 function HR(props: HRProps) {
-  const {title} = props;
+  const { title } = props;
   return (
     <View style={styles.hrView}>
       <View style={styles.hrAround} />
@@ -230,7 +232,7 @@ function HR(props: HRProps) {
 }
 
 export function ActionButton(props: ActionButtonProps) {
-  const {title, onPress} = props;
+  const { title, onPress } = props;
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
@@ -240,7 +242,7 @@ export function ActionButton(props: ActionButtonProps) {
 }
 
 function ActionSection(props: ActionSectionProps): JSX.Element {
-  const {title, children} = props;
+  const { title, children } = props;
 
   return (
     <View style={styles.actionSectionView}>
@@ -311,5 +313,5 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 36,
   },
-  inputWrapper: {flexDirection: 'row'},
+  inputWrapper: { flexDirection: 'row' },
 });

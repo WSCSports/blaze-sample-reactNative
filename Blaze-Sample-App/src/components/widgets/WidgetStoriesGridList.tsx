@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { JSX, useRef } from 'react';
 import { Button, ViewStyle } from 'react-native';
 import { storyPlayerGridStyle } from '../../utils/blazePlayersTheme.utils';
 import { widgetLayoutStoriesGrid } from '../../utils/widgetLayout.utils';
-import { 
+import {
   BlazeStoriesGridView,
   BlazeWidgetLabel,
   PresetGridWidgetLayout,
@@ -19,7 +19,7 @@ interface WidgetStoriesGridListProps {
 export function WidgetStoriesGridList(
   props: WidgetStoriesGridListProps,
 ): JSX.Element {
-  const {style, isEmbeddedInScrollView} = props;
+  const { style, isEmbeddedInScrollView } = props;
   const presetGridLayout: PresetGridWidgetLayout = 'twoColumnsTheme';
   const storiesGridRef = useRef<BlazeStoriesGridView | null>(null);
 
@@ -55,10 +55,10 @@ export function WidgetStoriesGridList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('live-stories'),
         }}
-        presetWidgetLayout={presetGridLayout}        
+        presetWidgetLayout={presetGridLayout}
         // blazeWidgetLayout={widgetLayoutStoriesGrid} // Uncomment this if you want to customize the widget's appearence.
         // blazeStoryPlayerStyle={storyPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
-        widgetDelegate={ createWidgetDelegate('Stories Grid') }
+        widgetDelegate={createWidgetDelegate('Stories Grid')}
         perItemStyleOverrides={initialWidgetStyleOverrides()}
       />
     </>

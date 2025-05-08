@@ -1,7 +1,7 @@
-import React from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {WidgetStoriesGridList, WidgetStoriesRowList} from '../widgets';
-import {ScreenContainer} from './ScreenContainer';
+import React, { JSX } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { WidgetStoriesGridList, WidgetStoriesRowList } from '../widgets';
+import { ScreenContainer } from './ScreenContainer';
 
 export function StoriesFixedHeightScreen(): JSX.Element {
   return (

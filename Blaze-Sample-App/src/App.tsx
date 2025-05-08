@@ -1,11 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import BlazeSDK from '@wscsports/blaze-rtn-sdk';
 import BlazeGAM from '@wscsports/blaze-rtn-gam-ads';
-import React, { useEffect, useState } from 'react';
+import React, { JSX, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Button,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   View,
@@ -18,13 +17,14 @@ import {
   momentPlayerRowStyle,
   storyPlayerRowStyle
 } from './utils/blazePlayersTheme.utils';
-import { 
-  entryPointDelegate, 
-  globalDelegate, 
-  googleCustomNativeAdsDelegate, 
+import {
+  entryPointDelegate,
+  globalDelegate,
+  googleCustomNativeAdsDelegate,
   imaAdsDelegate
 } from './utils';
 import BlazeIMA from '@wscsports/blaze-rtn-ima-ads';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const blazeSdkInitOptions: InitOptions = {
   apiKey: '<API_KEY>',
@@ -107,20 +107,40 @@ function App(): JSX.Element {
     }
   };
 
+  function MainContent() {
+    const insets = useSafeAreaInsets();
+
+    return (
+      <View style={{
+        flex: 1,
+        paddingEnd: insets.right,
+        paddingLeft: insets.left,
+        paddingBottom: insets.bottom,
+        backgroundColor: '#fff'
+      }}>
+        <StatusBar barStyle='dark-content' />
+        <NavigationContainer>
+          <View style={styles.view}>
+            {contentView()}
+          </View>
+        </NavigationContainer>
+      </View >
+    );
+  }
+
   return (
-    <SafeAreaView>
-      <StatusBar />
-      <NavigationContainer>
-        <View style={styles.view}>
-          {contentView()}
-        </View>
-      </NavigationContainer>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <MainContent />
+    </SafeAreaProvider>
   );
+
 }
 
 export default App;
 const styles = StyleSheet.create({
+  safeAreaContainer: {
+    flex: 1,
+  },
   view: {
     height: '100%',
   },

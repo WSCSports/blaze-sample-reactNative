@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { ViewStyle } from 'react-native';
 import { momentPlayerRowStyle } from '../../utils/blazePlayersTheme.utils';
 import { widgetLayoutMomentsRow } from '../../utils/widgetLayout.utils';
@@ -16,7 +16,7 @@ export interface WidgetMomentsRowListProps {
 export function WidgetMomentsRowList(
   props: WidgetMomentsRowListProps,
 ): JSX.Element {
-  const {style} = props;
+  const { style } = props;
   const presetRowLayout: PresetRowWidgetLayout = 'widgetCircle';
 
   return (
@@ -26,10 +26,10 @@ export function WidgetMomentsRowList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
-        presetWidgetLayout={presetRowLayout}        
+        presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutMomentsRow} // Uncomment this if you want to customize the widget's appearence.
         // blazeMomentsPlayerStyle={momentPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
-        widgetDelegate={ createWidgetDelegate('Moments Row') }
+        widgetDelegate={createWidgetDelegate('Moments Row')}
       />
     </>
   );

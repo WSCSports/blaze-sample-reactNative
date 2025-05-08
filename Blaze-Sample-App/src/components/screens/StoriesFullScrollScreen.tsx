@@ -1,7 +1,7 @@
-import React from 'react';
-import {Dimensions, ScrollView, StyleSheet} from 'react-native';
-import {WidgetStoriesGridList, WidgetStoriesRowList} from '../widgets';
-import {ScreenContainer} from './ScreenContainer';
+import React, { JSX } from 'react';
+import { Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { WidgetStoriesGridList, WidgetStoriesRowList } from '../widgets';
+import { ScreenContainer } from './ScreenContainer';
 
 export function StoriesFullScrollScreen(): JSX.Element {
   return (

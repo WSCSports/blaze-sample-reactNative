@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import {
   Dimensions,
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import {WidgetMomentsGridList, WidgetMomentsRowList} from '../widgets';
-import {ScreenContainer} from './ScreenContainer';
+import { WidgetMomentsGridList, WidgetMomentsRowList } from '../widgets';
+import { ScreenContainer } from './ScreenContainer';
 
 export function MomentsScreen(): JSX.Element {
   return (

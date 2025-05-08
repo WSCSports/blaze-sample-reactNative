@@ -1,5 +1,5 @@
-import React, {forwardRef} from 'react';
-import {LayoutChangeEvent, StyleSheet, View} from 'react-native';
+import React, { forwardRef, JSX } from 'react';
+import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 
 export interface ScreenContainerProps {
   children: JSX.Element | JSX.Element[];
@@ -8,7 +8,7 @@ export interface ScreenContainerProps {
 
 export const ScreenContainer = forwardRef<View, ScreenContainerProps>(
   (props, ref) => {
-    const {children, onLayout} = props;
+    const { children, onLayout } = props;
 
     function onLayoutChange(e: LayoutChangeEvent) {
       onLayout?.(e);
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     paddingHorizontal: 15,
-    paddingBottom:0,
+    paddingBottom: 0,
     backgroundColor: '#fff',
   },
 });
