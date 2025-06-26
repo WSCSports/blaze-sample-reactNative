@@ -1,6 +1,9 @@
 source 'https://github.com/WSCSports/blaze-specs-ios.git'
 source 'https://cdn.cocoapods.org/'
 
+# Turn on / off New Architecture.
+ENV['RCT_NEW_ARCH_ENABLED'] = '1'
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -8,7 +11,7 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, '15.1'
+platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']
@@ -17,7 +20,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'WSC RTN Demo Internal' do
+target 'BlazeReactNativeExampleApp' do
   config = use_native_modules!
 
   use_react_native!(

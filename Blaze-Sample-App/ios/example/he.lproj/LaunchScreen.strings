@@ -1,6 +1,6 @@
 
-/* Class = "UILabel"; text = "WSC RTN Demo Internal"; ObjectID = "GJd-Yh-RWb"; */
-"GJd-Yh-RWb.text" = "WSC RTN Demo Internal";
+/* Class = "UILabel"; text = "Blaze ReactNative Example App"; ObjectID = "GJd-Yh-RWb"; */
+"GJd-Yh-RWb.text" = "Blaze ReactNative Example App";
 
-/* Class = "UILabel"; text = "Powered by React Native"; ObjectID = "MN2-I3-ftu"; */
-"MN2-I3-ftu.text" = "Powered by React Native";
+/* Class = "UILabel"; text = "Powered by WSC Sports"; ObjectID = "MN2-I3-ftu"; */
+"MN2-I3-ftu.text" = "Powered by WSC Sports";

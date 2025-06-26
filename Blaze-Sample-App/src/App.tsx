@@ -15,7 +15,8 @@ import {
 } from '@wscsports/blaze-rtn-sdk';
 import {
   momentPlayerRowStyle,
-  storyPlayerRowStyle
+  storyPlayerRowStyle,
+  videosPlayerStyle
 } from './utils/blazePlayersTheme.utils';
 import {
   entryPointDelegate,
@@ -32,6 +33,7 @@ const blazeSdkInitOptions: InitOptions = {
   cachingLevel: 'DEFAULT',
   // defaultStoryPlayerStyle: storyPlayerRowStyle, // Uncomment this if you want to customize the player's appearence.
   // defaultMomentsPlayerStyle: momentPlayerRowStyle, // Uncomment this if you want to customize the player's appearence.
+  // defaultVideosPlayerStyle: videosPlayerStyle, // Uncomment this if you want to customize the player's appearence.
   globalDelegate: globalDelegate,
   playerEntryPointDelegate: entryPointDelegate
 };

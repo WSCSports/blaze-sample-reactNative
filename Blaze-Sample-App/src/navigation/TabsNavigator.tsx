@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { JSX, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet, ViewStyle, Text, TouchableOpacity, Alert, Pressable } from 'react-native';
-import { StoriesFixedHeightScreen } from '../components/screens/StoriesFixedHeightScreen';
+
 import {
-  StoriesFullScrollScreen,
+  View,
+  StyleSheet,
+  ViewStyle,
+  Text,
+  Alert,
+  Pressable
+} from 'react-native';
+
+import {
+  HomeScreen,
   MomentsScreen,
+  StoriesScreen,
   SdkActionsScreen,
 } from '../components/screens';
+
 import HomeIcon from '../assets/tabsIcons/HomeIcon';
 import CupIcon from '../assets/tabsIcons/CupIcon';
 import CameraIcon from '../assets/tabsIcons/CameraIcon';
@@ -41,16 +51,15 @@ const TabItem = ({ text, icon, isFocused, style }: TabItemProps) => {
   );
 };
 
-const StoriesFixedTab = () => (
+const HomeTab = () => (
   <Tab.Screen
-    name="Stories Fixed"
-    component={StoriesFixedHeightScreen}
+    name="Home"
+    component={HomeScreen}
     options={{
-      title: 'Stories Sticky Row Widget',
       tabBarIcon: ({ focused = false }) => (
         <TabItem
-          text={'Stories'}
-          icon={<HomeIcon isFocused={focused} />}
+          text={'Home'}
+          icon={<CupIcon isFocused={focused} />}
           isFocused={focused}
         />
       ),
@@ -58,15 +67,16 @@ const StoriesFixedTab = () => (
   />
 );
 
-const StoriesFullTab = () => (
+const StoriesFixedTab = () => (
   <Tab.Screen
-    name="Stories Full Scroll"
-    component={StoriesFullScrollScreen}
+    name="Stories"
+    component={StoriesScreen}
     options={{
+      title: 'Stories',
       tabBarIcon: ({ focused = false }) => (
         <TabItem
-          text={'Stories #2'}
-          icon={<CupIcon isFocused={focused} />}
+          text={'Stories'}
+          icon={<HomeIcon isFocused={focused} />}
           isFocused={focused}
         />
       ),
@@ -155,7 +165,6 @@ const TabsNavigator = () => {
   return (
     <View style={styles.view}>
       <Tab.Navigator
-        // need for reload data in android
         detachInactiveScreens={false}
         screenOptions={{
           tabBarActiveTintColor: 'blue',
@@ -166,8 +175,8 @@ const TabsNavigator = () => {
           tabBarLabelPosition: 'below-icon'
         }}>
         {/* Extracted tab screens */}
+        {HomeTab()}
         {StoriesFixedTab()}
-        {StoriesFullTab()}
         {MomentsContainerTab()}
         {MomentsTab()}
         {SdkActionsTab()}
@@ -179,7 +188,7 @@ const TabsNavigator = () => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   tabBar: {
     backgroundColor: '#fff',

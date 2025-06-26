@@ -15,7 +15,7 @@ import BlazeSDK, {
 
 import { MutableRefObject } from 'react';
 import { Alert } from 'react-native';
-import { momentPlayerGridStyle, storyPlayerGridStyle } from './blazePlayersTheme.utils';
+import { momentPlayerGridStyle, storyPlayerGridStyle, videosPlayerStyle } from './blazePlayersTheme.utils';
 
 import { BlazeGAMDelegate } from '@wscsports/blaze-rtn-gam-ads';
 import { BlazeIMADelegate } from '@wscsports/blaze-rtn-ima-ads';
@@ -173,6 +173,47 @@ export const prepareMoments = (
   });
 };
 
+export const playVideos = (
+  dataSource: BlazeDataSourceType,
+) => {
+  BlazeSDK.playVideos({
+    dataSource: dataSource,
+    // playerStyle: videosPlayerStyle, // Uncomment this if you want to customize the player's appearence.
+  }).then(() => {
+    console.log('playVideos success');
+  }).catch(error => {
+    showAlerts && Alert.alert(`Error playing videos: ${error}`)
+    console.error('Error playing videos:', error);
+  });
+};
+
+export const playVideo = (
+  videoId: string
+) => {
+  BlazeSDK.playVideo({
+    videoId,
+    // playerStyle: videosPlayerStyle // Uncomment this if you want to customize the player's appearence.
+  }).then(() => {
+    console.log('playVideo success');
+  }).catch(error => {
+    showAlerts && Alert.alert(`${error}`)
+    console.error('Error playing video:', error);
+  });
+};
+
+export const prepareVideos = (
+  dataSource: BlazeDataSourceType,
+) => {
+  BlazeSDK.prepareVideos({
+    dataSource: dataSource
+  }).then(() => {
+    console.log('prepareVideos success');
+  }).catch(error => {
+    showAlerts && Alert.alert(`Error prepareVideos: ${error}`)
+    console.error('Error prepareVideos:', error);
+  });
+};
+
 export const updateDataSourceHandler = (
   ref: MutableRefObject<any> | null,
   newDataSource: BlazeDataSourceType,
@@ -214,6 +255,10 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
         }
         case 'OnStoryStart': {
           console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: StoryId ' + event.playerEvent.storyId);
+          break
+        }
+        case 'OnVideoStart': {
+          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: StoryId ' + event.playerEvent.videoId);
           break
         }
       }
@@ -260,6 +305,10 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
         console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: StoryId ' + playerEvent.storyId);
         break
       }
+      case 'OnVideoStart': {
+        console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: StoryId ' + playerEvent.videoId);
+        break
+      }
     }
   }),
 }
@@ -271,6 +320,28 @@ export const googleCustomNativeAdsDelegate: BlazeGAMDelegate = {
   onGAMAdError: (errorMessage => {
     console.log('BlazeGAMDelegate - onGAMAdError - errorMessage: ' + errorMessage);
   }),
+  customGAMTargetingProperties: (params) => {
+    console.log('BlazeGAMDelegate - customGAMTargetingProperties - params: ' + JSON.stringify(params));
+    // return {
+    //   'test_1': 'custom_targeting_value 1',
+    //   'test_2': 'custom_targeting_value 2'
+    // };
+    return {}
+  },
+  publisherProvidedId: (params) => {
+    console.log('BlazeGAMDelegate - publisherProvidedId - params: ' + JSON.stringify(params));
+    // return 'test_publisherProvidedId';
+    return undefined;
+  },
+  networkExtras: (params) => {
+    console.log('BlazeGAMDelegate - networkExtras - params: ' + JSON.stringify(params));
+    // return {
+    //   'test_string': 'custom_targeting_value 1',
+    //   'test_double': 5.5,
+    //   'test_bool': true
+    // };
+    return {}
+  }
 }
 
 export const imaAdsDelegate: BlazeIMADelegate = {
@@ -280,4 +351,26 @@ export const imaAdsDelegate: BlazeIMADelegate = {
   onIMAAdError: (errorMessage => {
     console.log('BlazeIMADelegate - onIMAAdError - errorMessage: ' + errorMessage);
   }),
+  additionalIMATagQueryParams: (params) => {
+    console.log('BlazeIMADelegate - additionalIMATagQueryParams - params: ' + JSON.stringify(params));
+    // return {
+    //   'test_1': 'param 1',
+    //   'test_2': 'param 2'
+    // };
+    return {}
+  },
+  customIMASettings: (params) => {
+    console.log('BlazeIMADelegate - customIMASettings - params: ' + JSON.stringify(params));
+    // return {
+    //   ppid: 'test_ppid',
+    //   language: 'es',
+    //   sessionId: 'test_session_id',
+    // };
+    return {}
+  },
+  overrideAdTagUrl: (params) => {
+    console.log('BlazeIMADelegate - overrideAdTagUrl - params: ' + JSON.stringify(params));
+    // return 'https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=';
+    return undefined
+  }
 }

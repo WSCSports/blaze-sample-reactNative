@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift.h
-//  WSC RTN Demo Internal
+//  BlazeReactNativeExampleApp
 //
 //  Created by Reuven Levitsky on 29/04/2025.
 //

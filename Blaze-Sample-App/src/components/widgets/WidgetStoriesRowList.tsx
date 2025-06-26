@@ -5,7 +5,7 @@ import { storyPlayerRowStyle } from '../../utils/blazePlayersTheme.utils';
 import {
   BlazeStoriesRowView,
   BlazeWidgetLabel,
-  PresetRowWidgetLayout,
+  BlazeWidgetLayoutPreset,
 } from '@wscsports/blaze-rtn-sdk';
 import { createWidgetDelegate } from '../../utils';
 
@@ -17,7 +17,7 @@ export function WidgetStoriesRowList(
   props: WidgetStoriesRowListProps,
 ): JSX.Element {
   const { style } = props;
-  const presetRowLayout: PresetRowWidgetLayout = 'widgetCircle';
+  const presetRowLayout: BlazeWidgetLayoutPreset = 'StoriesWidget.Row.circles';
 
   return (
     <>
@@ -30,8 +30,8 @@ export function WidgetStoriesRowList(
           labelsPriority: [BlazeWidgetLabel.singleLabel('live-stories')],
         }}
         presetWidgetLayout={presetRowLayout}
-        // blazeWidgetLayout={widgetLayoutStoriesRow} // Uncomment this if you want to customize the widget's appearence.        
-        // blazeStoryPlayerStyle={storyPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
+        // blazeWidgetLayout={widgetLayoutStoriesRow} // Uncomment this if you want to customize the widget's appearence.
+        // playerStyle={storyPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={createWidgetDelegate('Stories Row')}
       />
     </>

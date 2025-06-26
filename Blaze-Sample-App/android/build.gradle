@@ -6,7 +6,7 @@ ext {
     compileSdkVersion = 35
     targetSdkVersion = 35
     ndkVersion = '27.1.12297006'
-    kotlinVersion = '2.0.21'
+    kotlinVersion = "2.1.20"
 }
 
 buildscript {
@@ -39,6 +39,7 @@ buildscript {
                     password = "$gprKey" ?: System.getenv("GPR_API_KEY")
                 }
             }
+
         }
     }
 }

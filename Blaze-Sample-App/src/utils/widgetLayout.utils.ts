@@ -260,3 +260,7 @@ export const widgetLayoutMomentsRow: BlazeWidgetLayout = {
     },
   },
 };
+
+export const widgetLayoutVideosRow: BlazeWidgetLayout = {
+
+};

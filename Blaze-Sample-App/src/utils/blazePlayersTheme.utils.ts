@@ -1,6 +1,7 @@
 import {
   BlazeMomentsPlayerStyle,
   BlazeStoryPlayerStyle,
+  BlazeVideosPlayerStyle,
 } from '@wscsports/blaze-rtn-sdk';
 
 // Disclaimer - the props from the color type expect to receive the hex value in RGBA format
@@ -44,7 +45,7 @@ export const momentPlayerRowStyle: BlazeMomentsPlayerStyle = {
 export const momentPlayerGridStyle: BlazeMomentsPlayerStyle = {
   playerDisplayMode: 'FixedRatio_9_16',
   headingText: {
-    textColor: '#ffffff', 
+    textColor: '#ffffff',
   },
   buttons: {
     mute: {
@@ -83,7 +84,7 @@ export const momentPlayerGridStyle: BlazeMomentsPlayerStyle = {
       },
     },
   },
-  cta: {cornerRadius: 16},
+  cta: { cornerRadius: 16 },
   headerGradient: {
     isVisible: false,
     startColor: '#660022ff',
@@ -187,7 +188,7 @@ export const storyPlayerGridStyle: BlazeStoryPlayerStyle = {
     },
   },
   firstTimeSlide: {
-    backgroundColor: {colorFileName: 'first_time_color_stories', colorName: '#E74C3C'},
+    backgroundColor: { colorFileName: 'first_time_color_stories', colorName: '#E74C3C' },
     show: true,
     mainTitle: {
       font: {
@@ -248,4 +249,8 @@ export const storyPlayerRowStyle: BlazeStoryPlayerStyle = {
       scaleType: 'FIT_XY',
     },
   },
+};
+
+export const videosPlayerStyle: BlazeVideosPlayerStyle = {
+    
 };

@@ -6,20 +6,23 @@ import { createWidgetDelegate, updateDataSourceHandler } from '../../utils/sdk.u
 import {
   BlazeMomentsGridView,
   BlazeWidgetLabel,
-  PresetGridWidgetLayout,
+  BlazeWidgetLayoutPreset,
 } from '@wscsports/blaze-rtn-sdk';
 import { widgetLayoutMomentsGrid } from '../../utils/widgetLayout.utils';
 
 export interface WidgetMomentsGridListProps {
   style?: ViewStyle;
   isEmbeddedInScrollView?: boolean;
+  shouldShowActionButtons?: boolean;
+  shouldLimitItemCount?: boolean;
 }
 
 export function WidgetMomentsGridList(
   props: WidgetMomentsGridListProps,
 ): JSX.Element {
-  const { style, isEmbeddedInScrollView } = props;
-  const presetGridLayout: PresetGridWidgetLayout = 'twoColumnsTheme';
+  const { style, isEmbeddedInScrollView, shouldShowActionButtons = false, shouldLimitItemCount = false } = props;
+  const presetGridLayout: BlazeWidgetLayoutPreset = 'MomentsWidget.Grid.twoColumnsVerticalRectangles';
+
   const momentsGridRef = useRef<BlazeMomentsGridView | null>(null);
 
   const handleReloadData = () => {
@@ -51,20 +54,25 @@ export function WidgetMomentsGridList(
 
   return (
     <>
-      <Button title="Reload Data" onPress={handleReloadData} />
-      <Button title="Update Data Source" onPress={handleUpdateDataSource} />
-      <Button title="Update Style Overrides" onPress={handleUpdateStyleOverrides} />
-      <Button title="Update Widget Ui" onPress={handleUpdateWidgetsUi} />
+      {shouldShowActionButtons && (
+        <>
+          <Button title="Reload Data" onPress={handleReloadData} />
+          <Button title="Update Data Source" onPress={handleUpdateDataSource} />
+          <Button title="Update Style Overrides" onPress={handleUpdateStyleOverrides} />
+          <Button title="Update Widget Ui" onPress={handleUpdateWidgetsUi} />
+        </>
+      )}
       <BlazeMomentsGridView
         style={style}
         ref={momentsGridRef}
         isEmbeddedInScrollView={isEmbeddedInScrollView}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
+          maxItems: shouldLimitItemCount == true ? 4 : undefined
         }}
         presetWidgetLayout={presetGridLayout}
         // blazeWidgetLayout={widgetLayoutMomentsGrid} // Uncomment this if you want to customize the widget's appearence.
-        // blazeMomentsPlayerStyle={momentPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
+        // playerStyle={momentPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={createWidgetDelegate('Moments Grid')}
         perItemStyleOverrides={initialWidgetStyleOverrides()}
       />

@@ -5,19 +5,20 @@ import { widgetLayoutMomentsRow } from '../../utils/widgetLayout.utils';
 import {
   BlazeMomentsRowView,
   BlazeWidgetLabel,
-  PresetRowWidgetLayout,
+  BlazeWidgetLayoutPreset,
 } from '@wscsports/blaze-rtn-sdk';
 import { createWidgetDelegate } from '../../utils';
 
 export interface WidgetMomentsRowListProps {
   style?: ViewStyle;
+  overridePreset?: BlazeWidgetLayoutPreset
 }
 
 export function WidgetMomentsRowList(
   props: WidgetMomentsRowListProps,
 ): JSX.Element {
-  const { style } = props;
-  const presetRowLayout: PresetRowWidgetLayout = 'widgetCircle';
+  const { style, overridePreset } = props;
+  const presetRowLayout: BlazeWidgetLayoutPreset = 'MomentsWidget.Row.verticalRectangles';
 
   return (
     <>
@@ -26,9 +27,9 @@ export function WidgetMomentsRowList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
-        presetWidgetLayout={presetRowLayout}
+        presetWidgetLayout={overridePreset ?? presetRowLayout}
         // blazeWidgetLayout={widgetLayoutMomentsRow} // Uncomment this if you want to customize the widget's appearence.
-        // blazeMomentsPlayerStyle={momentPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
+        // playerStyle={momentPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={createWidgetDelegate('Moments Row')}
       />
     </>

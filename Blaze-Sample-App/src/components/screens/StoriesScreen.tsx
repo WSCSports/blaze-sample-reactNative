@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { WidgetStoriesGridList, WidgetStoriesRowList } from '../widgets';
 import { ScreenContainer } from './ScreenContainer';
 
-export function StoriesFixedHeightScreen(): JSX.Element {
+export function StoriesScreen(): JSX.Element {
   return (
     <ScreenContainer>
       <ScrollView

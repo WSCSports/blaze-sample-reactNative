@@ -15,8 +15,11 @@ import {
   playMoments,
   playStories,
   playStory,
+  playVideo,
+  playVideos,
   prepareMoments,
   prepareStories,
+  prepareVideos,
   setDoNotTrack,
   setExternalUserId,
   setShowAlerts,
@@ -58,7 +61,7 @@ export function SdkActionsScreen(): JSX.Element {
             <ActionButton
               title="Play"
               onPress={() =>
-                playStories({ labels: BlazeWidgetLabel.singleLabel('<STORIES_LABEL>') })
+                playStories({ labels: BlazeWidgetLabel.singleLabel('live-stories') })
               }
             />
           </View>
@@ -68,7 +71,7 @@ export function SdkActionsScreen(): JSX.Element {
             <ActionButton
               title="Prepare"
               onPress={() =>
-                prepareStories({ labels: BlazeWidgetLabel.singleLabel('<STORIES_LABEL>') })
+                prepareStories({ labels: BlazeWidgetLabel.singleLabel('live-stories') })
               }
             />
           </View>
@@ -87,7 +90,7 @@ export function SdkActionsScreen(): JSX.Element {
               title="Play"
               onPress={() =>
                 playMoments(
-                  { labels: BlazeWidgetLabel.singleLabel('<MOMENTS_LABEL>') }
+                  { labels: BlazeWidgetLabel.singleLabel('moments') }
                 )
               }
             />
@@ -98,7 +101,37 @@ export function SdkActionsScreen(): JSX.Element {
             <ActionButton
               title="Prepare"
               onPress={() =>
-                prepareMoments({ labels: BlazeWidgetLabel.singleLabel('<MOMENTS_LABEL>') })
+                prepareMoments({ labels: BlazeWidgetLabel.singleLabel('moments') })
+              }
+            />
+          </View>
+        </ActionSection>
+        <ActionSection title="Play Video">
+          <View>
+            <ActionButton
+              title="Play"
+              onPress={() => playVideo('<VIDEO_ID>')}
+            />
+          </View>
+        </ActionSection>
+        <ActionSection title="Play Videos">
+          <View>
+            <ActionButton
+              title="Play"
+              onPress={() =>
+                playVideos(
+                  { labels: BlazeWidgetLabel.singleLabel('videos') }
+                )
+              }
+            />
+          </View>
+        </ActionSection>
+        <ActionSection title="Prepare Videos">
+          <View>
+            <ActionButton
+              title="Prepare"
+              onPress={() =>
+                prepareVideos({ labels: BlazeWidgetLabel.singleLabel('videos') })
               }
             />
           </View>

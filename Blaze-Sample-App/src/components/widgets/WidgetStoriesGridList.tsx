@@ -5,22 +5,23 @@ import { widgetLayoutStoriesGrid } from '../../utils/widgetLayout.utils';
 import {
   BlazeStoriesGridView,
   BlazeWidgetLabel,
-  PresetGridWidgetLayout,
+  BlazeWidgetLayoutPreset,
 } from '@wscsports/blaze-rtn-sdk';
 import { createWidgetDelegate, updateDataSourceHandler } from '../../utils';
-import { BlazeWidgetLayout } from '@wscsports/blaze-rtn-sdk';
 import { initialWidgetStyleOverrides } from '../../utils/widgetItemStyleOverrides.utils';
 
 interface WidgetStoriesGridListProps {
   style?: ViewStyle;
   isEmbeddedInScrollView?: boolean;
+  shouldShowActionButtons?: boolean;
+  shouldLimitItemCount?: boolean;
 }
 
 export function WidgetStoriesGridList(
   props: WidgetStoriesGridListProps,
 ): JSX.Element {
-  const { style, isEmbeddedInScrollView } = props;
-  const presetGridLayout: PresetGridWidgetLayout = 'twoColumnsTheme';
+  const { style, isEmbeddedInScrollView, shouldShowActionButtons = false, shouldLimitItemCount = false } = props;
+  const presetGridLayout: BlazeWidgetLayoutPreset = 'StoriesWidget.Grid.twoColumnsVerticalRectangles';
   const storiesGridRef = useRef<BlazeStoriesGridView | null>(null);
 
   const handleReloadData = () => {
@@ -45,19 +46,24 @@ export function WidgetStoriesGridList(
 
   return (
     <>
-      <Button title="Reload Data" onPress={handleReloadData} />
-      <Button title="Play Widget" onPress={handlePlayWidget} />
-      <Button title="Update Data Source" onPress={handleUpdateDataSource} />
+      {shouldShowActionButtons && (
+        <>
+          <Button title="Reload Data" onPress={handleReloadData} />
+          <Button title="Play Widget" onPress={handlePlayWidget} />
+          <Button title="Update Data Source" onPress={handleUpdateDataSource} />
+        </>
+      )}
       <BlazeStoriesGridView
         style={style}
         ref={storiesGridRef}
         isEmbeddedInScrollView={isEmbeddedInScrollView}
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('live-stories'),
+          maxItems: shouldLimitItemCount == true ? 4 : undefined
         }}
         presetWidgetLayout={presetGridLayout}
         // blazeWidgetLayout={widgetLayoutStoriesGrid} // Uncomment this if you want to customize the widget's appearence.
-        // blazeStoryPlayerStyle={storyPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
+        // playerStyle={storyPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
         widgetDelegate={createWidgetDelegate('Stories Grid')}
         perItemStyleOverrides={initialWidgetStyleOverrides()}
       />

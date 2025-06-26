@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { WidgetMomentsGridList, WidgetMomentsRowList } from '../widgets';
 import { ScreenContainer } from './ScreenContainer';
+import { SectionHeader } from '../shared';
 
 export function MomentsScreen(): JSX.Element {
   return (
@@ -14,11 +15,21 @@ export function MomentsScreen(): JSX.Element {
         contentContainerStyle={styles.content_container}
         contentInsetAdjustmentBehavior="automatic"
         style={styles.container}>
+
+        {/* Moments Row */}
+        <SectionHeader
+          title="Moments Row"
+        />
         <WidgetMomentsRowList style={styles.row_widget_container} />
 
+        {/* Moments Grid */}
+        <SectionHeader
+          title="Moments Grid"
+        />
         <WidgetMomentsGridList
           style={styles.grid_widget_container}
           isEmbeddedInScrollView={true}
+          shouldShowActionButtons={true}
         />
       </ScrollView>
     </ScreenContainer>
