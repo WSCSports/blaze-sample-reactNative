@@ -8,7 +8,7 @@ import { WidgetMomentsGridList, WidgetMomentsRowList } from '../widgets';
 import { ScreenContainer } from './ScreenContainer';
 import { SectionHeader } from '../shared';
 
-export function MomentsScreen(): JSX.Element {
+export const MomentsScreen = React.memo((): JSX.Element => {
   return (
     <ScreenContainer>
       <ScrollView
@@ -34,7 +34,7 @@ export function MomentsScreen(): JSX.Element {
       </ScrollView>
     </ScreenContainer>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

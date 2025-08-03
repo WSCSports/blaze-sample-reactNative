@@ -21,6 +21,7 @@ import {
 import {
   entryPointDelegate,
   globalDelegate,
+  googleBannerAdsDelegate,
   googleCustomNativeAdsDelegate,
   imaAdsDelegate
 } from './utils';
@@ -57,7 +58,7 @@ function App(): JSX.Element {
         await BlazeSDK.init(blazeSdkInitOptions);
       }
 
-      // GAM Setup (If you want to support Google's CustomNativeAds)
+      // GAM Custom Native Ads Setup (If you want to support Google's CustomNative ads)
       BlazeGAM.enableCustomNativeAds({
         defaultAdConfig: {
             adUnit: "[Your default ad unit id]",
@@ -66,6 +67,12 @@ function App(): JSX.Element {
         delegate: googleCustomNativeAdsDelegate
       })
 
+      // GAM Banner Ads Setup (If you want to support Google's Banner ads)
+      BlazeGAM.enableBannerAds({
+        delegate: googleBannerAdsDelegate
+      })
+
+      // IMA Ads Setup (If you want to support Google's IMA ads)
       BlazeIMA.enableAds({
         delegate: imaAdsDelegate
       })
@@ -73,7 +80,7 @@ function App(): JSX.Element {
       setLoadingState(LoadingState.LOADED)
 
     } catch (e) {
-      console.log('Init error', e);
+      console.log(`Init error: ${e}`);
       setLoadingState(LoadingState.ERROR)
     }
   };

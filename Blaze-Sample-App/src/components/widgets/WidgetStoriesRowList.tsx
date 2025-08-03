@@ -24,10 +24,7 @@ export function WidgetStoriesRowList(
       <BlazeStoriesRowView
         style={style}
         dataSource={{
-          labels: BlazeWidgetLabel.singleLabel('live-stories'),
-          orderType: 'aToZ',
-          maxItems: 10,
-          labelsPriority: [BlazeWidgetLabel.singleLabel('live-stories')],
+          labels: BlazeWidgetLabel.singleLabel('live-stories')
         }}
         presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutStoriesRow} // Uncomment this if you want to customize the widget's appearence.

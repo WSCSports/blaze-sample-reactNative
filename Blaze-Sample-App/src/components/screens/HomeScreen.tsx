@@ -22,7 +22,7 @@ import {
   SectionHeader
 } from '../shared';
 
-export function HomeScreen(): JSX.Element {
+export const HomeScreen = React.memo((): JSX.Element => {
   return (
     <ScreenContainer>
       <ScrollView
@@ -83,7 +83,7 @@ export function HomeScreen(): JSX.Element {
       </ScrollView>
     </ScreenContainer>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

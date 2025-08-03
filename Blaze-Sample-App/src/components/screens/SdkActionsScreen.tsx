@@ -27,7 +27,7 @@ import {
 } from '../../utils/sdk.utils';
 import { BlazeWidgetLabel, BlazeRecommendationsType } from '@wscsports/blaze-rtn-sdk';
 
-export function SdkActionsScreen(): JSX.Element {
+export const SdkActionsScreen = React.memo((): JSX.Element => {
   const [geoText, setGeoText] = useState('');
   const [universalLinkText, setUniversalLinkText] = useState('');
   const [externalUserIdText, setExternalUserIdText] = useState('');
@@ -233,7 +233,7 @@ export function SdkActionsScreen(): JSX.Element {
     </ScrollView>
 
   );
-}
+});
 
 interface ActionSectionProps {
   title: string;

@@ -1,23 +1,15 @@
 import BlazeSDK, {
   BlazeDataSourceType,
   BlazeWidgetDelegate,
-  OnDataLoadStartedEvent,
-  OnDataLoadCompleteEvent,
-  OnPlayerDidAppearEvent,
-  OnPlayerDidDismissEvent,
-  OnItemClickedEvent,
-  OnTriggerCTAEvent,
-  OnTriggerPlayerBodyTextLinkEvent,
-  OnPlayerEventTriggeredEvent,
   BlazeGlobalDelegate,
   BlazePlayerEntryPointDelegate,
 } from '@wscsports/blaze-rtn-sdk';
 
-import { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 import { Alert } from 'react-native';
 import { momentPlayerGridStyle, storyPlayerGridStyle, videosPlayerStyle } from './blazePlayersTheme.utils';
 
-import { BlazeGAMDelegate } from '@wscsports/blaze-rtn-gam-ads';
+import { BlazeGAMBannerAdsDelegate, BlazeGAMCustomNativeAdsDelegate } from '@wscsports/blaze-rtn-gam-ads';
 import { BlazeIMADelegate } from '@wscsports/blaze-rtn-ima-ads';
 
 export let showAlerts = true;
@@ -35,8 +27,9 @@ export const playMoment = (
   }).then(() => {
     console.log('playMoment success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error playing moment:', error);
+    const message = `Error playing moment: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -51,8 +44,9 @@ export const playStory = (
   }).then(() => {
     console.log('playStory success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error playing Story:', error);
+    const message = `Error playing Story: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -60,8 +54,9 @@ export const setDoNotTrack = () => {
   BlazeSDK.setDoNotTrack(true).then(() => {
     console.log('set Do Not Track success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error set Do Not Track:', error);
+    const message = `Error set Do Not Track: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -69,8 +64,9 @@ export const dismissPlayer = () => {
   BlazeSDK.dismissPlayer().then(() => {
     console.log('dismissPlayer success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error dismiss Player:', error);
+    const message = `Error dismiss Player: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -80,8 +76,9 @@ export const setExternalUserId = (
   BlazeSDK.setExternalUserId(userId).then(() => {
     console.log('setExternalUserId success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error set External UserId:', error);
+    const message = `Error set External UserId: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -91,8 +88,9 @@ export const handleUniversalLink = (
   BlazeSDK.handleUniversalLink(link).then(() => {
     console.log('set universal link success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error set universal link:', error);
+    const message = `Error set universal link: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -101,8 +99,9 @@ export const canHandleUniversalLink = async (link: string): Promise<boolean> => 
     console.log('canHandleUniversalLink success, result -> ', result);
     return result
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error handle universal link:', error);
+    const message = `Error handle universal link: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
     return false
   });
   return result
@@ -114,8 +113,9 @@ export const updateGeoRestriction = (
   BlazeSDK.updateGeoRestriction(geoLocation).then(() => {
     console.log('updateGeoRestriction success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error updateGeoRestriction:', error);
+    const message = `Error updateGeoRestriction: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -128,8 +128,9 @@ export const playStories = (
   }).then(() => {
     console.log('playStories success');
   }).catch(error => {
-    showAlerts && Alert.alert(`Error playing stories: ${error}`)
-    console.error('Error playing stories:', error);
+    const message = `Error playing stories: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -142,8 +143,9 @@ export const playMoments = (
   }).then(() => {
     console.log('playMoments success');
   }).catch(error => {
-    showAlerts && Alert.alert(`Error playing moments: ${error}`)
-    console.error('Error playing moments:', error);
+    const message = `Error playing moments: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -155,8 +157,9 @@ export const prepareStories = (
   }).then(() => {
     console.log('prepareStories success');
   }).catch(error => {
-    showAlerts && Alert.alert(`Error prepareStories: ${error}`)
-    console.error('Error prepareStories:', error);
+    const message = `Error prepareStories: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -168,8 +171,9 @@ export const prepareMoments = (
   }).then(() => {
     console.log('prepareMoments success');
   }).catch(error => {
-    showAlerts && Alert.alert(`Error prepareMoments: ${error}`)
-    console.error('Error prepareMoments:', error);
+    const message = `Error prepareMoments: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -182,8 +186,9 @@ export const playVideos = (
   }).then(() => {
     console.log('playVideos success');
   }).catch(error => {
-    showAlerts && Alert.alert(`Error playing videos: ${error}`)
-    console.error('Error playing videos:', error);
+    const message = `Error playing videos: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -196,8 +201,9 @@ export const playVideo = (
   }).then(() => {
     console.log('playVideo success');
   }).catch(error => {
-    showAlerts && Alert.alert(`${error}`)
-    console.error('Error playing video:', error);
+    const message = `Error playing video: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
@@ -209,13 +215,14 @@ export const prepareVideos = (
   }).then(() => {
     console.log('prepareVideos success');
   }).catch(error => {
-    showAlerts && Alert.alert(`Error prepareVideos: ${error}`)
-    console.error('Error prepareVideos:', error);
+    const message = `Error prepareVideos: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
   });
 };
 
 export const updateDataSourceHandler = (
-  ref: MutableRefObject<any> | null,
+  ref: RefObject<any> | null,
   newDataSource: BlazeDataSourceType,
   isSilentRefresh: Boolean
 ) => {
@@ -226,39 +233,39 @@ export const updateDataSourceHandler = (
 
 export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate => {
   return {
-    onDataLoadStarted: (event: OnDataLoadStartedEvent) => {
-      console.log(widgetName + ' - onWidgetDataLoadStarted - widgetId: ' + event.widgetId);
+    onDataLoadStarted: (params) => {
+      console.log(widgetName + ' - onWidgetDataLoadStarted - params: ' + JSON.stringify(params));
     },
-    onDataLoadComplete: (event: OnDataLoadCompleteEvent) => {
-      console.log(widgetName + ' - onWidgetDataLoadCompleted - widgetId: ' + event.widgetId + ', itemCount: ' + event.itemsCount + ', error: ' + event.error);
+    onDataLoadComplete: (params) => {
+      console.log(widgetName + ' - onWidgetDataLoadCompleted - params: ' + JSON.stringify(params));
     },
-    onPlayerDidAppear: (event: OnPlayerDidAppearEvent) => {
-      console.log(widgetName + ' - onWidgetPlayerDidAppear - widgetId: ' + event.widgetId);
+    onPlayerDidAppear: (params) => {
+      console.log(widgetName + ' - onWidgetPlayerDidAppear - params: ' + JSON.stringify(params));
     },
-    onPlayerDidDismiss: (event: OnPlayerDidDismissEvent) => {
-      console.log(widgetName + ' - onWidgetPlayerDismissed - widgetId: ' + event.widgetId);
+    onPlayerDidDismiss: (params) => {
+      console.log(widgetName + ' - onWidgetPlayerDismissed - params: ' + JSON.stringify(params));
     },
-    onItemClicked: (event: OnItemClickedEvent) => {
-      console.log(widgetName + ' - onItemClicked - widgetId: ' + event.widgetId + ', widgetItemId: ' + event.widgetItemId + ', widgetItemTitle: ' + event.widgetItemTitle);
+    onItemClicked: (params) => {
+      console.log(widgetName + ' - onItemClicked - params: ' + JSON.stringify(params));
     },
-    onTriggerCTA: (event: OnTriggerCTAEvent) => {
-      console.log(widgetName + ' - onTriggerCTA - widgetId: ' + event.widgetId + ', actionType: ' + event.actionType + ', actionParam: ' + event.actionParam);
+    onTriggerCTA: (params) => {
+      console.log(widgetName + ' - onTriggerCTA  - params: ' + JSON.stringify(params));
     },
-    onTriggerPlayerBodyTextLink: (event: OnTriggerPlayerBodyTextLinkEvent) => {
-      console.log(widgetName + ' - onTriggerPlayerBodyTextLink - widgetId: ' + event.widgetId + ', actionParam: ' + event.actionParam);
+    onTriggerPlayerBodyTextLink: (params) => {
+      console.log(widgetName + ' - onTriggerPlayerBodyTextLink - params: ' + JSON.stringify(params));
     },
-    onPlayerEventTriggered: (event: OnPlayerEventTriggeredEvent) => {
-      switch (event.playerEvent.type) {
+    onPlayerEventTriggered: (params) => {
+      switch (params.playerEvent.type) {
         case 'OnMomentStart': {
-          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: MomentId ' + event.playerEvent.momentId);
+          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + params.sourceId + ' playerEvent: MomentId ' + params.playerEvent.momentId);
           break
         }
         case 'OnStoryStart': {
-          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: StoryId ' + event.playerEvent.storyId);
+          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + params.sourceId + ' playerEvent: StoryId ' + params.playerEvent.storyId);
           break
         }
         case 'OnVideoStart': {
-          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + event.widgetId + ' playerEvent: StoryId ' + event.playerEvent.videoId);
+          console.log(widgetName + ' - onPlayerEventTriggered - widgetId: ' + params.sourceId + ' playerEvent: VideoId ' + params.playerEvent.videoId);
           break
         }
       }
@@ -268,60 +275,60 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
 
 export const globalDelegate: BlazeGlobalDelegate = {
   onEventTriggered: (params => {
-    console.log('GlobalDelegate - onEventTriggered - event_action: ' + params.event.event_action);
+    console.log('GlobalDelegate - onEventTriggered - params: ' + JSON.stringify(params));
   }),
   onErrorThrown: (params => {
-    console.error('GlobalDelegate - onErrorThrown - error: ' + params.error);
+    console.error('GlobalDelegate - onErrorThrown - params: ' + JSON.stringify(params));
   })
 }
 
 export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
   onDataLoadStarted: (params => {
-    console.log('EntryPointDelegate - onDataLoadStarted - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId);
+    console.log('EntryPointDelegate - onDataLoadStarted - params: ' + JSON.stringify(params));
   }),
   onDataLoadComplete: (params => {
-    console.log('EntryPointDelegate - onDataLoadComplete - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' itemsCount: ' + params.itemsCount + ' error: ' + params.error);
+    console.log('EntryPointDelegate - onDataLoadComplete - params: ' + JSON.stringify(params));
   }),
   onPlayerDidAppear: (params => {
-    console.log('EntryPointDelegate - onPlayerDidAppear - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId);
+    console.log('EntryPointDelegate - onPlayerDidAppear - params: ' + JSON.stringify(params));
   }),
   onPlayerDidDismiss: (params => {
-    console.log('EntryPointDelegate - onPlayerDidDismiss - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId);
+    console.log('EntryPointDelegate - onPlayerDidDismiss - params: ' + JSON.stringify(params));
   }),
   onTriggerCTA: (params => {
-    console.log('EntryPointDelegate - onTriggerCTA - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' actionType: ' + params.actionType + ' actionParam: ' + params.actionParam);
+    console.log('EntryPointDelegate - onTriggerCTA - params: ' + JSON.stringify(params));
   }),
   onTriggerPlayerBodyTextLink: (params => {
-    console.log('EntryPointDelegate - onTriggerPlayerBodyTextLink - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' actionParam: ' + params.actionParam);
+    console.log('EntryPointDelegate - onTriggerPlayerBodyTextLink - params: ' + JSON.stringify(params));
   }),
   onPlayerEventTriggered: (params => {
-    const playerEvent = params.event
+    const playerEvent = params.playerEvent
     switch (playerEvent.type) {
       case 'OnMomentStart': {
-        console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: MomentId ' + playerEvent.momentId);
+        console.log('EntryPointDelegate - onPlayerEventTriggered - params: ' + JSON.stringify(params));
         break
       }
       case 'OnStoryStart': {
-        console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: StoryId ' + playerEvent.storyId);
+        console.log('EntryPointDelegate - onPlayerEventTriggered - params: ' + JSON.stringify(params));
         break
       }
       case 'OnVideoStart': {
-        console.log('EntryPointDelegate - onPlayerEventTriggered - playerType: ' + params.playerType + ' sourceId: ' + params.sourceId + ' playerEvent: StoryId ' + playerEvent.videoId);
+        console.log('EntryPointDelegate - onPlayerEventTriggered - params: ' + JSON.stringify(params));
         break
       }
     }
   }),
 }
 
-export const googleCustomNativeAdsDelegate: BlazeGAMDelegate = {
+export const googleCustomNativeAdsDelegate: BlazeGAMCustomNativeAdsDelegate = {
   onGAMAdEvent: (params => {
-    console.log('BlazeGAMDelegate - onGAMAdEvent - evenType: ' + params.eventType);
+    console.log('BlazeGAMDelegate - CustomNativeAds  - onGAMAdEvent - eventType: ' + params.eventType);
   }),
   onGAMAdError: (errorMessage => {
-    console.log('BlazeGAMDelegate - onGAMAdError - errorMessage: ' + errorMessage);
+    console.log('BlazeGAMDelegate - CustomNativeAds  - onGAMAdError - errorMessage: ' + errorMessage);
   }),
   customGAMTargetingProperties: (params) => {
-    console.log('BlazeGAMDelegate - customGAMTargetingProperties - params: ' + JSON.stringify(params));
+    console.log('BlazeGAMDelegate - CustomNativeAds  - customGAMTargetingProperties - params: ' + JSON.stringify(params));
     // return {
     //   'test_1': 'custom_targeting_value 1',
     //   'test_2': 'custom_targeting_value 2'
@@ -329,12 +336,12 @@ export const googleCustomNativeAdsDelegate: BlazeGAMDelegate = {
     return {}
   },
   publisherProvidedId: (params) => {
-    console.log('BlazeGAMDelegate - publisherProvidedId - params: ' + JSON.stringify(params));
+    console.log('BlazeGAMDelegate - CustomNativeAds  - publisherProvidedId - params: ' + JSON.stringify(params));
     // return 'test_publisherProvidedId';
     return undefined;
   },
   networkExtras: (params) => {
-    console.log('BlazeGAMDelegate - networkExtras - params: ' + JSON.stringify(params));
+    console.log('BlazeGAMDelegate - CustomNativeAds  - networkExtras - params: ' + JSON.stringify(params));
     // return {
     //   'test_string': 'custom_targeting_value 1',
     //   'test_double': 5.5,
@@ -344,9 +351,18 @@ export const googleCustomNativeAdsDelegate: BlazeGAMDelegate = {
   }
 }
 
+export const googleBannerAdsDelegate: BlazeGAMBannerAdsDelegate = {
+  onGAMBannerAdsAdEvent: (params => {
+    console.log('BlazeGAMDelegate - BannerAds - onGAMBannerAdsAdEvent - eventType: ' + params.eventType);
+  }),
+  onGAMBannerAdsAdError: (errorMessage => {
+    console.log('BlazeGAMDelegate - BannerAds - onGAMBannerAdsAdEvent - errorMessage: ' + errorMessage);
+  })
+}
+
 export const imaAdsDelegate: BlazeIMADelegate = {
   onIMAAdEvent: (params => {
-    console.log('BlazeIMADelegate - onIMAAdEvent - evenType: ' + params.eventType);
+    console.log('BlazeIMADelegate - onIMAAdEvent - eventType: ' + params.eventType);
   }),
   onIMAAdError: (errorMessage => {
     console.log('BlazeIMADelegate - onIMAAdError - errorMessage: ' + errorMessage);

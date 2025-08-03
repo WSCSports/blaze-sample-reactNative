@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { WidgetStoriesGridList, WidgetStoriesRowList } from '../widgets';
 import { ScreenContainer } from './ScreenContainer';
 
-export function StoriesScreen(): JSX.Element {
+export const StoriesScreen = React.memo((): JSX.Element => {
   return (
     <ScreenContainer>
       <ScrollView
@@ -15,7 +15,7 @@ export function StoriesScreen(): JSX.Element {
       </ScrollView>
     </ScreenContainer>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

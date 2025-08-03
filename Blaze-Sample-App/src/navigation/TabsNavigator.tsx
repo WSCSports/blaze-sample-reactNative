@@ -1,5 +1,6 @@
 import React, { JSX, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { enableScreens } from 'react-native-screens';
 
 import {
   View,
@@ -25,31 +26,10 @@ import BlazeSDK, { BlazeWidgetLabel } from '@wscsports/blaze-rtn-sdk';
 import { showAlerts } from '../utils';
 import PlayIcon from '../assets/tabsIcons/PlayIcon';
 
+// Disable native screens to prevent ViewManager recreation
+enableScreens(false);
+
 const Tab = createBottomTabNavigator();
-
-interface TabItemProps {
-  text?: string;
-  icon: JSX.Element;
-  isFocused: boolean;
-  style?: ViewStyle;
-}
-
-const TabItem = ({ text, icon, isFocused, style }: TabItemProps) => {
-  return (
-    <View
-      style={[styles.tabView, style]}>
-      {icon}
-      {text && (
-        <View style={styles.textView}>
-          <Text
-            style={[styles.textStyle, { color: isFocused ? 'blue' : 'gray' }]}>
-            {text}
-          </Text>
-        </View>
-      )}
-    </View>
-  );
-};
 
 const HomeTab = () => (
   <Tab.Screen
@@ -57,12 +37,9 @@ const HomeTab = () => (
     component={HomeScreen}
     options={{
       tabBarIcon: ({ focused = false }) => (
-        <TabItem
-          text={'Home'}
-          icon={<CupIcon isFocused={focused} />}
-          isFocused={focused}
-        />
+        <HomeIcon isFocused={focused} />
       ),
+
     }}
   />
 );
@@ -74,11 +51,7 @@ const StoriesFixedTab = () => (
     options={{
       title: 'Stories',
       tabBarIcon: ({ focused = false }) => (
-        <TabItem
-          text={'Stories'}
-          icon={<HomeIcon isFocused={focused} />}
-          isFocused={focused}
-        />
+        <CupIcon isFocused={focused} />
       ),
     }}
   />
@@ -90,11 +63,7 @@ const MomentsTab = () => (
     component={MomentsScreen}
     options={{
       tabBarIcon: ({ focused = false }) => (
-        <TabItem
-          text={'Moments'}
-          icon={<CameraIcon isFocused={focused} />}
-          isFocused={focused}
-        />
+        <CameraIcon isFocused={focused} />
       ),
     }}
   />
@@ -106,11 +75,7 @@ const SdkActionsTab = () => (
     component={SdkActionsScreen}
     options={{
       tabBarIcon: ({ focused = false }) => (
-        <TabItem
-          text={'SDK Actions'}
-          icon={<ActionIcon isFocused={focused} />}
-          isFocused={focused}
-        />
+        <ActionIcon isFocused={focused} />
       ),
     }}
   />
@@ -124,39 +89,37 @@ const MomentsContainerTab = () => {
     component={SdkActionsScreen} // Component is ignored since it's non-selectable
     options={{
       tabBarIcon: ({ focused = false }) => (
-        <TabItem
-          text={'Play'}
-          icon={<PlayIcon isFocused={isHighlighted} />}
-          isFocused={isHighlighted}
-        />
+        <PlayIcon isFocused={isHighlighted} />
       ),
 
-      tabBarButton: (props) => (
-        <Pressable
-          {...props} // Pass default props to maintain styling
-          onPressIn={() => {
-            setIsHighlighted(true);
-            console.log('Button pressed down');
-          }}
-          onPressOut={() => {
-            setIsHighlighted(false);
-            console.log('Button pressed up');
-          }}
-          onPress={() => {
-            BlazeSDK.playMoments({
-              dataSource: {
-                labels: BlazeWidgetLabel.singleLabel('moments'),
-              },
-            })
-              .then(() => console.log('playMoments success'))
-              .catch(error => {
-                showAlerts && Alert.alert(`Error playing moments: ${error}`)
-                console.error('Error playing moments:', error);
-              });
-          }}
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        />
-      ),
+      tabBarButton: (props: any) => {
+        const { onPress, ...restProps } = props;
+        return (
+          <Pressable
+            {...restProps}
+            onPressIn={() => {
+              setIsHighlighted(true);
+              console.log('Button pressed down');
+            }}
+            onPressOut={() => {
+              setIsHighlighted(false);
+              console.log('Button pressed up');
+            }}
+            onPress={() => {
+              BlazeSDK.playMoments({
+                dataSource: {
+                  labels: BlazeWidgetLabel.singleLabel('moments'),
+                },
+              })
+                .then(() => console.log('playMoments success'))
+                .catch((error: any) => {
+                  showAlerts && Alert.alert(`Error playing moments: ${error}`)
+                  console.error('Error playing moments:', error);
+                });
+            }}
+          />
+        );
+      },
     }}
   />
 };
@@ -170,10 +133,18 @@ const TabsNavigator = () => {
           tabBarActiveTintColor: 'blue',
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: styles.tabBar,
-          tabBarItemStyle: styles.tabBarItem,
-          tabBarShowLabel: false,
-          tabBarLabelPosition: 'below-icon'
-        }}>
+          tabBarShowLabel: true,
+          tabBarLabelPosition: 'below-icon',
+          tabBarItemStyle: {
+            paddingVertical: 8,
+          },
+          tabBarLabelStyle: {
+            paddingVertical: 8,
+            fontSize: 12,
+            fontWeight: '600',
+          },
+        }
+        }>
         {/* Extracted tab screens */}
         {HomeTab()}
         {StoriesFixedTab()}
@@ -193,25 +164,7 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: '#fff',
     height: 80,
-    paddingBottom: 0, // Remove padding from the bottom of the tab bar
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  tabBarItem: {
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  textView: {
-    marginTop: 8,
-  },
-  tabView: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  textStyle: {
-    fontSize: 12,
+    paddingBottom: 0,
   },
 });
 
