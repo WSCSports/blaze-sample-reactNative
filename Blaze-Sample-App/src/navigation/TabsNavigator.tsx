@@ -39,7 +39,6 @@ const HomeTab = () => (
       tabBarIcon: ({ focused = false }) => (
         <HomeIcon isFocused={focused} />
       ),
-
     }}
   />
 );

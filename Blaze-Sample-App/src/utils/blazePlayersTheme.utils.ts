@@ -40,6 +40,15 @@ export const momentPlayerRowStyle: BlazeMomentsPlayerStyle = {
       },
     },
   },
+  followEntity: {
+    isVisible: true,
+    followState: {
+      avatar: {
+        borderWidth: 2,
+        borderColor: '#b3ffFF',
+      },
+    },
+  },
 };
 
 export const momentPlayerGridStyle: BlazeMomentsPlayerStyle = {
@@ -82,6 +91,9 @@ export const momentPlayerGridStyle: BlazeMomentsPlayerStyle = {
           imageName: 'like',
         },
       },
+    },
+    search: {
+      isVisible: true,
     },
   },
   cta: { cornerRadius: 16 },

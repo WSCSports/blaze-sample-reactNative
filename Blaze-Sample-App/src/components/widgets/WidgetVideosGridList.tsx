@@ -33,6 +33,7 @@ export function WidgetVideosGridList(
                     maxItems: shouldLimitItemCount == true ? 4 : undefined
                 }}
                 presetWidgetLayout={presetGridLayout}
+                // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true }}
                 widgetDelegate={createWidgetDelegate('Videos Grid')}
             />
         </>

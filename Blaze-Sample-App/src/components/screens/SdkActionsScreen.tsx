@@ -1,5 +1,6 @@
 import React, { JSX, useState } from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Switch,
@@ -8,8 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { AppFollowEntitiesManager } from '../../utils/AppFollowEntitiesManager';
 import {
   dismissPlayer,
+  showSearchScreen,
   handleUniversalLink,
   playMoment,
   playMoments,
@@ -32,6 +35,8 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
   const [universalLinkText, setUniversalLinkText] = useState('');
   const [externalUserIdText, setExternalUserIdText] = useState('');
   const [showAlerts, setShowAlertsState] = useState(true);
+  const [addEntityIdText, setAddEntityIdText] = useState('');
+  const [removeEntityIdText, setRemoveEntityIdText] = useState('');
 
   const toggleAlerts = () => {
     setShowAlerts(!showAlerts);
@@ -159,6 +164,18 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
             />
           </View>
         </ActionSection>
+        <ActionSection title="Show Search Screen">
+          <View>
+            <ActionButton
+              title="Search"
+              onPress={() =>
+                showSearchScreen({
+                  suggestionsDataSource: { labels: BlazeWidgetLabel.singleLabel('moments') },
+                })
+              }
+            />
+          </View>
+        </ActionSection>
         <ActionSection title="Dismiss Player">
           <View>
             <ActionButton title="Dismiss" onPress={dismissPlayer} />
@@ -229,6 +246,75 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
             style={styles.toggleStyle}
           />
         </View>
+
+        <HR title="Follow Entities" />
+
+        <ActionSection title="Add Entity">
+          <View style={styles.inputWrapper}>
+            <TextInput
+              placeholder="Entity ID"
+              value={addEntityIdText}
+              onChangeText={text => setAddEntityIdText(text)}
+              autoCapitalize="none"
+              style={styles.inputContainer}
+            />
+            <ActionButton
+              title="Add"
+              onPress={() => {
+                const id = addEntityIdText.trim();
+                if (id) {
+                  AppFollowEntitiesManager.insertFollowedEntities([id]).then(() => {
+                    Alert.alert('Follow Entities', `Added: ${id}`);
+                    setAddEntityIdText('');
+                  });
+                }
+              }}
+            />
+          </View>
+        </ActionSection>
+        <ActionSection title="Remove Entity">
+          <View style={styles.inputWrapper}>
+            <TextInput
+              placeholder="Entity ID"
+              value={removeEntityIdText}
+              onChangeText={text => setRemoveEntityIdText(text)}
+              autoCapitalize="none"
+              style={styles.inputContainer}
+            />
+            <ActionButton
+              title="Remove"
+              onPress={() => {
+                const id = removeEntityIdText.trim();
+                if (id) {
+                  AppFollowEntitiesManager.removeFollowedEntities([id]).then(() => {
+                    Alert.alert('Follow Entities', `Removed: ${id}`);
+                    setRemoveEntityIdText('');
+                  });
+                }
+              }}
+            />
+          </View>
+        </ActionSection>
+        <ActionSection title="Get All Entities">
+          <ActionButton
+            title="Get"
+            onPress={() => {
+              AppFollowEntitiesManager.getFollowedEntities().then((ids: string[]) => {
+                Alert.alert('Followed Entities', ids.length > 0 ? ids.join(', ') : '(empty)');
+              });
+            }}
+          />
+        </ActionSection>
+        <ActionSection title="Clear All Entities">
+          <ActionButton
+            title="Clear"
+            onPress={() => {
+              AppFollowEntitiesManager.clearAll().then(() => {
+                Alert.alert('Follow Entities', 'All entities cleared');
+              });
+            }}
+          />
+        </ActionSection>
       </View>
     </ScrollView>
 

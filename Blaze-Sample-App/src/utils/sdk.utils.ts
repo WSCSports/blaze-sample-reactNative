@@ -3,12 +3,14 @@ import BlazeSDK, {
   BlazeWidgetDelegate,
   BlazeGlobalDelegate,
   BlazePlayerEntryPointDelegate,
+  BlazeSearchScreenOptions,
+  BlazeCastingDelegate,
+  BlazePipDelegate,
 } from '@wscsports/blaze-rtn-sdk';
 
 import { RefObject } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform, ToastAndroid } from 'react-native';
 import { momentPlayerGridStyle, storyPlayerGridStyle, videosPlayerStyle } from './blazePlayersTheme.utils';
-
 import { BlazeGAMBannerAdsDelegate, BlazeGAMCustomNativeAdsDelegate } from '@wscsports/blaze-rtn-gam-ads';
 import { BlazeIMADelegate } from '@wscsports/blaze-rtn-ima-ads';
 
@@ -48,6 +50,13 @@ export const playStory = (
     showAlerts && Alert.alert(message)
     console.error(message);
   });
+};
+const showPlayerAlert = (title: string, message: string) => {
+  if (Platform.OS === 'android') {
+    ToastAndroid.show(`${title}: ${message}`, ToastAndroid.SHORT);
+  } else {
+    Alert.alert(title, message);
+  }
 };
 
 export const setDoNotTrack = () => {
@@ -121,9 +130,11 @@ export const updateGeoRestriction = (
 
 export const playStories = (
   dataSource: BlazeDataSourceType,
+  entryContentId?: string,
 ) => {
   BlazeSDK.playStories({
     dataSource: dataSource,
+    entryContentId: entryContentId,
     // playerStyle: storyPlayerGridStyle, // Uncomment this if you want to customize the player's appearence.
   }).then(() => {
     console.log('playStories success');
@@ -136,9 +147,11 @@ export const playStories = (
 
 export const playMoments = (
   dataSource: BlazeDataSourceType,
+  entryContentId?: string,
 ) => {
   BlazeSDK.playMoments({
     dataSource: dataSource,
+    entryContentId: entryContentId,
     // playerStyle: momentPlayerGridStyle, // Uncomment this if you want to customize the player's appearence.
   }).then(() => {
     console.log('playMoments success');
@@ -149,11 +162,31 @@ export const playMoments = (
   });
 };
 
+export const appendMomentsToPlayer = (
+  sourceId: string,
+  dataSource: BlazeDataSourceType,
+  shouldOrderContentByReadStatus: boolean = false
+) => {
+  BlazeSDK.appendMomentsToPlayer({
+    sourceId,
+    dataSource,
+    shouldOrderContentByReadStatus,
+  }).then(() => {
+    console.log('appendMomentsToPlayer success');
+  }).catch(error => {
+    const message = `Error append moments to player: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+  });
+};
+
 export const prepareStories = (
   dataSource: BlazeDataSourceType,
+  entryContentId?: string,
 ) => {
   BlazeSDK.prepareStories({
-    dataSource: dataSource
+    dataSource: dataSource,
+    entryContentId: entryContentId,
   }).then(() => {
     console.log('prepareStories success');
   }).catch(error => {
@@ -165,9 +198,11 @@ export const prepareStories = (
 
 export const prepareMoments = (
   dataSource: BlazeDataSourceType,
+  entryContentId?: string,
 ) => {
   BlazeSDK.prepareMoments({
-    dataSource: dataSource
+    dataSource: dataSource,
+    entryContentId: entryContentId,
   }).then(() => {
     console.log('prepareMoments success');
   }).catch(error => {
@@ -179,10 +214,13 @@ export const prepareMoments = (
 
 export const playVideos = (
   dataSource: BlazeDataSourceType,
+  entryContentId?: string,
 ) => {
   BlazeSDK.playVideos({
     dataSource: dataSource,
+    entryContentId: entryContentId,
     // playerStyle: videosPlayerStyle, // Uncomment this if you want to customize the player's appearence.
+    // playbackConfiguration: { multiAspectRatio: true, shouldOpenInLandscape: false }, // Uncomment this if you want to customize the playback configuration.
   }).then(() => {
     console.log('playVideos success');
   }).catch(error => {
@@ -198,6 +236,7 @@ export const playVideo = (
   BlazeSDK.playVideo({
     videoId,
     // playerStyle: videosPlayerStyle // Uncomment this if you want to customize the player's appearence.
+    // playbackConfiguration: { multiAspectRatio: true, shouldOpenInLandscape: true },
   }).then(() => {
     console.log('playVideo success');
   }).catch(error => {
@@ -209,13 +248,27 @@ export const playVideo = (
 
 export const prepareVideos = (
   dataSource: BlazeDataSourceType,
+  entryContentId?: string,
 ) => {
   BlazeSDK.prepareVideos({
-    dataSource: dataSource
+    dataSource: dataSource,
+    entryContentId: entryContentId,
   }).then(() => {
     console.log('prepareVideos success');
   }).catch(error => {
     const message = `Error prepareVideos: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+  });
+};
+
+export const showSearchScreen = (
+  options?: BlazeSearchScreenOptions
+) => {
+  BlazeSDK.showSearchScreen(options).then(() => {
+    console.log('showSearchScreen success');
+  }).catch(error => {
+    const message = `Error showSearchScreen: ${error}`
     showAlerts && Alert.alert(message)
     console.error(message);
   });
@@ -270,6 +323,10 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
         }
       }
     },
+    onTriggerCustomActionButton: (params) => {
+      console.log(widgetName + ' - onTriggerCustomActionButton - params: ' + JSON.stringify(params));
+      showPlayerAlert('Custom Action', `${params.buttonName} (${params.buttonId})`);
+    },
   }
 }
 
@@ -279,8 +336,23 @@ export const globalDelegate: BlazeGlobalDelegate = {
   }),
   onErrorThrown: (params => {
     console.error('GlobalDelegate - onErrorThrown - params: ' + JSON.stringify(params));
-  })
-}
+  }),
+  // playbackModificationHandler: (request) => {
+  //   return { modifiedURL: 'https://example.com/modified-url.mp4' };
+  // },
+};
+
+export const castingDelegate: BlazeCastingDelegate = {
+  onCastingStateChanged: (params) => {
+    console.log('CastingDelegate - onCastingStateChanged - params: ' + JSON.stringify(params));
+  },
+};
+
+export const pipDelegate: BlazePipDelegate = {
+  onPiPStateChanged: (params) => {
+    console.log('PipDelegate - onPiPStateChanged - params: ' + JSON.stringify(params));
+  },
+};
 
 export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
   onDataLoadStarted: (params => {
@@ -318,6 +390,13 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
       }
     }
   }),
+  onTriggerCustomActionButton: (params) => {
+    console.log('EntryPointDelegate - onTriggerCustomActionButton - params: ' + JSON.stringify(params));
+    showPlayerAlert('Custom Action', `${params.buttonName} (${params.buttonId})`);
+  },
+  onReadStatusChanged: (params) => {
+    console.log('EntryPointDelegate - onReadStatusChanged - params: ' + JSON.stringify(params));
+  },
 }
 
 export const googleCustomNativeAdsDelegate: BlazeGAMCustomNativeAdsDelegate = {

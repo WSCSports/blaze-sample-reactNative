@@ -19,12 +19,15 @@ import {
   videosPlayerStyle
 } from './utils/blazePlayersTheme.utils';
 import {
+  castingDelegate,
   entryPointDelegate,
   globalDelegate,
   googleBannerAdsDelegate,
   googleCustomNativeAdsDelegate,
-  imaAdsDelegate
+  imaAdsDelegate,
+  pipDelegate,
 } from './utils';
+import { AppFollowEntitiesManager } from './utils/AppFollowEntitiesManager';
 import BlazeIMA from '@wscsports/blaze-rtn-ima-ads';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -76,6 +79,12 @@ function App(): JSX.Element {
       BlazeIMA.enableAds({
         delegate: imaAdsDelegate
       })
+
+      BlazeSDK.setCastingDelegate(castingDelegate);
+      BlazeSDK.setPipDelegate(pipDelegate);
+
+      // Follow Entities Setup — see AppFollowEntitiesManager.ts for details
+      AppFollowEntitiesManager.start();
 
       setLoadingState(LoadingState.LOADED)
 
