@@ -1,4 +1,4 @@
-import React, { JSX, useState } from 'react';
+import React, { JSX, useEffect, useState } from 'react';
 import {
   Alert,
   ScrollView,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { AppFollowEntitiesManager } from '../../utils/AppFollowEntitiesManager';
 import {
+  getIsMuted,
   dismissPlayer,
   showSearchScreen,
   handleUniversalLink,
@@ -25,6 +26,7 @@ import {
   prepareVideos,
   setDoNotTrack,
   setExternalUserId,
+  setPlayerSoundState,
   setShowAlerts,
   updateGeoRestriction,
 } from '../../utils/sdk.utils';
@@ -37,6 +39,19 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
   const [showAlerts, setShowAlertsState] = useState(true);
   const [addEntityIdText, setAddEntityIdText] = useState('');
   const [removeEntityIdText, setRemoveEntityIdText] = useState('');
+  const [isMuted, setIsMuted] = useState(true);
+
+  useEffect(() => {
+    // Reflect the current SDK-wide mute state on mount (native default is muted).
+    getIsMuted().then(setIsMuted);
+  }, []);
+
+  const togglePlayerSoundState = async () => {
+    await setPlayerSoundState(isMuted ? 'unmute' : 'mute');
+    // Re-read the state from the SDK so the button label reflects the real value.
+    const muted = await getIsMuted();
+    setIsMuted(muted);
+  };
 
   const toggleAlerts = () => {
     setShowAlerts(!showAlerts);
@@ -187,6 +202,14 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
         <ActionSection title="Set Do Not Track">
           <View>
             <ActionButton title="Set" onPress={setDoNotTrack} />
+          </View>
+        </ActionSection>
+        <ActionSection title={`Player Sound (${isMuted ? 'Muted' : 'Unmuted'})`}>
+          <View>
+            <ActionButton
+              title={isMuted ? 'Unmute' : 'Mute'}
+              onPress={togglePlayerSoundState}
+            />
           </View>
         </ActionSection>
         <ActionSection title="Set External User Id">

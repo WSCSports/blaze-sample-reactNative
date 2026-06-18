@@ -64,8 +64,9 @@ export function WidgetStoriesGridList(
         presetWidgetLayout={presetGridLayout}
         // blazeWidgetLayout={widgetLayoutStoriesGrid} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={storyPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
+        // playbackConfiguration={{ bufferingSpinnerDelayMs: 500 }} // Uncomment this if you want to customize the playback configuration.
         widgetDelegate={createWidgetDelegate('Stories Grid')}
-        perItemStyleOverrides={initialWidgetStyleOverrides()}
+        // perItemStyleOverrides={initialWidgetStyleOverrides()} // Uncomment this if you want to customize per-item styling (badge/border/status indicator).
       />
     </>
   );

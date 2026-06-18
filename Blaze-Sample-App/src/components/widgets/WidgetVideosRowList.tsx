@@ -29,7 +29,7 @@ export function WidgetVideosRowList(
         presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutVideosRow} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={videosPlayerStyle} // Uncomment this if you want to customize the player's appearence.
-        // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true }}
+        // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true, bufferingSpinnerDelayMs: 500 }}
         widgetDelegate={createWidgetDelegate('Videos Row')}
       />
     </>

@@ -4,7 +4,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import { WidgetMomentsGridList, WidgetMomentsRowList } from '../widgets';
+import { WidgetMomentsGridList, WidgetMomentsRowList, WidgetMomentsTabsRowList } from '../widgets';
 import { ScreenContainer } from './ScreenContainer';
 import { SectionHeader } from '../shared';
 
@@ -21,6 +21,12 @@ export const MomentsScreen = React.memo((): JSX.Element => {
           title="Moments Row"
         />
         <WidgetMomentsRowList style={styles.row_widget_container} />
+
+        {/* Moments Widget to Tabs — tapping an item opens the fullscreen tabs player */}
+        <SectionHeader
+          title="Moments Widget to Tabs"
+        />
+        <WidgetMomentsTabsRowList style={styles.row_widget_container} />
 
         {/* Moments Grid */}
         <SectionHeader

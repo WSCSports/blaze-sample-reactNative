@@ -14,6 +14,12 @@ export const widgetLayoutStoriesGrid: BlazeWidgetLayout = {
     bottom: 30,
     trailing: 10,
   },
+  // Customize the skeleton/shimmer colors shown while the widget is loading.
+  // High-contrast values make the customization obvious on a slow network.
+  shimmering: {
+    baseColor: '#1A1A1A',
+    highlightColor: '#3A3A3A',
+  },
   widgetItemStyle: {
     backgroundColor: '#99ff00',
     title: {
@@ -148,6 +154,11 @@ export const widgetLayoutMomentsGrid: BlazeWidgetLayout = {
     trailing: 10,
   },
   // columns:3,
+  // Customize the skeleton/shimmer colors shown while the widget is loading.
+  shimmering: {
+    baseColor: '#1A1A1A',
+    highlightColor: '#3A3A3A',
+  },
   widgetItemStyle: {
     title: {
       isVisible: true,

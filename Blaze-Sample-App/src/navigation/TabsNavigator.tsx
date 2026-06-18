@@ -1,4 +1,4 @@
-import React, { JSX, useState } from 'react';
+import React, { JSX, useRef, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { enableScreens } from 'react-native-screens';
 
@@ -82,6 +82,10 @@ const SdkActionsTab = () => (
 
 const MomentsContainerTab = () => {
   const [isHighlighted, setIsHighlighted] = useState(false);
+  // Block rapid double-taps so we don't launch two entry-point players (black screen).
+  const isLaunchingRef = useRef(false);
+  const lastLaunchRef = useRef(0);
+  const PLAY_COOLDOWN_MS = 1500;
 
   return <Tab.Screen
     name="Play"
@@ -105,6 +109,15 @@ const MomentsContainerTab = () => {
               console.log('Button pressed up');
             }}
             onPress={() => {
+              const now = Date.now();
+              if (
+                isLaunchingRef.current ||
+                now - lastLaunchRef.current < PLAY_COOLDOWN_MS
+              ) {
+                return;
+              }
+              isLaunchingRef.current = true;
+              lastLaunchRef.current = now;
               BlazeSDK.playMoments({
                 dataSource: {
                   labels: BlazeWidgetLabel.singleLabel('moments'),
@@ -114,6 +127,9 @@ const MomentsContainerTab = () => {
                 .catch((error: any) => {
                   showAlerts && Alert.alert(`Error playing moments: ${error}`)
                   console.error('Error playing moments:', error);
+                })
+                .finally(() => {
+                  isLaunchingRef.current = false;
                 });
             }}
           />

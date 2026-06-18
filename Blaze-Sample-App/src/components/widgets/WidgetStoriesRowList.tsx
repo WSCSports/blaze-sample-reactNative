@@ -29,6 +29,7 @@ export function WidgetStoriesRowList(
         presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutStoriesRow} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={storyPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
+        // playbackConfiguration={{ bufferingSpinnerDelayMs: 500 }} // Uncomment this if you want to customize the playback configuration.
         widgetDelegate={createWidgetDelegate('Stories Row')}
       />
     </>

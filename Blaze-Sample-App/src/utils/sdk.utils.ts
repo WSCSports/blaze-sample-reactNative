@@ -6,6 +6,8 @@ import BlazeSDK, {
   BlazeSearchScreenOptions,
   BlazeCastingDelegate,
   BlazePipDelegate,
+  BlazePlayerSoundState,
+  BlazePlayerContainerTabsDelegate,
 } from '@wscsports/blaze-rtn-sdk';
 
 import { RefObject } from 'react';
@@ -43,6 +45,7 @@ export const playStory = (
     storyId,
     pageId,
     // playerStyle: storyPlayerGridStyle // Uncomment this if you want to customize the player's appearence.
+    // playbackConfiguration: { bufferingSpinnerDelayMs: 500 }, // Uncomment this if you want to customize the playback configuration.
   }).then(() => {
     console.log('playStory success');
   }).catch(error => {
@@ -136,6 +139,7 @@ export const playStories = (
     dataSource: dataSource,
     entryContentId: entryContentId,
     // playerStyle: storyPlayerGridStyle, // Uncomment this if you want to customize the player's appearence.
+    // playbackConfiguration: { bufferingSpinnerDelayMs: 500 }, // Uncomment this if you want to customize the playback configuration.
   }).then(() => {
     console.log('playStories success');
   }).catch(error => {
@@ -220,7 +224,7 @@ export const playVideos = (
     dataSource: dataSource,
     entryContentId: entryContentId,
     // playerStyle: videosPlayerStyle, // Uncomment this if you want to customize the player's appearence.
-    // playbackConfiguration: { multiAspectRatio: true, shouldOpenInLandscape: false }, // Uncomment this if you want to customize the playback configuration.
+    // playbackConfiguration: { multiAspectRatio: true, shouldOpenInLandscape: false, bufferingSpinnerDelayMs: 500 }, // Uncomment this if you want to customize the playback configuration.
   }).then(() => {
     console.log('playVideos success');
   }).catch(error => {
@@ -236,7 +240,7 @@ export const playVideo = (
   BlazeSDK.playVideo({
     videoId,
     // playerStyle: videosPlayerStyle // Uncomment this if you want to customize the player's appearence.
-    // playbackConfiguration: { multiAspectRatio: true, shouldOpenInLandscape: true },
+    // playbackConfiguration: { multiAspectRatio: true, shouldOpenInLandscape: true, bufferingSpinnerDelayMs: 500 },
   }).then(() => {
     console.log('playVideo success');
   }).catch(error => {
@@ -260,6 +264,33 @@ export const prepareVideos = (
     showAlerts && Alert.alert(message)
     console.error(message);
   });
+};
+
+// Forces the global mute state for every Blaze player (Stories / Moments / Videos).
+// The SDK does not persist this value, so the host app must re-apply it on each launch.
+export const setPlayerSoundState = (
+  state: BlazePlayerSoundState
+): Promise<void> => {
+  return BlazeSDK.setPlayerSoundState(state).then(() => {
+    console.log(`setPlayerSoundState('${state}') success`);
+  }).catch(error => {
+    const message = `Error setPlayerSoundState: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+  });
+};
+
+export const getIsMuted = async (): Promise<boolean> => {
+  const muted = await BlazeSDK.isMuted().then((result) => {
+    console.log('isMuted success, result -> ', result);
+    return result;
+  }).catch(error => {
+    const message = `Error isMuted: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+    return true; // native default is muted
+  });
+  return muted;
 };
 
 export const showSearchScreen = (
@@ -351,6 +382,39 @@ export const castingDelegate: BlazeCastingDelegate = {
 export const pipDelegate: BlazePipDelegate = {
   onPiPStateChanged: (params) => {
     console.log('PipDelegate - onPiPStateChanged - params: ' + JSON.stringify(params));
+  },
+};
+
+// Delegate for the Moments "widget to tabs" fullscreen container. Pass it per-widget via the
+// `momentsContainerTabsDelegate` prop on `BlazeMomentsRowView` / `BlazeMomentsGridView`.
+export const momentsContainerTabsDelegate: BlazePlayerContainerTabsDelegate = {
+  onTabSelected: (params) => {
+    console.log('MomentsContainerTabsDelegate - onTabSelected - params: ' + JSON.stringify(params));
+  },
+  onDataLoadStarted: (params) => {
+    console.log('MomentsContainerTabsDelegate - onDataLoadStarted - params: ' + JSON.stringify(params));
+  },
+  onDataLoadComplete: (params) => {
+    console.log('MomentsContainerTabsDelegate - onDataLoadComplete - params: ' + JSON.stringify(params));
+  },
+  onPlayerDidAppear: (params) => {
+    console.log('MomentsContainerTabsDelegate - onPlayerDidAppear - params: ' + JSON.stringify(params));
+  },
+  onPlayerDidDismiss: (params) => {
+    console.log('MomentsContainerTabsDelegate - onPlayerDidDismiss - params: ' + JSON.stringify(params));
+  },
+  onTriggerCTA: (params) => {
+    console.log('MomentsContainerTabsDelegate - onTriggerCTA - params: ' + JSON.stringify(params));
+  },
+  onTriggerPlayerBodyTextLink: (params) => {
+    console.log('MomentsContainerTabsDelegate - onTriggerPlayerBodyTextLink - params: ' + JSON.stringify(params));
+  },
+  onPlayerEventTriggered: (params) => {
+    console.log('MomentsContainerTabsDelegate - onPlayerEventTriggered - params: ' + JSON.stringify(params));
+  },
+  onTriggerCustomActionButton: (params) => {
+    console.log('MomentsContainerTabsDelegate - onTriggerCustomActionButton - params: ' + JSON.stringify(params));
+    showPlayerAlert('Custom Action (Tabs)', `${params.buttonName} (${params.buttonId})`);
   },
 };
 

@@ -1,10 +1,36 @@
 import {
   BlazeMomentsPlayerStyle,
+  BlazePlayerTabsStyle,
   BlazeStoryPlayerStyle,
   BlazeVideosPlayerStyle,
 } from '@wscsports/blaze-rtn-sdk';
 
 // Disclaimer - the props from the color type expect to receive the hex value in RGBA format
+
+// Style applied to the Moments "widget to tabs" strip. Every field is optional and merged onto the
+// native `BlazePlayerTabsStyle.base()` preset, so omitted fields keep their native defaults.
+export const momentsTabsStyle: BlazePlayerTabsStyle = {
+  padding: { top: 8, bottom: 8, leading: 16, trailing: 16 },
+  gradient: {
+    isVisible: true,
+    startColor: '#00000000',
+    middleColor: '#80000000',
+    endColor: '#CC000000',
+  },
+  selectedTabState: {
+    textColor: '#FFFFFF',
+    textSize: 16,
+    letterSpacing: 0.5,
+    // font: { fontName: 'Agbalumo-Regular', fontFileName: 'agbalumo_regular' }, // Uncomment to customize the tab font.
+    // lineHeight: 20, // Android-only (API 29+); no-op on iOS.
+  },
+  unselectedTabState: {
+    textColor: '#99FFFFFF',
+    textSize: 16,
+    letterSpacing: 0.5,
+  },
+  // icon: { iconTint: '#FFFFFF', padding: 8 }, // Uncomment when tabs supply per-tab icons.
+};
 
 export const momentPlayerRowStyle: BlazeMomentsPlayerStyle = {
   playerDisplayMode: 'FixedRatio_9_16',

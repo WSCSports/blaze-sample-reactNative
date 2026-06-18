@@ -74,7 +74,8 @@ export function WidgetMomentsGridList(
         // blazeWidgetLayout={widgetLayoutMomentsGrid} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={momentPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
         // playbackConfiguration={{
-        //   loopBehavior: { type: 'loopAndAdvance', numberOfPlays: 3 }
+        //   loopBehavior: { type: 'loopAndAdvance', numberOfPlays: 3 },
+        //   bufferingSpinnerDelayMs: 500
         // }} // Uncomment this if you want to customize the playback configuration.
         widgetDelegate={createWidgetDelegate('Moments Grid')}
         perItemStyleOverrides={initialWidgetStyleOverrides()}
