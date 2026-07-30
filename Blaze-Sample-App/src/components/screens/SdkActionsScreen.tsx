@@ -25,6 +25,7 @@ import {
   prepareStories,
   prepareVideos,
   setDoNotTrack,
+  setEnableStoriesPreroll,
   setExternalUserId,
   setPlayerSoundState,
   setShowAlerts,
@@ -40,6 +41,7 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
   const [addEntityIdText, setAddEntityIdText] = useState('');
   const [removeEntityIdText, setRemoveEntityIdText] = useState('');
   const [isMuted, setIsMuted] = useState(true);
+  const [storiesPreroll, setStoriesPreroll] = useState(false);
 
   useEffect(() => {
     // Reflect the current SDK-wide mute state on mount (native default is muted).
@@ -58,8 +60,14 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
     setShowAlertsState(!showAlerts);
   };
 
+  const toggleStoriesPreroll = () => {
+    setEnableStoriesPreroll(!storiesPreroll);
+    setStoriesPreroll(!storiesPreroll);
+  };
+
   const forYouWithLabelFilter: BlazeRecommendationsType = {
     anyLabelFilter: [],
+    coldStartLabels: [],
     type: 'ForYou'
   };
 
@@ -96,6 +104,14 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
             />
           </View>
         </ActionSection>
+        <View style={styles.toggleContainer}>
+          <Text style={styles.actionSectionText}>Stories Pre-roll Ads:</Text>
+          <Switch
+            value={storiesPreroll}
+            onValueChange={toggleStoriesPreroll}
+            style={styles.toggleStyle}
+          />
+        </View>
         <ActionSection title="Play Moment">
           <View>
             <ActionButton

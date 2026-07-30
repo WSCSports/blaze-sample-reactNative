@@ -22,6 +22,15 @@ export const setShowAlerts = (show: boolean) => {
   showAlerts = show;
 };
 
+// QA toggle for the Stories pre-roll ads feature (native default: false). Threaded through the
+// per-call `playbackConfiguration` on every `playStory`/`playStories` invocation below so the
+// SdkActionsScreen switch takes effect immediately on the next play, without an app restart.
+export let enableStoriesPreroll = false;
+
+export const setEnableStoriesPreroll = (enabled: boolean) => {
+  enableStoriesPreroll = enabled;
+};
+
 export const playMoment = (
   momentId: string
 ) => {
@@ -46,6 +55,7 @@ export const playStory = (
     pageId,
     // playerStyle: storyPlayerGridStyle // Uncomment this if you want to customize the player's appearence.
     // playbackConfiguration: { bufferingSpinnerDelayMs: 500 }, // Uncomment this if you want to customize the playback configuration.
+    playbackConfiguration: { ads: { enablePreroll: enableStoriesPreroll } },
   }).then(() => {
     console.log('playStory success');
   }).catch(error => {
@@ -140,6 +150,7 @@ export const playStories = (
     entryContentId: entryContentId,
     // playerStyle: storyPlayerGridStyle, // Uncomment this if you want to customize the player's appearence.
     // playbackConfiguration: { bufferingSpinnerDelayMs: 500 }, // Uncomment this if you want to customize the playback configuration.
+    playbackConfiguration: { ads: { enablePreroll: enableStoriesPreroll } },
   }).then(() => {
     console.log('playStories success');
   }).catch(error => {
@@ -225,6 +236,7 @@ export const playVideos = (
     entryContentId: entryContentId,
     // playerStyle: videosPlayerStyle, // Uncomment this if you want to customize the player's appearence.
     // playbackConfiguration: { multiAspectRatio: true, shouldOpenInLandscape: false, bufferingSpinnerDelayMs: 500 }, // Uncomment this if you want to customize the playback configuration.
+    // videosFilterParams: { contentTypes: ['video', 'stream'], streamStates: ['live', 'upcoming'] }, // Uncomment (with a data source that actually has live content) to mix in live streams.
   }).then(() => {
     console.log('playVideos success');
   }).catch(error => {
@@ -257,6 +269,7 @@ export const prepareVideos = (
   BlazeSDK.prepareVideos({
     dataSource: dataSource,
     entryContentId: entryContentId,
+    // videosFilterParams: { contentTypes: ['video', 'stream'], streamStates: ['live', 'upcoming'] }, // Uncomment (with a data source that actually has live content) to mix in live streams.
   }).then(() => {
     console.log('prepareVideos success');
   }).catch(error => {
@@ -358,6 +371,9 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
       console.log(widgetName + ' - onTriggerCustomActionButton - params: ' + JSON.stringify(params));
       showPlayerAlert('Custom Action', `${params.buttonName} (${params.buttonId})`);
     },
+    onShareClicked: (params) => {
+      console.log(widgetName + ' - onShareClicked - params: ' + JSON.stringify(params));
+    },
   }
 }
 
@@ -416,6 +432,9 @@ export const momentsContainerTabsDelegate: BlazePlayerContainerTabsDelegate = {
     console.log('MomentsContainerTabsDelegate - onTriggerCustomActionButton - params: ' + JSON.stringify(params));
     showPlayerAlert('Custom Action (Tabs)', `${params.buttonName} (${params.buttonId})`);
   },
+  onShareClicked: (params) => {
+    console.log('MomentsContainerTabsDelegate - onShareClicked - params: ' + JSON.stringify(params));
+  },
 };
 
 export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
@@ -460,6 +479,9 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
   },
   onReadStatusChanged: (params) => {
     console.log('EntryPointDelegate - onReadStatusChanged - params: ' + JSON.stringify(params));
+  },
+  onShareClicked: (params) => {
+    console.log('EntryPointDelegate - onShareClicked - params: ' + JSON.stringify(params));
   },
 }
 

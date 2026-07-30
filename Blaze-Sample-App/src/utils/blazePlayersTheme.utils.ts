@@ -30,6 +30,9 @@ export const momentsTabsStyle: BlazePlayerTabsStyle = {
     letterSpacing: 0.5,
   },
   // icon: { iconTint: '#FFFFFF', padding: 8 }, // Uncomment when tabs supply per-tab icons.
+  activeTabIndicator: { isVisible: true }, // Underline under the active tab; color/width always mirror the tab title.
+  // isTabTitleVisibleWhenSingleTab: true, // Uncomment to keep the tab bar visible with a single tab.
+  // isTabVisibleWhenEmpty: false, // Uncomment to auto-remove empty non-first tabs.
 };
 
 export const momentPlayerRowStyle: BlazeMomentsPlayerStyle = {
@@ -73,6 +76,17 @@ export const momentPlayerRowStyle: BlazeMomentsPlayerStyle = {
         borderWidth: 2,
         borderColor: '#b3ffFF',
       },
+    },
+  },
+  captions: {
+    font: {
+      fontName: 'Agbalumo-Regular',
+      fontFileName: 'agbalumo_regular',
+    },
+    textSize: 18, // Android-only; no-op on iOS.
+    positioning: {
+      xPosition: 'Center',
+      yPosition: 'Bottom',
     },
   },
 };
@@ -253,6 +267,17 @@ export const storyPlayerGridStyle: BlazeStoryPlayerStyle = {
       fontFileName: 'agbalumo_regular',
     },
     textSize: 20,
+  },
+  captions: {
+    font: {
+      fontName: 'Agbalumo-Regular',
+      fontFileName: 'agbalumo_regular',
+    },
+    positioning: {
+      xPosition: 'Center',
+      yPosition: 'Custom',
+      yOffsetPercent: 70,
+    },
   },
 };
 

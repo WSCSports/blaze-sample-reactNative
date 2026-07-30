@@ -5,3 +5,4 @@ export * from './WidgetStoriesGridList';
 export * from './WidgetStoriesRowList';
 export * from './WidgetVideosRowList';
 export * from './WidgetVideosGridList';
+export * from './WidgetWatchLiveVideosRowList';

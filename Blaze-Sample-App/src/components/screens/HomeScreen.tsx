@@ -11,7 +11,8 @@ import {
   WidgetStoriesGridList,
   WidgetStoriesRowList,
   WidgetVideosRowList,
-  WidgetVideosGridList
+  WidgetVideosGridList,
+  WidgetWatchLiveVideosRowList
 } from '../widgets';
 
 import {
@@ -70,6 +71,12 @@ export const HomeScreen = React.memo((): JSX.Element => {
           title="Videos Row"
         />
         <WidgetVideosRowList style={styles.row_widget_container} />
+
+        {/* Watch Live Row */}
+        <SectionHeader
+          title="Watch Live Row"
+        />
+        <WidgetWatchLiveVideosRowList style={styles.row_widget_container} />
 
         {/* Videos Grid */}
         <SectionHeader

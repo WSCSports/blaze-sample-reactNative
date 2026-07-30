@@ -26,7 +26,10 @@ export const MomentsScreen = React.memo((): JSX.Element => {
         <SectionHeader
           title="Moments Widget to Tabs"
         />
-        <WidgetMomentsTabsRowList style={styles.row_widget_container} />
+        <WidgetMomentsTabsRowList
+          style={styles.row_widget_container}
+          shouldShowActionButtons={true}
+        />
 
         {/* Moments Grid */}
         <SectionHeader

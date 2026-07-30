@@ -9,12 +9,12 @@ import {
 import { createWidgetDelegate } from '../../utils';
 import { widgetLayoutVideosRow } from '../../utils/widgetLayout.utils';
 
-export interface WidgetVideosRowListProps {
+export interface WidgetWatchLiveVideosRowListProps {
   style?: ViewStyle;
 }
 
-export function WidgetVideosRowList(
-  props: WidgetVideosRowListProps,
+export function WidgetWatchLiveVideosRowList(
+  props: WidgetWatchLiveVideosRowListProps,
 ): JSX.Element {
   const { style } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'VideosWidget.Row.horizontalRectangles';
@@ -24,14 +24,19 @@ export function WidgetVideosRowList(
       <BlazeVideosRowView
         style={style}
         dataSource={{
-          labels: BlazeWidgetLabel.singleLabel('videos'),
+          labels: BlazeWidgetLabel.singleLabel('match'),
+          orderType: 'startTimeAsc',
+          advancedOrderType: 'LiveFirst',
+        }}
+        videosFilterParams={{
+          contentTypes: ['stream'],
+          streamStates: ['live', 'upcoming'],
         }}
         presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutVideosRow} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={videosPlayerStyle} // Uncomment this if you want to customize the player's appearence.
-        // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true, bufferingSpinnerDelayMs: 500 }}
-        // videosFilterParams={{ contentTypes: ['video', 'stream'], streamStates: ['live', 'upcoming'] }} // Uncomment (with a data source that actually has live content) to mix in live streams.
-        widgetDelegate={createWidgetDelegate('Videos Row')}
+        widgetId="Watch Live Videos Row"
+        widgetDelegate={createWidgetDelegate('Watch Live Row')}
       />
     </>
   );

@@ -10,43 +10,43 @@
     "test": "jest"
   },
   "dependencies": {
-    "@wscsports/blaze-rtn-sdk": "1.19.0",
-    "@wscsports/blaze-rtn-gam-ads": "1.19.0",
-    "@wscsports/blaze-rtn-ima-ads": "1.19.0",
-    
-    "react-native": "0.80.0",
-    "react": "19.1.0",
-    "@react-navigation/bottom-tabs": "7.4.4",
-    "@react-navigation/native": "7.1.16",
-    "react-native-localize": "3.4.1",
-    "react-native-pager-view": "6.8.1",
-    "react-native-safe-area-context": "5.4.1",
-    "react-native-screens": "4.11.1",
-    "react-native-svg": "15.12.0",
-    "react-native-tab-view": "3.5.2"
+    "@wscsports/blaze-rtn-sdk": "1.20.0",
+    "@wscsports/blaze-rtn-gam-ads": "1.20.0",
+    "@wscsports/blaze-rtn-ima-ads": "1.20.0",
+
+    "react-native": "0.86.2",
+    "react": "19.2.3",
+    "@react-navigation/bottom-tabs": "7.18.14",
+    "@react-navigation/native": "7.3.14",
+    "react-native-localize": "3.7.0",
+    "react-native-pager-view": "8.0.4",
+    "react-native-safe-area-context": "5.8.0",
+    "react-native-screens": "4.26.2",
+    "react-native-svg": "15.15.5",
+    "react-native-tab-view": "4.3.2"
   },
   "devDependencies": {
     "@babel/core": "7.25.2",
     "@babel/preset-env": "7.25.3",
     "@babel/runtime": "7.25.0",
-    "@react-native-community/cli": "19.0.0",
-    "@react-native-community/cli-platform-android": "19.0.0",
-    "@react-native-community/cli-platform-ios": "19.0.0",
-    "@react-native/babel-preset": "0.80.0",
-    "@react-native/eslint-config": "0.80.0",
-    "@react-native/metro-config": "0.80.0",
-    "@react-native/typescript-config": "0.80.0",
-    "@tsconfig/react-native": "3.0.3",
-    "@types/react": "^19.1.0",
+    "@react-native-community/cli": "20.1.0",
+    "@react-native-community/cli-platform-android": "20.1.0",
+    "@react-native-community/cli-platform-ios": "20.1.0",
+    "@react-native/babel-preset": "0.86.2",
+    "@react-native/eslint-config": "0.86.2",
+    "@react-native/jest-preset": "0.86.2",
+    "@react-native/metro-config": "0.86.2",
+    "@react-native/typescript-config": "0.86.2",
+    "@types/react": "^19.2.0",
     "@types/react-test-renderer": "^19.1.0",
     "@types/jest": "^29.5.13",
-    "eslint": "8.56.0",
+    "eslint": "8.57.1",
     "jest": "29.7.0",
     "prettier": "3.5.3",
-    "react-test-renderer": "19.1.0",
-    "typescript": "5.3.3"
+    "react-test-renderer": "19.2.3",
+    "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">= 22.11.0"
   }
 }

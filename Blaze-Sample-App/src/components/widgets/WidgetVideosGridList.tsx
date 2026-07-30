@@ -34,6 +34,7 @@ export function WidgetVideosGridList(
                 }}
                 presetWidgetLayout={presetGridLayout}
                 // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true, bufferingSpinnerDelayMs: 500 }}
+                // videosFilterParams={{ contentTypes: ['video', 'stream'], streamStates: ['live', 'upcoming'] }} // Uncomment (with a data source that actually has live content) to mix in live streams.
                 widgetDelegate={createWidgetDelegate('Videos Grid')}
             />
         </>

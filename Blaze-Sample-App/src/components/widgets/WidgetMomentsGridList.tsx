@@ -77,6 +77,7 @@ export function WidgetMomentsGridList(
         //   loopBehavior: { type: 'loopAndAdvance', numberOfPlays: 3 },
         //   bufferingSpinnerDelayMs: 500
         // }} // Uncomment this if you want to customize the playback configuration.
+        // widgetId="my-moments-grid-widget" // Uncomment to override the auto-generated widgetId sent to native; omitted, the wrapper's existing auto-generated identifier is used unchanged.
         widgetDelegate={createWidgetDelegate('Moments Grid')}
         perItemStyleOverrides={initialWidgetStyleOverrides()}
       />

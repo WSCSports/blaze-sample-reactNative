@@ -1,5 +1,5 @@
-import React, { JSX } from 'react';
-import { ViewStyle } from 'react-native';
+import React, { JSX, useRef } from 'react';
+import { Button, ViewStyle } from 'react-native';
 // import { momentsTabsStyle } from '../../utils/blazePlayersTheme.utils'; // Uncomment to customize the tabs strip appearance.
 import {
   BlazeMomentsRowView,
@@ -12,6 +12,7 @@ import { createWidgetDelegate, momentsContainerTabsDelegate } from '../../utils'
 export interface WidgetMomentsTabsRowListProps {
   style?: ViewStyle;
   overridePreset?: BlazeWidgetLayoutPreset;
+  shouldShowActionButtons?: boolean;
 }
 
 // Demonstrates the Moments "widget to tabs" entry point: tapping any thumbnail opens the fullscreen
@@ -33,12 +34,14 @@ const tabsConfiguration: BlazeMomentsWidgetTabsConfiguration = {
       title: 'Trending',
       dataSource: { labels: BlazeWidgetLabel.singleLabel('moments') },
       shouldOrderMomentsByReadStatus: false,
+      // isVisible: false, // Uncomment together with the entry below to leave exactly one visible tab (tests the single-tab collapse / isTabTitleVisibleWhenSingleTab).
     },
     {
       containerId: 'tab-latest',
       title: 'Latest',
       dataSource: { labels: BlazeWidgetLabel.singleLabel('moments') },
       cachePolicyLevel: 'DEFAULT',
+      // isVisible: false, // Uncomment together with the entry above to leave exactly one visible tab.
     },
   ],
   // playerStyle: momentPlayerRowStyle, // Uncomment to customize the player launched from the tabs.
@@ -47,16 +50,45 @@ const tabsConfiguration: BlazeMomentsWidgetTabsConfiguration = {
 export function WidgetMomentsTabsRowList(
   props: WidgetMomentsTabsRowListProps,
 ): JSX.Element {
-  const { style, overridePreset } = props;
+  const { style, overridePreset, shouldShowActionButtons = false } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'MomentsWidget.Row.verticalRectangles';
 
+  const momentsTabsRowRef = useRef<BlazeMomentsRowView | null>(null);
+
+  const handleReloadAllTabs = () => {
+    momentsTabsRowRef?.current?.reloadAllTabs();
+  };
+
+  const handleReloadNonActiveTabs = () => {
+    momentsTabsRowRef?.current?.reloadNonActiveTabs();
+  };
+
+  const handleReloadTab = () => {
+    momentsTabsRowRef?.current?.reloadTab(0);
+  };
+
+  const handleReloadTabByContainerId = () => {
+    momentsTabsRowRef?.current?.reloadTabByContainerId('tab-trending');
+  };
+
   return (
-    <BlazeMomentsRowView
-      style={style}
-      presetWidgetLayout={overridePreset ?? presetRowLayout}
-      tabsConfiguration={tabsConfiguration}
-      widgetDelegate={createWidgetDelegate('Moments Tabs Row')}
-      momentsContainerTabsDelegate={momentsContainerTabsDelegate}
-    />
+    <>
+      {shouldShowActionButtons && (
+        <>
+          <Button title="Reload All Tabs" onPress={handleReloadAllTabs} />
+          <Button title="Reload Non-Active Tabs" onPress={handleReloadNonActiveTabs} />
+          <Button title="Reload Tab 0" onPress={handleReloadTab} />
+          <Button title="Reload By Container Id" onPress={handleReloadTabByContainerId} />
+        </>
+      )}
+      <BlazeMomentsRowView
+        style={style}
+        ref={momentsTabsRowRef}
+        presetWidgetLayout={overridePreset ?? presetRowLayout}
+        tabsConfiguration={tabsConfiguration}
+        widgetDelegate={createWidgetDelegate('Moments Tabs Row')}
+        momentsContainerTabsDelegate={momentsContainerTabsDelegate}
+      />
+    </>
   );
 }
