@@ -11,12 +11,13 @@ import { widgetLayoutVideosRow } from '../../utils/widgetLayout.utils';
 
 export interface WidgetVideosRowListProps {
   style?: ViewStyle;
+  overridePreset?: BlazeWidgetLayoutPreset;
 }
 
 export function WidgetVideosRowList(
   props: WidgetVideosRowListProps,
 ): JSX.Element {
-  const { style } = props;
+  const { style, overridePreset } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'VideosWidget.Row.horizontalRectangles';
 
   return (
@@ -26,7 +27,8 @@ export function WidgetVideosRowList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('videos'),
         }}
-        presetWidgetLayout={presetRowLayout}
+        // dataSource={{ type: 'followedEntities' }} // Uncomment (instead of the dataSource above) to build the row from the entities the user follows.
+        presetWidgetLayout={overridePreset ?? presetRowLayout}
         // blazeWidgetLayout={widgetLayoutVideosRow} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={videosPlayerStyle} // Uncomment this if you want to customize the player's appearence.
         // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true, bufferingSpinnerDelayMs: 500 }}

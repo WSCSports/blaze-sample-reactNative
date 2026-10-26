@@ -1,4 +1,4 @@
-import BlazeSDK, { BlazeFollowEntitiesDelegate } from '@wscsports/blaze-rtn-sdk';
+import BlazeSDK, { BlazeFollowEntitiesDelegate, BlazeFollowEntity } from '@wscsports/blaze-rtn-sdk';
 
 const SYNC_DEBOUNCE_MS = 500;
 
@@ -17,7 +17,7 @@ const SYNC_DEBOUNCE_MS = 500;
 class AppFollowEntitiesManagerImpl {
   private static instance: AppFollowEntitiesManagerImpl;
   private syncTimer: ReturnType<typeof setTimeout> | null = null;
-  private followedEntityIds: string[] = [];
+  private followedEntities: BlazeFollowEntity[] = [];
 
   private constructor() {}
 
@@ -38,33 +38,38 @@ class AppFollowEntitiesManagerImpl {
     console.log('[AppFollowEntitiesManager] Started');
   }
 
-  async setFollowedEntities(entityIds: string[]) {
-    await BlazeSDK.setFollowedEntities(entityIds);
-    this.followedEntityIds = entityIds;
-    console.log('[AppFollowEntitiesManager] setFollowedEntities:', entityIds);
+  async setFollowedEntities(entities: BlazeFollowEntity[]) {
+    await BlazeSDK.followEntitiesManager.setFollowedEntities(entities);
+    this.followedEntities = entities;
+    console.log('[AppFollowEntitiesManager] setFollowedEntities:', entities);
   }
 
-  async insertFollowedEntities(entityIds: string[]) {
-    await BlazeSDK.insertFollowedEntities(entityIds);
-    this.followedEntityIds = [...new Set([...this.followedEntityIds, ...entityIds])];
-    console.log('[AppFollowEntitiesManager] insertFollowedEntities:', entityIds);
+  async insertFollowedEntities(entities: BlazeFollowEntity[]) {
+    await BlazeSDK.followEntitiesManager.insertFollowedEntities(entities);
+    const insertedIds = new Set(entities.map(entity => entity.id));
+    this.followedEntities = [
+      ...this.followedEntities.filter(entity => !insertedIds.has(entity.id)),
+      ...entities,
+    ];
+    console.log('[AppFollowEntitiesManager] insertFollowedEntities:', entities);
   }
 
-  async removeFollowedEntities(entityIds: string[]) {
-    await BlazeSDK.removeFollowedEntities(entityIds);
-    this.followedEntityIds = this.followedEntityIds.filter(id => !entityIds.includes(id));
-    console.log('[AppFollowEntitiesManager] removeFollowedEntities:', entityIds);
+  async removeFollowedEntities(entities: BlazeFollowEntity[]) {
+    await BlazeSDK.followEntitiesManager.removeFollowedEntities(entities);
+    const removedIds = new Set(entities.map(entity => entity.id));
+    this.followedEntities = this.followedEntities.filter(entity => !removedIds.has(entity.id));
+    console.log('[AppFollowEntitiesManager] removeFollowedEntities:', entities);
   }
 
-  async getFollowedEntities(): Promise<string[]> {
-    const ids = await BlazeSDK.getFollowedEntities();
-    console.log('[AppFollowEntitiesManager] getFollowedEntities:', ids);
-    return ids;
+  async getFollowedEntities(): Promise<BlazeFollowEntity[]> {
+    const entities = await BlazeSDK.followEntitiesManager.getFollowedEntities();
+    console.log('[AppFollowEntitiesManager] getFollowedEntities:', entities);
+    return entities;
   }
 
   async clearAll() {
-    await BlazeSDK.setFollowedEntities([]);
-    this.followedEntityIds = [];
+    await BlazeSDK.followEntitiesManager.setFollowedEntities([]);
+    this.followedEntities = [];
     console.log('[AppFollowEntitiesManager] clearAll');
   }
 
@@ -99,10 +104,10 @@ class AppFollowEntitiesManagerImpl {
 
   private async syncToStorage() {
     try {
-      const currentIds = await BlazeSDK.getFollowedEntities();
-      this.followedEntityIds = currentIds;
-      // In production: await AsyncStorage.setItem('followedEntities', JSON.stringify(currentIds));
-      console.log('[AppFollowEntitiesManager] syncToStorage — snapshot:', currentIds);
+      const currentEntities = await BlazeSDK.followEntitiesManager.getFollowedEntities();
+      this.followedEntities = currentEntities;
+      // In production: await AsyncStorage.setItem('followedEntities', JSON.stringify(currentEntities));
+      console.log('[AppFollowEntitiesManager] syncToStorage — snapshot:', currentEntities);
     } catch (e) {
       console.error('[AppFollowEntitiesManager] syncToStorage error:', e);
     }
@@ -110,9 +115,9 @@ class AppFollowEntitiesManagerImpl {
 
   private loadAndApplyStoredEntities() {
     // In production: const stored = JSON.parse(await AsyncStorage.getItem('followedEntities') ?? '[]');
-    const stored = this.followedEntityIds;
+    const stored = this.followedEntities;
     if (stored.length > 0) {
-      BlazeSDK.setFollowedEntities(stored);
+      BlazeSDK.followEntitiesManager.setFollowedEntities(stored);
       console.log('[AppFollowEntitiesManager] Loaded stored entities:', stored);
     }
   }

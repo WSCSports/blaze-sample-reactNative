@@ -2,7 +2,7 @@ import React, { JSX, useRef } from 'react';
 import { Button, ViewStyle } from 'react-native';
 import { momentPlayerGridStyle } from '../../utils/blazePlayersTheme.utils';
 import { initialWidgetStyleOverrides, updateWidgetStyleOverrides, widgetItemStyleOverrides } from '../../utils/widgetItemStyleOverrides.utils';
-import { createWidgetDelegate, updateDataSourceHandler } from '../../utils/sdk.utils';
+import { createWidgetDelegate, followedEntitiesDataSource, updateDataSourceHandler } from '../../utils/sdk.utils';
 import {
   BlazeMomentsGridView,
   BlazeWidgetLabel,
@@ -39,6 +39,10 @@ export function WidgetMomentsGridList(
     updateDataSourceHandler(momentsGridRef, newDataSource, false);
   };
 
+  const handleUseFollowedEntities = () => {
+    updateDataSourceHandler(momentsGridRef, followedEntitiesDataSource, false);
+  };
+
   const handleUpdateStyleOverrides = () => {
     if (momentsGridRef?.current) {
       const updateOverrideStyles = updateWidgetStyleOverrides()
@@ -58,6 +62,7 @@ export function WidgetMomentsGridList(
         <>
           <Button title="Reload Data" onPress={handleReloadData} />
           <Button title="Update Data Source" onPress={handleUpdateDataSource} />
+          <Button title="Use Followed Entities" onPress={handleUseFollowedEntities} />
           <Button title="Update Style Overrides" onPress={handleUpdateStyleOverrides} />
           <Button title="Update Widget Ui" onPress={handleUpdateWidgetsUi} />
         </>

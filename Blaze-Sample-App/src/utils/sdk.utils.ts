@@ -8,6 +8,8 @@ import BlazeSDK, {
   BlazePipDelegate,
   BlazePlayerSoundState,
   BlazePlayerContainerTabsDelegate,
+  BlazePlayerType,
+  BlazeFetchedContentPolicy,
 } from '@wscsports/blaze-rtn-sdk';
 
 import { RefObject } from 'react';
@@ -99,6 +101,19 @@ export const setExternalUserId = (
     console.log('setExternalUserId success');
   }).catch(error => {
     const message = `Error set External UserId: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+  });
+};
+
+export const setExternalUserToken = (
+  token: string | undefined,
+  cachedContentPolicy: BlazeFetchedContentPolicy
+) => {
+  BlazeSDK.setExternalUserToken(token, cachedContentPolicy).then((storedToken) => {
+    console.log('setExternalUserToken success, token stored: ' + (storedToken !== null));
+  }).catch(error => {
+    const message = `Error set External User Token: ${error}`
     showAlerts && Alert.alert(message)
     console.error(message);
   });
@@ -306,6 +321,40 @@ export const getIsMuted = async (): Promise<boolean> => {
   return muted;
 };
 
+export const setLiquidGlassEnabled = (enabled: boolean): Promise<void> => {
+  return BlazeSDK.setLiquidGlassEnabled(enabled).then(() => {
+    console.log(`setLiquidGlassEnabled(${enabled}) success`);
+  }).catch(error => {
+    const message = `Error setLiquidGlassEnabled: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+  });
+};
+
+export const getIsLiquidGlassEnabled = async (): Promise<boolean> => {
+  const enabled = await BlazeSDK.isLiquidGlassEnabled().then((result) => {
+    console.log('isLiquidGlassEnabled success, result -> ', result);
+    return result;
+  }).catch(error => {
+    const message = `Error isLiquidGlassEnabled: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+    return false;
+  });
+  return enabled;
+};
+
+export const isInColdStart = (playerType: BlazePlayerType) => {
+  BlazeSDK.isInColdStart(playerType).then((result) => {
+    console.log(`isInColdStart('${playerType}') success, result -> `, result);
+    Alert.alert('Is In Cold Start', `${playerType}: ${result === null ? 'unknown (null)' : result}`);
+  }).catch(error => {
+    const message = `Error isInColdStart: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+  });
+};
+
 export const showSearchScreen = (
   options?: BlazeSearchScreenOptions
 ) => {
@@ -326,6 +375,11 @@ export const updateDataSourceHandler = (
   if (ref?.current) {
     ref?.current?.updateDataSource(newDataSource, isSilentRefresh);
   }
+};
+
+export const followedEntitiesDataSource: BlazeDataSourceType = {
+  type: 'followedEntities',
+  entityTypes: ['Team'],
 };
 
 export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate => {
@@ -351,6 +405,10 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
     onTriggerPlayerBodyTextLink: (params) => {
       console.log(widgetName + ' - onTriggerPlayerBodyTextLink - params: ' + JSON.stringify(params));
     },
+    onTriggerInteractionLink: (params) => {
+      console.log(widgetName + ' - onTriggerInteractionLink - params: ' + JSON.stringify(params));
+      // Linking.openURL(params.url); // Uncomment this only if you declared interactionLinkHandling: 'Handled'.
+    },
     onPlayerEventTriggered: (params) => {
       switch (params.playerEvent.type) {
         case 'OnMomentStart': {
@@ -373,6 +431,9 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
     },
     onShareClicked: (params) => {
       console.log(widgetName + ' - onShareClicked - params: ' + JSON.stringify(params));
+    },
+    onContentRestricted: (params) => {
+      console.log(widgetName + ' - onContentRestricted - params: ' + JSON.stringify(params));
     },
   }
 }
@@ -407,6 +468,9 @@ export const momentsContainerTabsDelegate: BlazePlayerContainerTabsDelegate = {
   onTabSelected: (params) => {
     console.log('MomentsContainerTabsDelegate - onTabSelected - params: ' + JSON.stringify(params));
   },
+  onTabReselected: (params) => {
+    console.log('MomentsContainerTabsDelegate - onTabReselected - params: ' + JSON.stringify(params));
+  },
   onDataLoadStarted: (params) => {
     console.log('MomentsContainerTabsDelegate - onDataLoadStarted - params: ' + JSON.stringify(params));
   },
@@ -425,6 +489,9 @@ export const momentsContainerTabsDelegate: BlazePlayerContainerTabsDelegate = {
   onTriggerPlayerBodyTextLink: (params) => {
     console.log('MomentsContainerTabsDelegate - onTriggerPlayerBodyTextLink - params: ' + JSON.stringify(params));
   },
+  onTriggerInteractionLink: (params) => {
+    console.log('MomentsContainerTabsDelegate - onTriggerInteractionLink - params: ' + JSON.stringify(params));
+  },
   onPlayerEventTriggered: (params) => {
     console.log('MomentsContainerTabsDelegate - onPlayerEventTriggered - params: ' + JSON.stringify(params));
   },
@@ -434,6 +501,9 @@ export const momentsContainerTabsDelegate: BlazePlayerContainerTabsDelegate = {
   },
   onShareClicked: (params) => {
     console.log('MomentsContainerTabsDelegate - onShareClicked - params: ' + JSON.stringify(params));
+  },
+  onContentRestricted: (params) => {
+    console.log('MomentsContainerTabsDelegate - onContentRestricted - params: ' + JSON.stringify(params));
   },
 };
 
@@ -455,6 +525,9 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
   }),
   onTriggerPlayerBodyTextLink: (params => {
     console.log('EntryPointDelegate - onTriggerPlayerBodyTextLink - params: ' + JSON.stringify(params));
+  }),
+  onTriggerInteractionLink: (params => {
+    console.log('EntryPointDelegate - onTriggerInteractionLink - params: ' + JSON.stringify(params));
   }),
   onPlayerEventTriggered: (params => {
     const playerEvent = params.playerEvent
@@ -482,6 +555,9 @@ export const entryPointDelegate: BlazePlayerEntryPointDelegate = {
   },
   onShareClicked: (params) => {
     console.log('EntryPointDelegate - onShareClicked - params: ' + JSON.stringify(params));
+  },
+  onContentRestricted: (params) => {
+    console.log('EntryPointDelegate - onContentRestricted - params: ' + JSON.stringify(params));
   },
 }
 

@@ -27,11 +27,12 @@ export function WidgetMomentsRowList(
         dataSource={{
           labels: BlazeWidgetLabel.singleLabel('moments'),
         }}
-        // dataSource={{ // Uncomment this to demo a composite data source: two real sources merged & deduped into one feed.
+        // dataSource={{ // Uncomment this to demo a composite data source: three real sources merged & deduped into one feed.
         //   type: 'composite',
         //   dataSources: [
         //     { dataSource: { labels: BlazeWidgetLabel.singleLabel('moments') }, config: { isMandatory: true } }, // mandatory — a failure here fails the whole composite
         //     { dataSource: { recommendationsType: { type: 'ForYou', anyLabelFilter: ['<LABEL_ID>'] } } }, // non-mandatory (default) — a failure here is silently skipped
+        //     { dataSource: { type: 'followedEntities', entityTypes: ['Team'] } }, // the followed 'Team' entities
         //   ],
         // }}
         presetWidgetLayout={overridePreset ?? presetRowLayout}

@@ -35,6 +35,8 @@ const blazeSdkInitOptions: InitOptions = {
   apiKey: '<API_KEY>',
   cachingSize: 512,
   cachingLevel: 'DEFAULT',
+  // externalUserToken: '<viewer token>', // Uncomment and set the viewer token if your app uses content entitlements.
+  // interactionLinkHandling: 'Web', // Uncomment this if you want to customize how interaction links are handled.
   // defaultStoryPlayerStyle: storyPlayerRowStyle, // Uncomment this if you want to customize the player's appearence.
   // defaultMomentsPlayerStyle: momentPlayerRowStyle, // Uncomment this if you want to customize the player's appearence.
   // defaultVideosPlayerStyle: videosPlayerStyle, // Uncomment this if you want to customize the player's appearence.
@@ -58,6 +60,7 @@ function App(): JSX.Element {
       console.log(isInitialized);
       if (!isInitialized) {
         setLoadingState(LoadingState.LOADING)
+        // await BlazeSDK.setLiquidGlassEnabled(true);
         await BlazeSDK.init(blazeSdkInitOptions);
       }
 

@@ -4,6 +4,7 @@ import { Button, ViewStyle } from 'react-native';
 import {
   BlazeMomentsRowView,
   BlazeMomentsWidgetTabsConfiguration,
+  BlazePlayerContainerTabsDelegate,
   BlazeWidgetLabel,
   BlazeWidgetLayoutPreset,
 } from '@wscsports/blaze-rtn-sdk';
@@ -71,6 +72,14 @@ export function WidgetMomentsTabsRowList(
     momentsTabsRowRef?.current?.reloadTabByContainerId('tab-trending');
   };
 
+  const tabsDelegate: BlazePlayerContainerTabsDelegate = {
+    ...momentsContainerTabsDelegate,
+    onTabReselected: (params) => {
+      momentsContainerTabsDelegate.onTabReselected?.(params);
+      momentsTabsRowRef.current?.reloadTab(params.tabIndex);
+    },
+  };
+
   return (
     <>
       {shouldShowActionButtons && (
@@ -87,7 +96,7 @@ export function WidgetMomentsTabsRowList(
         presetWidgetLayout={overridePreset ?? presetRowLayout}
         tabsConfiguration={tabsConfiguration}
         widgetDelegate={createWidgetDelegate('Moments Tabs Row')}
-        momentsContainerTabsDelegate={momentsContainerTabsDelegate}
+        momentsContainerTabsDelegate={tabsDelegate}
       />
     </>
   );

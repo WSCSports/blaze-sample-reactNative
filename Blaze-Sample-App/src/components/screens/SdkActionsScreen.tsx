@@ -11,7 +11,10 @@ import {
 } from 'react-native';
 import { AppFollowEntitiesManager } from '../../utils/AppFollowEntitiesManager';
 import {
+  getIsLiquidGlassEnabled,
+  followedEntitiesDataSource,
   getIsMuted,
+  isInColdStart,
   dismissPlayer,
   showSearchScreen,
   handleUniversalLink,
@@ -27,20 +30,27 @@ import {
   setDoNotTrack,
   setEnableStoriesPreroll,
   setExternalUserId,
+  setLiquidGlassEnabled,
+  setExternalUserToken,
   setPlayerSoundState,
   setShowAlerts,
   updateGeoRestriction,
 } from '../../utils/sdk.utils';
-import { BlazeWidgetLabel, BlazeRecommendationsType } from '@wscsports/blaze-rtn-sdk';
+import { BlazeWidgetLabel, BlazeRecommendationsType, BlazePlayerType } from '@wscsports/blaze-rtn-sdk';
+
+const COLD_START_PLAYER_TYPES: BlazePlayerType[] = ['Moments', 'Stories', 'Videos'];
 
 export const SdkActionsScreen = React.memo((): JSX.Element => {
   const [geoText, setGeoText] = useState('');
   const [universalLinkText, setUniversalLinkText] = useState('');
   const [externalUserIdText, setExternalUserIdText] = useState('');
+  const [externalUserTokenText, setExternalUserTokenText] = useState('');
+  const [evictCachedContent, setEvictCachedContent] = useState(false);
   const [showAlerts, setShowAlertsState] = useState(true);
   const [addEntityIdText, setAddEntityIdText] = useState('');
   const [removeEntityIdText, setRemoveEntityIdText] = useState('');
   const [isMuted, setIsMuted] = useState(true);
+  const [isLiquidGlass, setIsLiquidGlass] = useState(false);
   const [storiesPreroll, setStoriesPreroll] = useState(false);
 
   useEffect(() => {
@@ -53,6 +63,15 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
     // Re-read the state from the SDK so the button label reflects the real value.
     const muted = await getIsMuted();
     setIsMuted(muted);
+  };
+
+  useEffect(() => {
+    getIsLiquidGlassEnabled().then(setIsLiquidGlass);
+  }, []);
+
+  const toggleLiquidGlass = async () => {
+    await setLiquidGlassEnabled(!isLiquidGlass);
+    setIsLiquidGlass(await getIsLiquidGlassEnabled());
   };
 
   const toggleAlerts = () => {
@@ -185,6 +204,22 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
             />
           </View>
         </ActionSection>
+        <ActionSection title="Prepare Followed Entities">
+          <View>
+            <ActionButton
+              title="Prepare"
+              onPress={() => prepareMoments(followedEntitiesDataSource)}
+            />
+          </View>
+        </ActionSection>
+        <ActionSection title="Play Followed Entities">
+          <View>
+            <ActionButton
+              title="Play"
+              onPress={() => playMoments(followedEntitiesDataSource)}
+            />
+          </View>
+        </ActionSection>
         <ActionSection title="Play Story Page">
           <View>
             <ActionButton
@@ -228,6 +263,21 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
             />
           </View>
         </ActionSection>
+        <ActionSection title={`Liquid Glass (${isLiquidGlass ? 'On' : 'Off'})`}>
+          <View>
+            <ActionButton
+              title={isLiquidGlass ? 'Disable' : 'Enable'}
+              onPress={toggleLiquidGlass}
+            />
+          </View>
+        </ActionSection>
+        {COLD_START_PLAYER_TYPES.map(playerType => (
+          <ActionSection key={playerType} title={`${playerType} In Cold Start`}>
+            <View>
+              <ActionButton title="Check" onPress={() => isInColdStart(playerType)} />
+            </View>
+          </ActionSection>
+        ))}
         <ActionSection title="Set External User Id">
           <View style={styles.inputWrapper}>
             <TextInput
@@ -245,6 +295,32 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
             />
           </View>
         </ActionSection>
+        <ActionSection title="Set External User Token">
+          <View style={styles.inputWrapper}>
+            <TextInput
+              placeholder="Token"
+              value={externalUserTokenText}
+              onChangeText={text => setExternalUserTokenText(text)}
+              autoCapitalize="none"
+              secureTextEntry
+              style={styles.inputContainer}
+            />
+            <ActionButton
+              title="Set"
+              onPress={() => {
+                setExternalUserToken(externalUserTokenText, evictCachedContent ? 'Evict' : 'Keep');
+              }}
+            />
+          </View>
+        </ActionSection>
+        <View style={styles.toggleContainer}>
+          <Text style={styles.actionSectionText}>Evict Cached Content:</Text>
+          <Switch
+            value={evictCachedContent}
+            onValueChange={setEvictCachedContent}
+            style={styles.toggleStyle}
+          />
+        </View>
         <ActionSection title="Set Universal Link">
           <View style={styles.inputWrapper}>
             <TextInput
@@ -302,7 +378,9 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
               onPress={() => {
                 const id = addEntityIdText.trim();
                 if (id) {
-                  AppFollowEntitiesManager.insertFollowedEntities([id]).then(() => {
+                  AppFollowEntitiesManager.insertFollowedEntities([
+                    { id, providerName: 'stats-perform', entityType: 'Team' },
+                  ]).then(() => {
                     Alert.alert('Follow Entities', `Added: ${id}`);
                     setAddEntityIdText('');
                   });
@@ -325,7 +403,7 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
               onPress={() => {
                 const id = removeEntityIdText.trim();
                 if (id) {
-                  AppFollowEntitiesManager.removeFollowedEntities([id]).then(() => {
+                  AppFollowEntitiesManager.removeFollowedEntities([{ id }]).then(() => {
                     Alert.alert('Follow Entities', `Removed: ${id}`);
                     setRemoveEntityIdText('');
                   });
@@ -338,8 +416,15 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
           <ActionButton
             title="Get"
             onPress={() => {
-              AppFollowEntitiesManager.getFollowedEntities().then((ids: string[]) => {
-                Alert.alert('Followed Entities', ids.length > 0 ? ids.join(', ') : '(empty)');
+              AppFollowEntitiesManager.getFollowedEntities().then(entities => {
+                Alert.alert(
+                  'Followed Entities',
+                  entities.length > 0
+                    ? entities
+                        .map(entity => `${entity.id} · ${entity.providerName ?? '-'} · ${entity.entityType ?? '-'}`)
+                        .join('\n')
+                    : '(empty)',
+                );
               });
             }}
           />
