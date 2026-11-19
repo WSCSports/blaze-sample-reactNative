@@ -11,13 +11,14 @@ import { createWidgetDelegate } from '../../utils';
 
 export interface WidgetStoriesRowListProps {
   style?: ViewStyle;
+  widgetId: string;
   overridePreset?: BlazeWidgetLayoutPreset;
 }
 
 export function WidgetStoriesRowList(
   props: WidgetStoriesRowListProps,
 ): JSX.Element {
-  const { style, overridePreset } = props;
+  const { style, widgetId, overridePreset } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'StoriesWidget.Row.circles';
 
   return (
@@ -33,6 +34,7 @@ export function WidgetStoriesRowList(
         // playerStyle={storyPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
         // playbackConfiguration={{ bufferingSpinnerDelayMs: 500 }} // Uncomment this if you want to customize the playback configuration.
         // interactionLinkHandling="Deeplink" // Uncomment this if you want to customize how this widget's interaction links are handled.
+        widgetId={widgetId}
         widgetDelegate={createWidgetDelegate('Stories Row')}
       />
     </>

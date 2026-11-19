@@ -95,12 +95,22 @@ export const dismissPlayer = () => {
 };
 
 export const setExternalUserId = (
-  userId?: string
+  userId: string
 ) => {
   BlazeSDK.setExternalUserId(userId).then(() => {
     console.log('setExternalUserId success');
   }).catch(error => {
     const message = `Error set External UserId: ${error}`
+    showAlerts && Alert.alert(message)
+    console.error(message);
+  });
+};
+
+export const logout = () => {
+  BlazeSDK.logout().then(() => {
+    console.log('logout success');
+  }).catch(error => {
+    const message = `Error logout: ${error}`
     showAlerts && Alert.alert(message)
     console.error(message);
   });
@@ -440,7 +450,7 @@ export const createWidgetDelegate = (widgetName: string): BlazeWidgetDelegate =>
 
 export const globalDelegate: BlazeGlobalDelegate = {
   onEventTriggered: (params => {
-    console.log('GlobalDelegate - onEventTriggered - params: ' + JSON.stringify(params));
+    console.log('[Analytics] ' + params.event.event_category + '/' + params.event.event_action + ' - GlobalDelegate - onEventTriggered - params: ' + JSON.stringify(params));
   }),
   onErrorThrown: (params => {
     console.error('GlobalDelegate - onErrorThrown - params: ' + JSON.stringify(params));

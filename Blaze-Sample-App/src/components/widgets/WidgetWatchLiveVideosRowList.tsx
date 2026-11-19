@@ -11,12 +11,13 @@ import { widgetLayoutVideosRow } from '../../utils/widgetLayout.utils';
 
 export interface WidgetWatchLiveVideosRowListProps {
   style?: ViewStyle;
+  widgetId: string;
 }
 
 export function WidgetWatchLiveVideosRowList(
   props: WidgetWatchLiveVideosRowListProps,
 ): JSX.Element {
-  const { style } = props;
+  const { style, widgetId } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'VideosWidget.Row.horizontalRectangles';
 
   return (
@@ -35,7 +36,7 @@ export function WidgetWatchLiveVideosRowList(
         presetWidgetLayout={presetRowLayout}
         // blazeWidgetLayout={widgetLayoutVideosRow} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={videosPlayerStyle} // Uncomment this if you want to customize the player's appearence.
-        widgetId="Watch Live Videos Row"
+        widgetId={widgetId}
         widgetDelegate={createWidgetDelegate('Watch Live Row')}
       />
     </>

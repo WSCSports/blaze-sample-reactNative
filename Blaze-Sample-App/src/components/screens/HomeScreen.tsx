@@ -35,7 +35,10 @@ export const HomeScreen = React.memo((): JSX.Element => {
         <SectionHeader
           title="Stories Row"
         />
-        <WidgetStoriesRowList style={styles.row_widget_container} />
+        <WidgetStoriesRowList
+          style={styles.row_widget_container}
+          widgetId="home-stories-row"
+        />
 
         {/* Stories Grid */}
         <SectionHeader
@@ -43,6 +46,7 @@ export const HomeScreen = React.memo((): JSX.Element => {
         />
         <WidgetStoriesGridList
           style={styles.grid_widget_container}
+          widgetId="home-stories-grid"
           isEmbeddedInScrollView={true}
           shouldLimitItemCount={true}
         />
@@ -53,6 +57,7 @@ export const HomeScreen = React.memo((): JSX.Element => {
         />
         <WidgetMomentsRowList
           style={styles.row_animated_widget_container}
+          widgetId="home-moments-row"
           overridePreset='MomentsWidget.Row.verticalAnimatedThumbnailsRectangles'
         />
 
@@ -62,6 +67,7 @@ export const HomeScreen = React.memo((): JSX.Element => {
         />
         <WidgetMomentsGridList
           style={styles.grid_widget_container}
+          widgetId="home-moments-grid"
           isEmbeddedInScrollView={true}
           shouldLimitItemCount={true}
         />
@@ -70,13 +76,19 @@ export const HomeScreen = React.memo((): JSX.Element => {
         <SectionHeader
           title="Videos Row"
         />
-        <WidgetVideosRowList style={styles.row_widget_container} />
+        <WidgetVideosRowList
+          style={styles.row_widget_container}
+          widgetId="home-videos-row"
+        />
 
         {/* Watch Live Row */}
         <SectionHeader
           title="Watch Live Row"
         />
-        <WidgetWatchLiveVideosRowList style={styles.row_widget_container} />
+        <WidgetWatchLiveVideosRowList
+          style={styles.row_widget_container}
+          widgetId="home-watch-live-videos-row"
+        />
 
         {/* Videos Grid */}
         <SectionHeader
@@ -84,6 +96,7 @@ export const HomeScreen = React.memo((): JSX.Element => {
         />
         <WidgetVideosGridList
           style={styles.grid_widget_container}
+          widgetId="home-videos-grid"
           isEmbeddedInScrollView={true}
           shouldLimitItemCount={true}
         />

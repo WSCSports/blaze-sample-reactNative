@@ -11,13 +11,14 @@ import { createWidgetDelegate } from '../../utils';
 
 export interface WidgetMomentsRowListProps {
   style?: ViewStyle;
+  widgetId: string;
   overridePreset?: BlazeWidgetLayoutPreset
 }
 
 export function WidgetMomentsRowList(
   props: WidgetMomentsRowListProps,
 ): JSX.Element {
-  const { style, overridePreset } = props;
+  const { style, widgetId, overridePreset } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'MomentsWidget.Row.verticalRectangles';
 
   return (
@@ -39,7 +40,7 @@ export function WidgetMomentsRowList(
         // blazeWidgetLayout={widgetLayoutMomentsRow} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={momentPlayerRowStyle} // Uncomment this if you want to customize the player's appearence.
         // widgetRemoteIdentifier="your-registered-remote-widget-id" // Uncomment with a real identifier registered in the CMS/Widget Builder to demo remote management — an unregistered value silently falls back to the local props above instead of erroring.
-        // widgetId="my-moments-row-widget" // Uncomment to override the auto-generated widgetId sent to native; omitted, the wrapper's existing auto-generated identifier is used unchanged.
+        widgetId={widgetId}
         widgetDelegate={createWidgetDelegate('Moments Row')}
       />
     </>

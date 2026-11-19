@@ -20,7 +20,10 @@ export const MomentsScreen = React.memo((): JSX.Element => {
         <SectionHeader
           title="Moments Row"
         />
-        <WidgetMomentsRowList style={styles.row_widget_container} />
+        <WidgetMomentsRowList
+          style={styles.row_widget_container}
+          widgetId="moments-tab-moments-row"
+        />
 
         {/* Moments Widget to Tabs — tapping an item opens the fullscreen tabs player */}
         <SectionHeader
@@ -28,6 +31,7 @@ export const MomentsScreen = React.memo((): JSX.Element => {
         />
         <WidgetMomentsTabsRowList
           style={styles.row_widget_container}
+          widgetId="moments-tab-moments-tabs-row"
           shouldShowActionButtons={true}
         />
 
@@ -37,6 +41,7 @@ export const MomentsScreen = React.memo((): JSX.Element => {
         />
         <WidgetMomentsGridList
           style={styles.grid_widget_container}
+          widgetId="moments-tab-moments-grid"
           isEmbeddedInScrollView={true}
           shouldShowActionButtons={true}
         />

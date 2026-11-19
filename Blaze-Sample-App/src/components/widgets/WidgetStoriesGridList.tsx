@@ -12,6 +12,7 @@ import { initialWidgetStyleOverrides } from '../../utils/widgetItemStyleOverride
 
 interface WidgetStoriesGridListProps {
   style?: ViewStyle;
+  widgetId: string;
   isEmbeddedInScrollView?: boolean;
   shouldShowActionButtons?: boolean;
   shouldLimitItemCount?: boolean;
@@ -20,7 +21,7 @@ interface WidgetStoriesGridListProps {
 export function WidgetStoriesGridList(
   props: WidgetStoriesGridListProps,
 ): JSX.Element {
-  const { style, isEmbeddedInScrollView, shouldShowActionButtons = false, shouldLimitItemCount = false } = props;
+  const { style, widgetId, isEmbeddedInScrollView, shouldShowActionButtons = false, shouldLimitItemCount = false } = props;
   const presetGridLayout: BlazeWidgetLayoutPreset = 'StoriesWidget.Grid.twoColumnsVerticalRectangles';
   const storiesGridRef = useRef<BlazeStoriesGridView | null>(null);
 
@@ -65,6 +66,7 @@ export function WidgetStoriesGridList(
         // blazeWidgetLayout={widgetLayoutStoriesGrid} // Uncomment this if you want to customize the widget's appearence.
         // playerStyle={storyPlayerGridStyle} // Uncomment this if you want to customize the player's appearence.
         // playbackConfiguration={{ bufferingSpinnerDelayMs: 500 }} // Uncomment this if you want to customize the playback configuration.
+        widgetId={widgetId}
         widgetDelegate={createWidgetDelegate('Stories Grid')}
         // perItemStyleOverrides={initialWidgetStyleOverrides()} // Uncomment this if you want to customize per-item styling (badge/border/status indicator).
       />

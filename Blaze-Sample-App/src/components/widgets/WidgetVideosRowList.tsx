@@ -11,13 +11,14 @@ import { widgetLayoutVideosRow } from '../../utils/widgetLayout.utils';
 
 export interface WidgetVideosRowListProps {
   style?: ViewStyle;
+  widgetId: string;
   overridePreset?: BlazeWidgetLayoutPreset;
 }
 
 export function WidgetVideosRowList(
   props: WidgetVideosRowListProps,
 ): JSX.Element {
-  const { style, overridePreset } = props;
+  const { style, widgetId, overridePreset } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'VideosWidget.Row.horizontalRectangles';
 
   return (
@@ -33,6 +34,7 @@ export function WidgetVideosRowList(
         // playerStyle={videosPlayerStyle} // Uncomment this if you want to customize the player's appearence.
         // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true, bufferingSpinnerDelayMs: 500 }}
         // videosFilterParams={{ contentTypes: ['video', 'stream'], streamStates: ['live', 'upcoming'] }} // Uncomment (with a data source that actually has live content) to mix in live streams.
+        widgetId={widgetId}
         widgetDelegate={createWidgetDelegate('Videos Row')}
       />
     </>

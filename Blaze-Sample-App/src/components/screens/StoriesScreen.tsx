@@ -10,8 +10,14 @@ export const StoriesScreen = React.memo((): JSX.Element => {
         contentContainerStyle={styles.content_container}
         contentInsetAdjustmentBehavior="automatic"
         style={styles.container}>
-        <WidgetStoriesRowList style={styles.row_widget_container} />
-        <WidgetStoriesGridList style={styles.grid_widget_container} />
+        <WidgetStoriesRowList
+          style={styles.row_widget_container}
+          widgetId="stories-tab-stories-row"
+        />
+        <WidgetStoriesGridList
+          style={styles.grid_widget_container}
+          widgetId="stories-tab-stories-grid"
+        />
       </ScrollView>
     </ScreenContainer>
   );

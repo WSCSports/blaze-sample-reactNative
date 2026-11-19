@@ -10,6 +10,7 @@ import {
 
 export interface WidgetVideosGridListProps {
     style?: ViewStyle;
+    widgetId: string;
     isEmbeddedInScrollView?: boolean;
     shouldLimitItemCount?: boolean;
 }
@@ -17,7 +18,7 @@ export interface WidgetVideosGridListProps {
 export function WidgetVideosGridList(
     props: WidgetVideosGridListProps,
 ): JSX.Element {
-    const { style, isEmbeddedInScrollView, shouldLimitItemCount = false } = props;
+    const { style, widgetId, isEmbeddedInScrollView, shouldLimitItemCount = false } = props;
     const presetGridLayout: BlazeWidgetLayoutPreset = 'VideosWidget.Grid.twoColumnsVerticalRectangles';
 
     const videosGridRef = useRef<BlazeVideosGridView | null>(null);
@@ -35,6 +36,7 @@ export function WidgetVideosGridList(
                 presetWidgetLayout={presetGridLayout}
                 // playbackConfiguration={{ multiAspectRatio: true, shouldOpenInLandscape: true, bufferingSpinnerDelayMs: 500 }}
                 // videosFilterParams={{ contentTypes: ['video', 'stream'], streamStates: ['live', 'upcoming'] }} // Uncomment (with a data source that actually has live content) to mix in live streams.
+                widgetId={widgetId}
                 widgetDelegate={createWidgetDelegate('Videos Grid')}
             />
         </>

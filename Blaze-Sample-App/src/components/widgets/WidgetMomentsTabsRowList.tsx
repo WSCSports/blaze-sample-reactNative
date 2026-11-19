@@ -12,6 +12,7 @@ import { createWidgetDelegate, momentsContainerTabsDelegate } from '../../utils'
 
 export interface WidgetMomentsTabsRowListProps {
   style?: ViewStyle;
+  widgetId: string;
   overridePreset?: BlazeWidgetLayoutPreset;
   shouldShowActionButtons?: boolean;
 }
@@ -51,7 +52,7 @@ const tabsConfiguration: BlazeMomentsWidgetTabsConfiguration = {
 export function WidgetMomentsTabsRowList(
   props: WidgetMomentsTabsRowListProps,
 ): JSX.Element {
-  const { style, overridePreset, shouldShowActionButtons = false } = props;
+  const { style, widgetId, overridePreset, shouldShowActionButtons = false } = props;
   const presetRowLayout: BlazeWidgetLayoutPreset = 'MomentsWidget.Row.verticalRectangles';
 
   const momentsTabsRowRef = useRef<BlazeMomentsRowView | null>(null);
@@ -95,6 +96,7 @@ export function WidgetMomentsTabsRowList(
         ref={momentsTabsRowRef}
         presetWidgetLayout={overridePreset ?? presetRowLayout}
         tabsConfiguration={tabsConfiguration}
+        widgetId={widgetId}
         widgetDelegate={createWidgetDelegate('Moments Tabs Row')}
         momentsContainerTabsDelegate={tabsDelegate}
       />

@@ -12,6 +12,7 @@ import { widgetLayoutMomentsGrid } from '../../utils/widgetLayout.utils';
 
 export interface WidgetMomentsGridListProps {
   style?: ViewStyle;
+  widgetId: string;
   isEmbeddedInScrollView?: boolean;
   shouldShowActionButtons?: boolean;
   shouldLimitItemCount?: boolean;
@@ -20,7 +21,7 @@ export interface WidgetMomentsGridListProps {
 export function WidgetMomentsGridList(
   props: WidgetMomentsGridListProps,
 ): JSX.Element {
-  const { style, isEmbeddedInScrollView, shouldShowActionButtons = false, shouldLimitItemCount = false } = props;
+  const { style, widgetId, isEmbeddedInScrollView, shouldShowActionButtons = false, shouldLimitItemCount = false } = props;
   const presetGridLayout: BlazeWidgetLayoutPreset = 'MomentsWidget.Grid.twoColumnsVerticalRectangles';
 
   const momentsGridRef = useRef<BlazeMomentsGridView | null>(null);
@@ -82,7 +83,7 @@ export function WidgetMomentsGridList(
         //   loopBehavior: { type: 'loopAndAdvance', numberOfPlays: 3 },
         //   bufferingSpinnerDelayMs: 500
         // }} // Uncomment this if you want to customize the playback configuration.
-        // widgetId="my-moments-grid-widget" // Uncomment to override the auto-generated widgetId sent to native; omitted, the wrapper's existing auto-generated identifier is used unchanged.
+        widgetId={widgetId}
         widgetDelegate={createWidgetDelegate('Moments Grid')}
         perItemStyleOverrides={initialWidgetStyleOverrides()}
       />

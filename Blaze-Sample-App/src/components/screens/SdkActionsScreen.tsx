@@ -18,6 +18,7 @@ import {
   dismissPlayer,
   showSearchScreen,
   handleUniversalLink,
+  logout,
   playMoment,
   playMoments,
   playStories,
@@ -36,7 +37,12 @@ import {
   setShowAlerts,
   updateGeoRestriction,
 } from '../../utils/sdk.utils';
-import { BlazeWidgetLabel, BlazeRecommendationsType, BlazePlayerType } from '@wscsports/blaze-rtn-sdk';
+import {
+  BlazeWidgetLabel,
+  BlazeRecommendationsType,
+  BlazePlayerType,
+  BlazeFollowedEntityCategory,
+} from '@wscsports/blaze-rtn-sdk';
 
 const COLD_START_PLAYER_TYPES: BlazePlayerType[] = ['Moments', 'Stories', 'Videos'];
 
@@ -82,6 +88,18 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
   const toggleStoriesPreroll = () => {
     setEnableStoriesPreroll(!storiesPreroll);
     setStoriesPreroll(!storiesPreroll);
+  };
+
+  const addEntity = (entityType: BlazeFollowedEntityCategory | null) => {
+    const id = addEntityIdText.trim();
+    if (id) {
+      AppFollowEntitiesManager.insertFollowedEntities([
+        { id, providerName: 'stats-perform', entityType },
+      ]).then(() => {
+        Alert.alert('Follow Entities', `Added: ${id}`);
+        setAddEntityIdText('');
+      });
+    }
   };
 
   const forYouWithLabelFilter: BlazeRecommendationsType = {
@@ -295,6 +313,11 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
             />
           </View>
         </ActionSection>
+        <ActionSection title="Logout Current User">
+          <View>
+            <ActionButton title="Logout" onPress={logout} />
+          </View>
+        </ActionSection>
         <ActionSection title="Set External User Token">
           <View style={styles.inputWrapper}>
             <TextInput
@@ -373,20 +396,10 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
               autoCapitalize="none"
               style={styles.inputContainer}
             />
-            <ActionButton
-              title="Add"
-              onPress={() => {
-                const id = addEntityIdText.trim();
-                if (id) {
-                  AppFollowEntitiesManager.insertFollowedEntities([
-                    { id, providerName: 'stats-perform', entityType: 'Team' },
-                  ]).then(() => {
-                    Alert.alert('Follow Entities', `Added: ${id}`);
-                    setAddEntityIdText('');
-                  });
-                }
-              }}
-            />
+            <View style={styles.addButtons}>
+              <ActionButton title="Add Team" onPress={() => addEntity('Team')} />
+              <ActionButton title="Add Unknown" onPress={() => addEntity(null)} />
+            </View>
           </View>
         </ActionSection>
         <ActionSection title="Remove Entity">
@@ -403,7 +416,7 @@ export const SdkActionsScreen = React.memo((): JSX.Element => {
               onPress={() => {
                 const id = removeEntityIdText.trim();
                 if (id) {
-                  AppFollowEntitiesManager.removeFollowedEntities([{ id }]).then(() => {
+                  AppFollowEntitiesManager.removeFollowedEntities([{ id, entityType: null }]).then(() => {
                     Alert.alert('Follow Entities', `Removed: ${id}`);
                     setRemoveEntityIdText('');
                   });
@@ -557,4 +570,5 @@ const styles = StyleSheet.create({
     height: 36,
   },
   inputWrapper: { flexDirection: 'row' },
+  addButtons: { gap: 6 },
 });
